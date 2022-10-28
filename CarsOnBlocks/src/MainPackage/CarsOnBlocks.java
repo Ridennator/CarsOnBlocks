@@ -7,7 +7,7 @@ package MainPackage;
 
 /**
  *
- * @author Rodrigo && Ruben
+ * @author Rodrigo Maia & Rúben Poupado
  */
 public class CarsOnBlocks {
 
@@ -15,7 +15,7 @@ public class CarsOnBlocks {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
+        // To Test Here Later
     }
     
 }
