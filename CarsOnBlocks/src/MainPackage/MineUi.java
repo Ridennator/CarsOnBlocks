@@ -6,6 +6,8 @@
 package MainPackage;
 
 import static java.lang.String.valueOf;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -435,11 +437,16 @@ public class MineUi extends javax.swing.JFrame {
     private void UpdatesLoginbtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdatesLoginbtActionPerformed
         String user = UpdatesLoginUser.getText();
         String pass = valueOf(UpdatesLoginPass.getPassword());
-        /*Client.Login(user, pass)
-        if(Client.isLogged){
+        Client c = new Client();
+        try {
+            c.login(user, pass);
+        } catch (Exception ex) {
+            Logger.getLogger(MineUi.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if(c.isLogged){
         UpdatesLoginArea.setVisible(false);
         UpdatesConfirmBt.setVisible(true);
-        }*/
+        }
     }//GEN-LAST:event_UpdatesLoginbtActionPerformed
 
     private void RegisterClientUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterClientUserActionPerformed
@@ -448,12 +455,14 @@ public class MineUi extends javax.swing.JFrame {
 
     private void RegisterClientBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterClientBtActionPerformed
         String RegUser = RegisterClientUser.getText();
-        System.out.println(RegUser);
-        if(RegisterClientPass.getPassword() == RegisterClientPassC.getPassword())
-            System.out.println("Registado");
-            //Client.Register(RegUser, new String(RegisterClientPass.getPassword()));
-        else
-            System.out.println("not equal");
+        Client c = new Client();
+        if(RegisterClientPass.getPassword() == RegisterClientPassC.getPassword()){
+            try {
+                c.register(RegUser, new String(RegisterClientPass.getPassword()));
+            } catch (Exception ex) {
+                Logger.getLogger(MineUi.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }//GEN-LAST:event_RegisterClientBtActionPerformed
 
     private void RegisterClientPassCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterClientPassCActionPerformed

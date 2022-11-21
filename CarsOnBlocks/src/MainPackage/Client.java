@@ -17,6 +17,10 @@ import java.security.KeyPair;
  * @author Rodrigo Maia & Rúben Poupado
  */
 public class Client {
+
+    static void Login(String user, String pass) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     private String name;
     private String birthdate;
     private String NIF;
