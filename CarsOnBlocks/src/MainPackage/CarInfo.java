@@ -5,11 +5,13 @@
  */
 package MainPackage;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Rodrigo Maia & Rúben Poupado
  */
-public class CarInfo {
+public class CarInfo implements Serializable{
     private Car car;
     private String status;
     //hash
@@ -19,13 +21,21 @@ public class CarInfo {
     private Client user;
     private int speed;
     
-    public CarInfo(Car car, String status, String coords, String timestamp, Client user, int speed){
-        this.timestamp = timestamp;
+    public CarInfo(Car car, Client user, String timestamp, String status, String coords, int speed){
         this.car = car;
-        this.status = status;
         this.user = user;
+        this.timestamp = timestamp;
+        this.status = status;
         this.coords = coords;
         this.speed = speed;
+    }
+    
+    public CarInfo(Car car, Client user){
+        this.timestamp = "21:58 16/02/2009";
+        this.car = car;
+        this.status = "Reserved";
+        this.user = user;
+        this.coords = "-";
     }
     
     public void setCar(Car car){
@@ -63,6 +73,10 @@ public class CarInfo {
     public Client getUser() {
         return user;
     }
+    
+    public String getUserName() {
+        return user.getName();
+    }
 
     public void setUser(Client user) {
         this.user = user;
@@ -78,6 +92,8 @@ public class CarInfo {
     
     @Override
     public String toString() {
-        return "Car{timestamp=" + getTimestamp() + ", status=" + getStatus() + ", user=" + getUser() + ", coords=" + getCoords() +  ", speed=" + getSpeed() + "}";
+        return "Timestamp=" + getTimestamp() + ", status=" + getStatus() + ", user=" + getUserName() + ", coords=" + getCoords() +  ", km/h=" + getSpeed();
     }
+    
+    public static long SerializableVersionId = 123;
 }
