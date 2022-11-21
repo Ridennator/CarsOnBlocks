@@ -18,6 +18,7 @@ import java.security.KeyPair;
  */
 public class Client {
     private String username;
+
     private String password;
     private Key privKey;
     private Key pubKey;
