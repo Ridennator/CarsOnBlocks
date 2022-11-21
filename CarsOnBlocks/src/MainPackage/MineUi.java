@@ -55,6 +55,7 @@ public class MineUi extends javax.swing.JFrame {
         UpdatesTypeTxt = new javax.swing.JTextField();
         ClientsPanel = new javax.swing.JPanel();
         ClientsList = new javax.swing.JScrollPane();
+        ClientListTxt = new javax.swing.JList<>();
         ClientTransactions = new javax.swing.JPanel();
         CarsPanel = new javax.swing.JPanel();
         CarsList = new javax.swing.JScrollPane();
@@ -227,6 +228,13 @@ public class MineUi extends javax.swing.JFrame {
         );
 
         Tabs.addTab("Updates", UpdatesPanel);
+
+        ClientListTxt.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        ClientsList.setViewportView(ClientListTxt);
 
         ClientTransactions.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -456,9 +464,10 @@ public class MineUi extends javax.swing.JFrame {
     private void RegisterClientBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterClientBtActionPerformed
         String RegUser = RegisterClientUser.getText();
         Client c = new Client();
-        if(RegisterClientPass.getPassword() == RegisterClientPassC.getPassword()){
+        if(valueOf(RegisterClientPass.getPassword()).equals(valueOf(RegisterClientPassC.getPassword()))){
             try {
-                c.register(RegUser, new String(RegisterClientPass.getPassword()));
+                c.register(RegUser, valueOf(RegisterClientPass.getPassword()));
+                
             } catch (Exception ex) {
                 Logger.getLogger(MineUi.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -513,6 +522,7 @@ public class MineUi extends javax.swing.JFrame {
     private javax.swing.JPanel CarsDescription;
     private javax.swing.JScrollPane CarsList;
     private javax.swing.JPanel CarsPanel;
+    private javax.swing.JList<String> ClientListTxt;
     private javax.swing.JPanel ClientTransactions;
     private javax.swing.JScrollPane ClientsList;
     private javax.swing.JPanel ClientsPanel;

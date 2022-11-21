@@ -7,18 +7,26 @@
 package MainPackage;
 import CarsOnBlocks.Security.Asimetric;
 import CarsOnBlocks.Security.PBE;
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.Key;
 import java.security.KeyPair;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author Rodrigo Maia & Rúben Poupado
  */
-public class Client {
-    private String username;
 
+
+
+public class Client {
+    public static String USER_PATH = "users/";
+    
+    private String username;
+    
     private String password;
     private Key privKey;
     private Key pubKey;
@@ -31,7 +39,9 @@ public class Client {
     }
         
     public void register(String username, String password) throws Exception{
-        if(Files.exists(Paths.get(username + ".priv"))){
+        new File(USER_PATH).mkdirs();
+        
+        if(Files.exists(Paths.get(USER_PATH + username + ".priv"))){
             System.out.println("Nome de utilizador não disponível.");
             alreadyExists = true;
             return;
@@ -40,11 +50,11 @@ public class Client {
         KeyPair keys = Asimetric.generateKeyPair(2048);
         pubKey = keys.getPublic();
         privKey = keys.getPrivate();
-        Asimetric.saveKey(pubKey, username + ".pub");
+        Asimetric.saveKey(pubKey, USER_PATH + username + ".pub");
         
         byte [] secret = PBE.encrypt(privKey.getEncoded(), password);
         
-        Files.write(Paths.get(username + ".priv"), secret);
+        Files.write(Paths.get(USER_PATH + username + ".priv"), secret);
         
         System.out.println("Registo efetuado com sucesso.");
 
@@ -53,13 +63,13 @@ public class Client {
     //Login na aplicação
     public void login(String username, String password) throws Exception{
         //Conta não existe?
-        if(!Files.exists(Paths.get(username + ".priv"))){
+        if(!Files.exists(Paths.get(USER_PATH + username + ".priv"))){
             System.out.println("Utilizador inexistente, tente novamente.");
             return;
         }
         try{
             //Login do utilizador
-            byte[] privateKey = Files.readAllBytes(Paths.get(username + ".priv"));
+            byte[] privateKey = Files.readAllBytes(Paths.get(USER_PATH + username + ".priv"));
             System.out.println(privateKey);
             PBE.decrypt(privateKey, password);
             System.out.println("Login efetuado com sucesso.");
@@ -88,4 +98,27 @@ public class Client {
     public String toString(){
         return "Client = " + getName();
     }
+    /*
+    public static List<Client> getUserList() {
+        List<Client> lst = new ArrayList<>();
+        //Ler os ficheiros da path dos utilizadores
+        File[] files = new File(user_path).listFiles();
+        if (files == null) {
+            return lst;
+        }
+        //contruir um user com cada ficheiros
+        for (File file : files) {
+            //se for uma chave publica
+            if (file.getName().endsWith(".pub")) {
+                //nome do utilizador
+                String userName = file.getName().substring(0, file.getName().lastIndexOf("."));
+                try {
+                    lst.add(load(userName));
+                } catch (Exception e) {
+                }
+            }
+        }
+        return lst;
+
+    }*/
 }
