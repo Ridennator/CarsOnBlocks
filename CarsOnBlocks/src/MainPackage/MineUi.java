@@ -5,6 +5,14 @@
  */
 package MainPackage;
 
+<<<<<<< Updated upstream
+=======
+import static java.lang.String.valueOf;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+
+>>>>>>> Stashed changes
 /**
  *
  * @author riden
@@ -179,6 +187,62 @@ public class MineUi extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+<<<<<<< Updated upstream
+=======
+    private void UpdatesConfirmBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdatesConfirmBtActionPerformed
+        String car = UpdatesCarTxt.getText();
+        String speed= UpdatesSpeedTxt.getText();
+        String type= UpdatesTypeTxt.getText();
+        String location= UpdatesLocationTxt.getText();
+        Long time = System.currentTimeMillis();
+        //minar o proximo bloco com a informação prestada
+        
+        
+    }//GEN-LAST:event_UpdatesConfirmBtActionPerformed
+
+    private void UpdatesLoginbtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdatesLoginbtActionPerformed
+        String user = UpdatesLoginUser.getText();
+        Client c = new Client();
+        try {
+            c.login(user, valueOf(UpdatesLoginPass.getPassword()));
+        } catch (Exception ex) {
+            Logger.getLogger(MineUi.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if(c.getLoginStatus()){
+        UpdatesLoginArea.setVisible(false);
+        UpdatesConfirmBt.setVisible(true);
+        }
+    }//GEN-LAST:event_UpdatesLoginbtActionPerformed
+
+    private void RegisterClientUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterClientUserActionPerformed
+
+    }//GEN-LAST:event_RegisterClientUserActionPerformed
+
+    private void RegisterClientBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterClientBtActionPerformed
+        String RegUser = RegisterClientUser.getText();
+        Client c = new Client();
+        if(valueOf(RegisterClientPass.getPassword()).equals(valueOf(RegisterClientPassC.getPassword()))){
+            System.out.println(c);
+            try {
+                c.register(RegUser,valueOf(RegisterClientPass.getPassword()));
+                System.out.println(c);
+            } catch (Exception ex) {
+                Logger.getLogger(MineUi.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        else
+            System.out.println("bbbnbnbn");
+    }//GEN-LAST:event_RegisterClientBtActionPerformed
+
+    private void RegisterClientPassCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterClientPassCActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_RegisterClientPassCActionPerformed
+
+    private void UpdatesCarTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdatesCarTxtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_UpdatesCarTxtActionPerformed
+
+>>>>>>> Stashed changes
     /**
      * @param args the command line arguments
      */
