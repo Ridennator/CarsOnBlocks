@@ -7,24 +7,27 @@ package MainPackage;
 
 /**
  *
- * @author riden
+ * @author Rodrigo Maia & Rúben Poupado
  */
 public class Car {
     //hash
-    private String id;
-    private String status;
-    //hash
-    private String cords;
-    private String timestamp;
-    //hash
-    private String user;
-    private int speed;
-
-    @Override
-    public String toString() {
-        return "Car{" + "speed=" + speed + '}';
+    protected String id;
+    private String manufacturer;
+    private String model;
+    
+    // Mais tarde, adicionar especificações do carro?
+    public Car(){
+        this.id = "aaa000";
+        this.manufacturer = "Reliant";
+        this.model = "1977 Reliant Robin (Mk 1)";
     }
-
+    
+    public Car(String hashedID, String manufacturer, String model){
+        this.id = hashedID;
+        this.manufacturer = manufacturer;
+        this.model = model;
+    }
+    
     public String getId() {
         return id;
     }
@@ -33,44 +36,19 @@ public class Car {
         this.id = id;
     }
 
-    public String getStatus() {
-        return status;
+    public String getManufacturer() {
+        return manufacturer;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setManufacturer(String manufacturer) {
+        this.manufacturer = manufacturer;
     }
 
-    public String getCords() {
-        return cords;
+    public String getModel() {
+        return model;
     }
 
-    public void setCords(String cords) {
-        this.cords = cords;
+    public void setModel(String model) {
+        this.model = model;
     }
-
-    public String getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    public int getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(int speed) {
-        this.speed = speed;
-    }
-    
 }
