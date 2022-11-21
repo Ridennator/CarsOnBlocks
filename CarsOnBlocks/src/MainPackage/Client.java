@@ -17,14 +17,8 @@ import java.security.KeyPair;
  * @author Rodrigo Maia & Rúben Poupado
  */
 public class Client {
+    private String username;
 
-    static void Login(String user, String pass) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-    private String name;
-    private String birthdate;
-    private String NIF;
-    
     private String password;
     private Key privKey;
     private Key pubKey;
@@ -32,45 +26,8 @@ public class Client {
     boolean isLogged = false;
     boolean alreadyExists = false;
     
-    public Client(){
-        this.name = "Henrico Chivaldori";
-        this.birthdate = "16/02/1972";
-        this.NIF = "#adA#ouAWEU34auoSD";
-    }
-    
-    public Client(String name, String NIF){
-        this.name = name;
-        this.NIF = NIF;
-    }
-    
-    public Client(String name, String NIF, String birthdate){
-        this.name = name;
-        this.NIF = NIF;
-        this.birthdate = birthdate;
-    }
-    
     public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getBirthdate() {
-        return birthdate;
-    }
-
-    public void setBirthdate(String birthdate) {
-        this.birthdate = birthdate;
-    }
-
-    public String getNIF() {
-        return NIF;
-    }
-
-    public void setNIF(String NIF) {
-        this.NIF = NIF;
+        return username;
     }
         
     public void register(String username, String password) throws Exception{
