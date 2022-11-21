@@ -5,6 +5,9 @@
  */
 package MainPackage;
 
+import static java.lang.String.valueOf;
+
+
 /**
  *
  * @author riden
@@ -28,6 +31,7 @@ public class MineUi extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         Tabs = new javax.swing.JTabbedPane();
         UpdatesPanel = new javax.swing.JPanel();
         UpdatesLogin = new javax.swing.JPanel();
@@ -38,6 +42,15 @@ public class MineUi extends javax.swing.JFrame {
         UpdatesLoginbt = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         UpdatesLoginPass = new javax.swing.JPasswordField();
+        jPanel2 = new javax.swing.JPanel();
+        UpdatesCarTxt = new javax.swing.JTextField();
+        UpdatesSpeedTxt = new javax.swing.JTextField();
+        UpdatesLocationTxt = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        UpdatesTypeTxt = new javax.swing.JTextField();
         ClientsPanel = new javax.swing.JPanel();
         ClientsList = new javax.swing.JScrollPane();
         ClientTransactions = new javax.swing.JPanel();
@@ -55,6 +68,17 @@ public class MineUi extends javax.swing.JFrame {
         RegisterClientPass = new javax.swing.JPasswordField();
         RegisterClientPassC = new javax.swing.JPasswordField();
         RegisterCarPanel = new javax.swing.JPanel();
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -124,20 +148,80 @@ public class MineUi extends javax.swing.JFrame {
                 .addComponent(UpdatesConfirmBt, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE))
         );
 
+        jPanel2.setBorder(javax.swing.BorderFactory.createCompoundBorder(null, javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0))));
+
+        UpdatesCarTxt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                UpdatesCarTxtActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setText("Car");
+
+        jLabel7.setText("Speed");
+
+        jLabel8.setText("Location");
+
+        jLabel9.setText("Type");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(UpdatesSpeedTxt, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(UpdatesCarTxt, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(UpdatesLocationTxt)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 120, Short.MAX_VALUE))
+                    .addComponent(UpdatesTypeTxt))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel6)
+                .addGap(5, 5, 5)
+                .addComponent(UpdatesCarTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(UpdatesSpeedTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(UpdatesLocationTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(UpdatesTypeTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout UpdatesPanelLayout = new javax.swing.GroupLayout(UpdatesPanel);
         UpdatesPanel.setLayout(UpdatesPanelLayout);
         UpdatesPanelLayout.setHorizontalGroup(
             UpdatesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(UpdatesPanelLayout.createSequentialGroup()
                 .addComponent(UpdatesLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 226, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         UpdatesPanelLayout.setVerticalGroup(
             UpdatesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(UpdatesPanelLayout.createSequentialGroup()
-                .addContainerGap(126, Short.MAX_VALUE)
+                .addContainerGap(158, Short.MAX_VALUE)
                 .addComponent(UpdatesLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         Tabs.addTab("Updates", UpdatesPanel);
@@ -148,7 +232,7 @@ public class MineUi extends javax.swing.JFrame {
         ClientTransactions.setLayout(ClientTransactionsLayout);
         ClientTransactionsLayout.setHorizontalGroup(
             ClientTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 253, Short.MAX_VALUE)
+            .addGap(0, 225, Short.MAX_VALUE)
         );
         ClientTransactionsLayout.setVerticalGroup(
             ClientTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -161,21 +245,20 @@ public class MineUi extends javax.swing.JFrame {
             ClientsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ClientsPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(ClientsList, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ClientsList, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(ClientTransactions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(62, Short.MAX_VALUE))
+                .addContainerGap())
         );
         ClientsPanelLayout.setVerticalGroup(
             ClientsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ClientsPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(ClientsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(ClientsPanelLayout.createSequentialGroup()
-                        .addComponent(ClientsList, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 51, Short.MAX_VALUE))
-                    .addComponent(ClientTransactions, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(ClientTransactions, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(ClientsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(ClientsList, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(63, Short.MAX_VALUE))
         );
 
         Tabs.addTab("Clients", ClientsPanel);
@@ -221,7 +304,7 @@ public class MineUi extends javax.swing.JFrame {
                         .addComponent(CarsList, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(CarsButton)
-                        .addGap(0, 18, Short.MAX_VALUE))))
+                        .addGap(0, 50, Short.MAX_VALUE))))
         );
 
         Tabs.addTab("Cars", CarsPanel);
@@ -287,7 +370,7 @@ public class MineUi extends javax.swing.JFrame {
                 .addComponent(RegisterClientPassC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(39, 39, 39)
                 .addComponent(RegisterClientBt)
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addContainerGap(74, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout RegisterCarPanelLayout = new javax.swing.GroupLayout(RegisterCarPanel);
@@ -339,12 +422,24 @@ public class MineUi extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void UpdatesConfirmBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdatesConfirmBtActionPerformed
-
+        String car = UpdatesCarTxt.getText();
+        String speed= UpdatesSpeedTxt.getText();
+        String type= UpdatesTypeTxt.getText();
+        String location= UpdatesLocationTxt.getText();
+        Long time = System.currentTimeMillis();
+        //minar o proximo bloco com a informação prestada
+        
+        
     }//GEN-LAST:event_UpdatesConfirmBtActionPerformed
 
     private void UpdatesLoginbtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdatesLoginbtActionPerformed
+        String user = UpdatesLoginUser.getText();
+        String pass = valueOf(UpdatesLoginPass.getPassword());
+        /*Client.Login(user, pass)
+        if(Client.isLogged){
         UpdatesLoginArea.setVisible(false);
         UpdatesConfirmBt.setVisible(true);
+        }*/
     }//GEN-LAST:event_UpdatesLoginbtActionPerformed
 
     private void RegisterClientUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterClientUserActionPerformed
@@ -352,23 +447,22 @@ public class MineUi extends javax.swing.JFrame {
     }//GEN-LAST:event_RegisterClientUserActionPerformed
 
     private void RegisterClientBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterClientBtActionPerformed
-        String RegPass = RegisterClientPass.getText();
         String RegUser = RegisterClientUser.getText();
         System.out.println(RegUser);
-        if(RegPass.equals(RegisterClientPassC.getText()))
-            System.out.println(RegPass);
+        if(RegisterClientPass.getPassword() == RegisterClientPassC.getPassword())
+            System.out.println("Registado");
+            //Client.Register(RegUser, new String(RegisterClientPass.getPassword()));
         else
-            {System.out.println("not equal");
-             RegPass = "";
-             RegUser = "";}
-        RegisterClientUser.setText("");
-        RegisterClientPass.setText("");
-        RegisterClientPassC.setText("");
+            System.out.println("not equal");
     }//GEN-LAST:event_RegisterClientBtActionPerformed
 
     private void RegisterClientPassCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterClientPassCActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_RegisterClientPassCActionPerformed
+
+    private void UpdatesCarTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdatesCarTxtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_UpdatesCarTxtActionPerformed
 
     /**
      * @param args the command line arguments
@@ -421,17 +515,27 @@ public class MineUi extends javax.swing.JFrame {
     private javax.swing.JTextField RegisterClientUser;
     private javax.swing.JPanel RegisterPanel;
     private javax.swing.JTabbedPane Tabs;
+    private javax.swing.JTextField UpdatesCarTxt;
     private javax.swing.JButton UpdatesConfirmBt;
+    private javax.swing.JTextField UpdatesLocationTxt;
     private javax.swing.JPanel UpdatesLogin;
     private javax.swing.JPanel UpdatesLoginArea;
     private javax.swing.JPasswordField UpdatesLoginPass;
     private javax.swing.JTextField UpdatesLoginUser;
     private javax.swing.JButton UpdatesLoginbt;
     private javax.swing.JPanel UpdatesPanel;
+    private javax.swing.JTextField UpdatesSpeedTxt;
+    private javax.swing.JTextField UpdatesTypeTxt;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
 }
