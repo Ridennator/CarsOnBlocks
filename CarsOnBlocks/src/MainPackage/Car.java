@@ -5,34 +5,42 @@
  */
 package MainPackage;
 
+
+import java.io.File;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Random;
+
 /**
  *
  * @author Rodrigo Maia & Rúben Poupado
  */
 public class Car {
+    public static String car_path = "cars/";
     //hash
-    protected String id;
+    public int id;
     private String manufacturer;
     private String model;
     
     // Mais tarde, adicionar especificações do carro?
     public Car(){
-        this.id = "aaa000";
+        this.id = 0;
         this.manufacturer = "Reliant";
         this.model = "1977 Reliant Robin (Mk 1)";
     }
     
-    public Car(String hashedID, String manufacturer, String model){
+    public Car(int hashedID, String manufacturer, String model){
         this.id = hashedID;
         this.manufacturer = manufacturer;
         this.model = model;
     }
     
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -50,5 +58,12 @@ public class Car {
 
     public void setModel(String model) {
         this.model = model;
+    }
+    
+    public void register(String manufacturer, String model){
+        new File(car_path).mkdirs();
+        Car c = new Car(id,manufacturer,model);
+        System.out.println(c);
+        //Files.write(Paths.get(car_path + id + ".txt"),c);
     }
 }

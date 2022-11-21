@@ -59,7 +59,6 @@ public class MineUi extends javax.swing.JFrame {
         CarsPanel = new javax.swing.JPanel();
         CarsList = new javax.swing.JScrollPane();
         CarsDescription = new javax.swing.JPanel();
-        CarsButton = new javax.swing.JButton();
         RegisterPanel = new javax.swing.JPanel();
         RegisterClientPanel = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -69,7 +68,12 @@ public class MineUi extends javax.swing.JFrame {
         RegisterClientBt = new javax.swing.JButton();
         RegisterClientPass = new javax.swing.JPasswordField();
         RegisterClientPassC = new javax.swing.JPasswordField();
-        RegisterCarPanel = new javax.swing.JPanel();
+        RegisterClientPanel1 = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        RegisterCarModel = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        RegisterCarBt = new javax.swing.JButton();
+        RegisterCarManu = new javax.swing.JTextField();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -220,7 +224,7 @@ public class MineUi extends javax.swing.JFrame {
         UpdatesPanelLayout.setVerticalGroup(
             UpdatesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(UpdatesPanelLayout.createSequentialGroup()
-                .addContainerGap(158, Short.MAX_VALUE)
+                .addContainerGap(200, Short.MAX_VALUE)
                 .addComponent(UpdatesLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -247,7 +251,7 @@ public class MineUi extends javax.swing.JFrame {
             ClientsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ClientsPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(ClientsList, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
+                .addComponent(ClientsList, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(ClientTransactions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -260,7 +264,7 @@ public class MineUi extends javax.swing.JFrame {
             .addGroup(ClientsPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(ClientsList, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(63, Short.MAX_VALUE))
+                .addContainerGap(105, Short.MAX_VALUE))
         );
 
         Tabs.addTab("Clients", ClientsPanel);
@@ -271,27 +275,20 @@ public class MineUi extends javax.swing.JFrame {
         CarsDescription.setLayout(CarsDescriptionLayout);
         CarsDescriptionLayout.setHorizontalGroup(
             CarsDescriptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 288, Short.MAX_VALUE)
+            .addGap(0, 302, Short.MAX_VALUE)
         );
         CarsDescriptionLayout.setVerticalGroup(
             CarsDescriptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        CarsButton.setText("jButton2");
-
         javax.swing.GroupLayout CarsPanelLayout = new javax.swing.GroupLayout(CarsPanel);
         CarsPanel.setLayout(CarsPanelLayout);
         CarsPanelLayout.setHorizontalGroup(
             CarsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(CarsPanelLayout.createSequentialGroup()
-                .addGroup(CarsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(CarsPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(CarsList, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(CarsPanelLayout.createSequentialGroup()
-                        .addGap(36, 36, 36)
-                        .addComponent(CarsButton)))
+                .addContainerGap()
+                .addComponent(CarsList, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(CarsDescription, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -304,12 +301,12 @@ public class MineUi extends javax.swing.JFrame {
                     .addComponent(CarsDescription, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(CarsPanelLayout.createSequentialGroup()
                         .addComponent(CarsList, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(CarsButton)
-                        .addGap(0, 50, Short.MAX_VALUE))))
+                        .addGap(0, 123, Short.MAX_VALUE))))
         );
 
         Tabs.addTab("Cars", CarsPanel);
+
+        RegisterClientPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Client"));
 
         jLabel3.setText("Username");
 
@@ -372,18 +369,59 @@ public class MineUi extends javax.swing.JFrame {
                 .addComponent(RegisterClientPassC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(39, 39, 39)
                 .addComponent(RegisterClientBt)
-                .addContainerGap(74, Short.MAX_VALUE))
+                .addContainerGap(95, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout RegisterCarPanelLayout = new javax.swing.GroupLayout(RegisterCarPanel);
-        RegisterCarPanel.setLayout(RegisterCarPanelLayout);
-        RegisterCarPanelLayout.setHorizontalGroup(
-            RegisterCarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 207, Short.MAX_VALUE)
+        RegisterClientPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Car"));
+
+        jLabel10.setText("Model");
+
+        RegisterCarModel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RegisterCarModelActionPerformed(evt);
+            }
+        });
+
+        jLabel11.setText("Manufactor");
+
+        RegisterCarBt.setText("Register");
+        RegisterCarBt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RegisterCarBtActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout RegisterClientPanel1Layout = new javax.swing.GroupLayout(RegisterClientPanel1);
+        RegisterClientPanel1.setLayout(RegisterClientPanel1Layout);
+        RegisterClientPanel1Layout.setHorizontalGroup(
+            RegisterClientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, RegisterClientPanel1Layout.createSequentialGroup()
+                .addContainerGap(68, Short.MAX_VALUE)
+                .addComponent(RegisterCarBt)
+                .addGap(66, 66, 66))
+            .addGroup(RegisterClientPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(RegisterClientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(RegisterCarModel)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(RegisterCarManu))
+                .addContainerGap())
         );
-        RegisterCarPanelLayout.setVerticalGroup(
-            RegisterCarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        RegisterClientPanel1Layout.setVerticalGroup(
+            RegisterClientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(RegisterClientPanel1Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(RegisterCarModel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(RegisterCarManu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(91, 91, 91)
+                .addComponent(RegisterCarBt)
+                .addContainerGap(95, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout RegisterPanelLayout = new javax.swing.GroupLayout(RegisterPanel);
@@ -394,15 +432,15 @@ public class MineUi extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(RegisterClientPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(RegisterCarPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addComponent(RegisterClientPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         RegisterPanelLayout.setVerticalGroup(
             RegisterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, RegisterPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(RegisterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(RegisterCarPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(RegisterClientPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(RegisterClientPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -473,6 +511,17 @@ public class MineUi extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_UpdatesCarTxtActionPerformed
 
+    private void RegisterCarModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterCarModelActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_RegisterCarModelActionPerformed
+
+    private void RegisterCarBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterCarBtActionPerformed
+        String model = RegisterCarModel.getText();
+        String man = RegisterCarManu.getText();
+        Car c = new Car();
+        c.register(man, model);
+    }//GEN-LAST:event_RegisterCarBtActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -509,16 +558,18 @@ public class MineUi extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton CarsButton;
     private javax.swing.JPanel CarsDescription;
     private javax.swing.JScrollPane CarsList;
     private javax.swing.JPanel CarsPanel;
     private javax.swing.JPanel ClientTransactions;
     private javax.swing.JScrollPane ClientsList;
     private javax.swing.JPanel ClientsPanel;
-    private javax.swing.JPanel RegisterCarPanel;
+    private javax.swing.JButton RegisterCarBt;
+    private javax.swing.JTextField RegisterCarManu;
+    private javax.swing.JTextField RegisterCarModel;
     private javax.swing.JButton RegisterClientBt;
     private javax.swing.JPanel RegisterClientPanel;
+    private javax.swing.JPanel RegisterClientPanel1;
     private javax.swing.JPasswordField RegisterClientPass;
     private javax.swing.JPasswordField RegisterClientPassC;
     private javax.swing.JTextField RegisterClientUser;
@@ -536,6 +587,8 @@ public class MineUi extends javax.swing.JFrame {
     private javax.swing.JTextField UpdatesSpeedTxt;
     private javax.swing.JTextField UpdatesTypeTxt;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
