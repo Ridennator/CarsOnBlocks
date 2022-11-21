@@ -5,29 +5,42 @@
  */
 package MainPackage;
 
+import CarsOnBlocks.Blockchain.BlockChain;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Rodrigo Maia & Rúben Poupado
  */
 public class CarRegistry implements Serializable{
+    public String PATH = "data/";
+    
     public ArrayList<Car> carRegistry;
     // Mudar este dado para Blockchain
-    public ArrayList<CarInfo> carInfoRegistry;
+    public BlockChain carInfoRegistry;
     public ArrayList<Client> clientRegistry;
     
     public CarRegistry(){
         carRegistry = new ArrayList<>();
-        carInfoRegistry = new ArrayList<>();
+        carInfoRegistry = new BlockChain();
         clientRegistry = new ArrayList<>();
         // Initial car test
-        addCar(new Car());
+        //addCar(new Car());
         // Initial client test
-        addClient(new Client());
+        //addClient(new Client());
         // Initial car info registry test
-        addCarInfo(new CarInfo(carRegistry.get(0), clientRegistry.get(0), "28/10/2022 16:34:16", "Reserved", "Latitude: 39.578983 / N 39° 34' 44.341'' Longitude: -8.382781 / W 8° 22' 58.011''", 62));   
+        //addCarInfo(new CarInfo(carRegistry.get(0), clientRegistry.get(0), "28/10/2022 16:34:16", "Reserved", "Latitude: 39.578983 / N 39° 34' 44.341'' Longitude: -8.382781 / W 8° 22' 58.011''", 62));   
     }
     
     public void addClient(Client client){
@@ -39,41 +52,80 @@ public class CarRegistry implements Serializable{
     }
     
     public void addCarInfo(CarInfo carInfo){
-        carInfoRegistry.add(carInfo);
+        try {
+            carInfoRegistry.add(carInfo, 4);
+        } catch (Exception ex) {
+            Logger.getLogger(CarRegistry.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
-    // Pulls all the data on a car
-    public ArrayList<String> pullCarLogs(Car car){
-        ArrayList<String> carLogs = new ArrayList<String>();
-        for (int i=0; i<carInfoRegistry.size(); i++){
-            if (carInfoRegistry.get(i).getCar().equals(car)){
-                carLogs.add(carInfoRegistry.get(i).toString());
-                // Test
-                System.out.println(carInfoRegistry.get(i).toString());
+    public int getCarRegistrySize(){
+        return carRegistry.size();
+    }
+    
+    public List<Car> getCarsList(){
+        List<Car> carList = new ArrayList<>();
+        carList.addAll(carRegistry);
+        return carList;
+    }
+
+public void load(){
+        if(!Files.exists(Paths.get(PATH))){
+            System.out.println("Não há dados registados.");
+        } else {
+            try { 
+                ObjectInputStream in = new ObjectInputStream(new FileInputStream("carRegistry"));
+                carRegistry = (ArrayList<Car>) in.readObject();
+            } catch (Exception e){
+                System.out.println("Não há carros registados.");
+            }
+            
+            try { 
+                ObjectInputStream in = new ObjectInputStream(new FileInputStream("carInfoRegistry"));
+                carInfoRegistry = (BlockChain) in.readObject();
+            } catch (Exception e){
+                System.out.println("Não há informação registada dos carros.");
+            }
+            
+            try { 
+                ObjectInputStream in = new ObjectInputStream(new FileInputStream("clientRegistry"));
+                clientRegistry = (ArrayList<Client>) in.readObject();
+            } catch (Exception e){
+                System.out.println("Não há clientes registados.");
             }
         }
-        return carLogs;
     }
     
-    // Pull last data on a car
-    public CarInfo pullLastCarLogs(Car car){
-        for (int i=carInfoRegistry.size(); i>0; i--){
-            if (carInfoRegistry.get(i).getCar().equals(car))
-                return carInfoRegistry.get(i);
+    public void save(){
+        if (!Files.exists(Paths.get(PATH)))
+            new File(PATH).mkdirs();
+        
+        try {
+            FileOutputStream fos = new FileOutputStream(PATH + "carRegistry");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(carRegistry);
+            oos.close();
+        } catch (Exception e) {
+            System.out.println("Erro a guardar registos dos carros!");
         }
-        return null;
-    }
-    
-    // Pulls all currently available cars to rent
-    public ArrayList<String> availableCars(){
-        ArrayList<String> availableCars = new ArrayList<String>();
-        for (int i=0; i<carRegistry.size(); i++){
-            CarInfo carInfo = pullLastCarLogs(carRegistry.get(i));
-            if (!carInfo.equals(null))
-                if (carInfo.getStatus() == "Available")
-                    availableCars.add(carRegistry.get(i).toString());
+        
+        try {
+            FileOutputStream fos = new FileOutputStream(PATH + "carInfoRegistry");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(carInfoRegistry);
+            oos.close();
+        } catch (Exception e) {
+            System.out.println("Erro a guardar registos da informação dos carros!");
         }
-        return availableCars;
+        
+        try {
+            FileOutputStream fos = new FileOutputStream(PATH + "clientRegistry");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(clientRegistry);
+            oos.close();
+        } catch (Exception e) {
+            System.out.println("Erro a guardar registos dos clientes!");
+        }
     }
     
     public static long SerializableVersionId = 123;

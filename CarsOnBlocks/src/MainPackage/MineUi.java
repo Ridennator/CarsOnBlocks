@@ -8,6 +8,7 @@ package MainPackage;
 import static java.lang.String.valueOf;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 
 
 /**
@@ -16,12 +17,15 @@ import java.util.logging.Logger;
  */
 public class MineUi extends javax.swing.JFrame {
 
+    public CarRegistry carRegistry;
     /**
      * Creates new form MineUi
      */
     public MineUi() {
         initComponents();
         UpdatesConfirmBt.setVisible(false);
+        carRegistry = new CarRegistry();
+        carRegistry.load();
     }
 
     /**
@@ -58,6 +62,7 @@ public class MineUi extends javax.swing.JFrame {
         ClientTransactions = new javax.swing.JPanel();
         CarsPanel = new javax.swing.JPanel();
         CarsList = new javax.swing.JScrollPane();
+        CarsListTxt = new javax.swing.JList<>();
         CarsDescription = new javax.swing.JPanel();
         RegisterPanel = new javax.swing.JPanel();
         RegisterClientPanel = new javax.swing.JPanel();
@@ -87,6 +92,12 @@ public class MineUi extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        Tabs.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                TabsStateChanged(evt);
+            }
+        });
 
         UpdatesConfirmBt.setText("Confirm Update");
         UpdatesConfirmBt.setMaximumSize(new java.awt.Dimension(103, 103));
@@ -268,6 +279,13 @@ public class MineUi extends javax.swing.JFrame {
         );
 
         Tabs.addTab("Clients", ClientsPanel);
+
+        CarsListTxt.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        CarsList.setViewportView(CarsListTxt);
 
         CarsDescription.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -519,8 +537,21 @@ public class MineUi extends javax.swing.JFrame {
         String model = RegisterCarModel.getText();
         String man = RegisterCarManu.getText();
         Car c = new Car();
-        c.register(man, model);
+        c.setManufacturer(man);
+        c.setModel(model);
+        c.setId(carRegistry.getCarRegistrySize()+1);
+        carRegistry.addCar(c);
+        carRegistry.save();
     }//GEN-LAST:event_RegisterCarBtActionPerformed
+
+    private void TabsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_TabsStateChanged
+        // TODO add your handling code here:
+        if (Tabs.getSelectedComponent() == CarsPanel) {
+            DefaultListModel model = new DefaultListModel();
+            model.addAll(carRegistry.getCarsList());
+            CarsListTxt.setModel(model);
+        }
+    }//GEN-LAST:event_TabsStateChanged
 
     /**
      * @param args the command line arguments
@@ -560,6 +591,7 @@ public class MineUi extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel CarsDescription;
     private javax.swing.JScrollPane CarsList;
+    private javax.swing.JList<String> CarsListTxt;
     private javax.swing.JPanel CarsPanel;
     private javax.swing.JPanel ClientTransactions;
     private javax.swing.JScrollPane ClientsList;
