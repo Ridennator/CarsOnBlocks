@@ -79,6 +79,16 @@ public class CarRegistry implements Serializable{
         return carInfoList;
     }
     
+    public List<CarInfo> getCarInfoList(Client client){
+        List<CarInfo> carInfoList = new ArrayList<>();
+        for (Block chain : carInfoRegistry.getChain()) {
+            System.out.println(chain);
+            if (chain.getCarInfo().getUser().getPubKey().equals(client.getPubKey()))
+                carInfoList.add(chain.getCarInfo());
+        }
+        return carInfoList;
+    }
+    
     public List<Client> getClientsList(){
         List<Client> clientList = new ArrayList<>();
         clientList.addAll(clientRegistry);

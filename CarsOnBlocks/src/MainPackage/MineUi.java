@@ -17,7 +17,7 @@ import javax.swing.DefaultListModel;
 
 /**
  *
- * @author riden
+ * @author Rodrigo Maia & Rúben Poupado
  */
 public class MineUi extends javax.swing.JFrame {
 
@@ -68,6 +68,8 @@ public class MineUi extends javax.swing.JFrame {
         ClientsList = new javax.swing.JScrollPane();
         ClientsListTxt = new javax.swing.JList<>();
         ClientTransactions = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        ClientCarInfoList = new javax.swing.JList<>();
         CarsPanel = new javax.swing.JPanel();
         CarsList = new javax.swing.JScrollPane();
         CarsListTxt = new javax.swing.JList<>();
@@ -255,19 +257,26 @@ public class MineUi extends javax.swing.JFrame {
 
         Tabs.addTab("Updates", UpdatesPanel);
 
+        ClientsListTxt.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ClientsListTxtMouseClicked(evt);
+            }
+        });
         ClientsList.setViewportView(ClientsListTxt);
 
         ClientTransactions.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jScrollPane2.setViewportView(ClientCarInfoList);
 
         javax.swing.GroupLayout ClientTransactionsLayout = new javax.swing.GroupLayout(ClientTransactions);
         ClientTransactions.setLayout(ClientTransactionsLayout);
         ClientTransactionsLayout.setHorizontalGroup(
             ClientTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 225, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
         );
         ClientTransactionsLayout.setVerticalGroup(
             ClientTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addComponent(jScrollPane2)
         );
 
         javax.swing.GroupLayout ClientsPanelLayout = new javax.swing.GroupLayout(ClientsPanel);
@@ -289,7 +298,7 @@ public class MineUi extends javax.swing.JFrame {
             .addGroup(ClientsPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(ClientsList, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(105, Short.MAX_VALUE))
+                .addContainerGap(127, Short.MAX_VALUE))
         );
 
         Tabs.addTab("Clients", ClientsPanel);
@@ -603,6 +612,13 @@ public class MineUi extends javax.swing.JFrame {
         CarInfoTxt.setModel(model);
     }//GEN-LAST:event_CarsListTxtMouseClicked
 
+    private void ClientsListTxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ClientsListTxtMouseClicked
+        // TODO add your handling code here:
+        DefaultListModel model = new DefaultListModel();
+        model.addAll(carRegistry.getCarInfoList(ClientsListTxt.getSelectedValue()));
+        ClientCarInfoList.setModel(model);
+    }//GEN-LAST:event_ClientsListTxtMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -644,6 +660,7 @@ public class MineUi extends javax.swing.JFrame {
     private javax.swing.JScrollPane CarsList;
     private javax.swing.JList<Car> CarsListTxt;
     private javax.swing.JPanel CarsPanel;
+    private javax.swing.JList<CarInfo> ClientCarInfoList;
     private javax.swing.JPanel ClientTransactions;
     private javax.swing.JScrollPane ClientsList;
     private javax.swing.JList<Client> ClientsListTxt;
@@ -686,5 +703,6 @@ public class MineUi extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }
