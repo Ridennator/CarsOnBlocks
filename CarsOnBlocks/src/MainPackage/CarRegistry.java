@@ -23,15 +23,21 @@ import java.util.logging.Logger;
 /**
  *
  * @author Rodrigo Maia & Rúben Poupado
+ * 
+ * Classe com a função de uma base de dados, no qual tem contido arraylists dos carros e cliente e a blockchain da informação dos carros,
+ * este suporta a interface iterativa 'MineUI' com os seus métodos de retonar listas e guardar/carregar.
  */
 public class CarRegistry implements Serializable{
+    // Variável String que servirá como identificador da diretoria a guardar os dados do sistema.
     public String PATH = "data/";
-    
+    // Variável ArrayList<Car> que servirá como identificador lista dos carros registados no sistema.
     public ArrayList<Car> carRegistry;
-    // Mudar este dado para Blockchain
+    // Variável BlockChain que servirá como identificador de blockchain que guarda seguramente as logs dos carros registados no sistema.
     public BlockChain carInfoRegistry;
+    // Variável ArrayList<Client> que servirá como identificador lista dos clientes registados no sistema.
     public ArrayList<Client> clientRegistry;
     
+    // Constructor que inicializa as listas e a blockchain da classe
     public CarRegistry(){
         carRegistry = new ArrayList<>();
         carInfoRegistry = new BlockChain();
@@ -44,14 +50,17 @@ public class CarRegistry implements Serializable{
         //addCarInfo(new CarInfo(carRegistry.get(0), clientRegistry.get(0), "28/10/2022 16:34:16", "Reserved", "Latitude: 39.578983 / N 39° 34' 44.341'' Longitude: -8.382781 / W 8° 22' 58.011''", 62));   
     }
     
+    // Método que insere um objeto client na lista de clientes da classe.
     public void addClient(Client client){
         clientRegistry.add(client);
     }
     
+    // Método que insere um objeto car na lista de carros da classe.
     public void addCar(Car car){
         carRegistry.add(car);
     }
     
+    // Método que insere um objeto carInfo na blockchain que guarda as logs dos carros.
     public void addCarInfo(CarInfo carInfo){
         try {
             carInfoRegistry.add(carInfo, 4);
@@ -60,16 +69,19 @@ public class CarRegistry implements Serializable{
         }
     }
     
+    // Método que retorna o tamanho da arraylist da lista de carros.
     public int getCarRegistrySize(){
         return carRegistry.size();
     }
     
+    // Método que retorna a lista de carros.
     public List<Car> getCarsList(){
         List<Car> carList = new ArrayList<>();
         carList.addAll(carRegistry);
         return carList;
     }
     
+    // Método que retorna a lista de logs de um carro.
     public List<CarInfo> getCarInfoList(Car car){
         List<CarInfo> carInfoList = new ArrayList<>();
         for (Block chain : carInfoRegistry.getChain()) {
@@ -79,6 +91,7 @@ public class CarRegistry implements Serializable{
         return carInfoList;
     }
     
+    // Método que retorna a lista de logs dos carros de um cliente.
     public List<CarInfo> getCarInfoList(Client client){
         List<CarInfo> carInfoList = new ArrayList<>();
         for (Block chain : carInfoRegistry.getChain()) {
@@ -89,12 +102,14 @@ public class CarRegistry implements Serializable{
         return carInfoList;
     }
     
+    // Método que retorna a lista de clientes
     public List<Client> getClientsList(){
         List<Client> clientList = new ArrayList<>();
         clientList.addAll(clientRegistry);
         return clientList;
     }
 
+    // Método que carrega os dados dos ficheiros guardados para os arraylists e a blockchain respetiva da classe.
     public void load(){
         if(!Files.exists(Paths.get(PATH))){
             System.out.println("Não há dados registados.");
@@ -125,6 +140,7 @@ public class CarRegistry implements Serializable{
         }
     }
     
+    // Método que guarda os dados das arraylists e a blockchain respetiva da classe em ficheiros da pasta correspondente.
     public void save(){
         if (!Files.exists(Paths.get(PATH)))
             new File(PATH).mkdirs();
@@ -161,5 +177,6 @@ public class CarRegistry implements Serializable{
         }
     }
     
+    // Variável de serialização da classe.
     private static final long serialVersionUID = 202210281537L;
 }

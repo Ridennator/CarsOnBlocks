@@ -26,12 +26,18 @@ import java.io.Serializable;
  * @author IPT - computer
  * @version 1.0
  */
-public class Block implements Serializable {
 
-    String previousHash; // link to previous block
-    CarInfo carInfo;     // data in the block
-    int nonce;           // proof of work 
-    String currentHash;  // Hash of block
+// Classe que regista um bloco e, como uma lista ligada, contém o hash do bloco anterior, este é usada como um ArrayList na classe BlockChain.
+public class Block implements Serializable {
+    
+    // Variável String que servirá como identificador do hash do bloco anterior.
+    String previousHash;
+    // Variável CarInfo que servirá como identificador da informação do carro guardado no bloco.
+    CarInfo carInfo;
+    // Variável int que servirá como identificador de proof-of-work no bloco.
+    int nonce;
+    // Variável String que servirá como identificador do hash do bloco atual.
+    String currentHash;
 
     public Block(String previousHash, CarInfo carInfo, int nonce) throws Exception {
         this.previousHash = previousHash;

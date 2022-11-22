@@ -20,11 +20,14 @@ import javax.swing.DefaultListModel;
  * @author Rodrigo Maia & Rúben Poupado
  */
 public class MineUi extends javax.swing.JFrame {
-
+    
+    // Variável que servirá como a "base de dados" do sistema.
     public CarRegistry carRegistry;
     /**
      * Creates new form MineUi
      */
+    
+    // Construtor que inicializa as interfaces e a classe 'base de dados' do sistema, também como o seu carregamento.
     public MineUi() {
         initComponents();
         UpdatesConfirmBt.setVisible(false);
@@ -68,13 +71,13 @@ public class MineUi extends javax.swing.JFrame {
         ClientsList = new javax.swing.JScrollPane();
         ClientsListTxt = new javax.swing.JList<>();
         ClientTransactions = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        ClientTransactionsList = new javax.swing.JScrollPane();
         ClientCarInfoList = new javax.swing.JList<>();
         CarsPanel = new javax.swing.JPanel();
         CarsList = new javax.swing.JScrollPane();
         CarsListTxt = new javax.swing.JList<>();
         CarsDescription = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        CarInfoList = new javax.swing.JScrollPane();
         CarInfoTxt = new javax.swing.JList<>();
         RegisterPanel = new javax.swing.JPanel();
         RegisterClientPanel = new javax.swing.JPanel();
@@ -266,17 +269,17 @@ public class MineUi extends javax.swing.JFrame {
 
         ClientTransactions.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jScrollPane2.setViewportView(ClientCarInfoList);
+        ClientTransactionsList.setViewportView(ClientCarInfoList);
 
         javax.swing.GroupLayout ClientTransactionsLayout = new javax.swing.GroupLayout(ClientTransactions);
         ClientTransactions.setLayout(ClientTransactionsLayout);
         ClientTransactionsLayout.setHorizontalGroup(
             ClientTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+            .addComponent(ClientTransactionsList, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
         );
         ClientTransactionsLayout.setVerticalGroup(
             ClientTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2)
+            .addComponent(ClientTransactionsList)
         );
 
         javax.swing.GroupLayout ClientsPanelLayout = new javax.swing.GroupLayout(ClientsPanel);
@@ -312,17 +315,17 @@ public class MineUi extends javax.swing.JFrame {
 
         CarsDescription.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jScrollPane1.setViewportView(CarInfoTxt);
+        CarInfoList.setViewportView(CarInfoTxt);
 
         javax.swing.GroupLayout CarsDescriptionLayout = new javax.swing.GroupLayout(CarsDescription);
         CarsDescription.setLayout(CarsDescriptionLayout);
         CarsDescriptionLayout.setHorizontalGroup(
             CarsDescriptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 302, Short.MAX_VALUE)
+            .addComponent(CarInfoList, javax.swing.GroupLayout.DEFAULT_SIZE, 302, Short.MAX_VALUE)
         );
         CarsDescriptionLayout.setVerticalGroup(
             CarsDescriptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(CarInfoList)
         );
 
         javax.swing.GroupLayout CarsPanelLayout = new javax.swing.GroupLayout(CarsPanel);
@@ -504,6 +507,7 @@ public class MineUi extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    // Método de ação que cria e adiciona um novo bloco à blockchain
     private void UpdatesConfirmBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdatesConfirmBtActionPerformed
         Car car = UpdatesCarTxt.getItemAt(UpdatesCarTxt.getSelectedIndex());
         Client client = UpdatesClientTxt.getItemAt(UpdatesClientTxt.getSelectedIndex());
@@ -512,13 +516,13 @@ public class MineUi extends javax.swing.JFrame {
         String coordinates= UpdatesLocationTxt.getText();
         SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
         Date timestamp = new Date(System.currentTimeMillis());
-        //minar o proximo bloco com a informação prestada
         
         CarInfo carInfo = new CarInfo(car, client, timestamp, status, coordinates, speed);
         carRegistry.addCarInfo(carInfo);
         carRegistry.save();
     }//GEN-LAST:event_UpdatesConfirmBtActionPerformed
 
+    // Método de ação que efetua o login de um cliente.
     private void UpdatesLoginbtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdatesLoginbtActionPerformed
         String user = UpdatesLoginUser.getText();
         String pass = valueOf(UpdatesLoginPass.getPassword());
@@ -538,6 +542,7 @@ public class MineUi extends javax.swing.JFrame {
 
     }//GEN-LAST:event_RegisterClientUserActionPerformed
 
+    // Método de ação que efetua o registo de um cliente.
     private void RegisterClientBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterClientBtActionPerformed
         String RegUser = RegisterClientUser.getText();
         if(RegisterClientPass.getText().equals(RegisterClientPassC.getText())){
@@ -561,6 +566,7 @@ public class MineUi extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_RegisterCarModelActionPerformed
 
+    // Método de ação que efetua o registo de um carro.
     private void RegisterCarBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterCarBtActionPerformed
         String model = RegisterCarModel.getText();
         String man = RegisterCarManu.getText();
@@ -572,20 +578,23 @@ public class MineUi extends javax.swing.JFrame {
         carRegistry.save();
     }//GEN-LAST:event_RegisterCarBtActionPerformed
 
+    // Método de ação que efetua atualizações dos componentes de acordo à tab selecionada.
     private void TabsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_TabsStateChanged
-        // TODO add your handling code here:
+        // Atualiza o painel dos Carros
         if (Tabs.getSelectedComponent() == CarsPanel) {
             DefaultListModel model = new DefaultListModel();
             model.addAll(carRegistry.getCarsList());
             CarsListTxt.setModel(model);
         }
         
+        // Atualiza o painel dos Clientes
         if (Tabs.getSelectedComponent() == ClientsPanel) {
             DefaultListModel model = new DefaultListModel();
             model.addAll(carRegistry.getClientsList());
             ClientsListTxt.setModel(model);
         }
         
+        // Atualiza o painel da Inserção de Blocos
         if (Tabs.getSelectedComponent() == UpdatesPanel){
             DefaultComboBoxModel<Car> carModel = new DefaultComboBoxModel();
             try{
@@ -655,6 +664,7 @@ public class MineUi extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollPane CarInfoList;
     private javax.swing.JList<CarInfo> CarInfoTxt;
     private javax.swing.JPanel CarsDescription;
     private javax.swing.JScrollPane CarsList;
@@ -662,6 +672,7 @@ public class MineUi extends javax.swing.JFrame {
     private javax.swing.JPanel CarsPanel;
     private javax.swing.JList<CarInfo> ClientCarInfoList;
     private javax.swing.JPanel ClientTransactions;
+    private javax.swing.JScrollPane ClientTransactionsList;
     private javax.swing.JScrollPane ClientsList;
     private javax.swing.JList<Client> ClientsListTxt;
     private javax.swing.JPanel ClientsPanel;
@@ -702,7 +713,5 @@ public class MineUi extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }

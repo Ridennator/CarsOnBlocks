@@ -30,8 +30,11 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @author IPT - computer
  * @version 1.0
  */
-public class BlockChain implements Serializable {
 
+// Classe que faz a gestão da técnologia blockchain com o suporte da classe 'Block'
+public class BlockChain implements Serializable {
+    
+    // Variável ArrayList de Blocks que servirá como identificador da blockchain do sistema.
     ArrayList<Block> chain = new ArrayList<>();
 
     public ArrayList<Block> getChain() {
