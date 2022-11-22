@@ -6,6 +6,7 @@
 package MainPackage;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  *
@@ -16,26 +17,18 @@ public class CarInfo implements Serializable{
     private String status;
     //hash
     private String coords;
-    private String timestamp;
+    private Date timestamp;
     //hash
     private Client user;
     private int speed;
     
-    public CarInfo(Car car, Client user, String timestamp, String status, String coords, int speed){
+    public CarInfo(Car car, Client user, Date timestamp, String status, String coords, int speed){
         this.car = car;
         this.user = user;
         this.timestamp = timestamp;
         this.status = status;
         this.coords = coords;
         this.speed = speed;
-    }
-    
-    public CarInfo(Car car, Client user){
-        this.timestamp = "21:58 16/02/2009";
-        this.car = car;
-        this.status = "Reserved";
-        this.user = user;
-        this.coords = "-";
     }
     
     public void setCar(Car car){
@@ -62,11 +55,11 @@ public class CarInfo implements Serializable{
         this.coords = cords;
     }
 
-    public String getTimestamp() {
+    public Date getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(String timestamp) {
+    public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -95,5 +88,5 @@ public class CarInfo implements Serializable{
         return "Timestamp=" + getTimestamp() + ", status=" + getStatus() + ", user=" + getUserName() + ", coords=" + getCoords() +  ", km/h=" + getSpeed();
     }
     
-    public static long SerializableVersionId = 123;
+    private static final long serialVersionUID = 202210281537L;
 }

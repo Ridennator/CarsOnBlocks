@@ -5,6 +5,7 @@
  */
 package MainPackage;
 
+import CarsOnBlocks.Blockchain.Block;
 import CarsOnBlocks.Blockchain.BlockChain;
 import java.io.File;
 import java.io.FileInputStream;
@@ -68,28 +69,46 @@ public class CarRegistry implements Serializable{
         carList.addAll(carRegistry);
         return carList;
     }
+    
+    public List<CarInfo> getCarInfoList(Car car){
+        List<CarInfo> carInfoList = new ArrayList<>();
+        for (Block chain : carInfoRegistry.getChain()) {
+            if (chain.getCarInfo().getCar().equals(car))
+                carInfoList.add(chain.getCarInfo());
+        }
+        return carInfoList;
+    }
+    
+    public List<Client> getClientsList(){
+        List<Client> clientList = new ArrayList<>();
+        clientList.addAll(clientRegistry);
+        return clientList;
+    }
 
-public void load(){
+    public void load(){
         if(!Files.exists(Paths.get(PATH))){
             System.out.println("Não há dados registados.");
         } else {
             try { 
-                ObjectInputStream in = new ObjectInputStream(new FileInputStream("carRegistry"));
-                carRegistry = (ArrayList<Car>) in.readObject();
+                FileInputStream readData = new FileInputStream(PATH + "carRegistry.ser");
+                ObjectInputStream readStream = new ObjectInputStream(readData);
+                carRegistry = (ArrayList<Car>) readStream.readObject();
+                readStream.close();
             } catch (Exception e){
                 System.out.println("Não há carros registados.");
             }
             
             try { 
-                ObjectInputStream in = new ObjectInputStream(new FileInputStream("carInfoRegistry"));
-                carInfoRegistry = (BlockChain) in.readObject();
+                carInfoRegistry.load();
             } catch (Exception e){
                 System.out.println("Não há informação registada dos carros.");
             }
             
             try { 
-                ObjectInputStream in = new ObjectInputStream(new FileInputStream("clientRegistry"));
-                clientRegistry = (ArrayList<Client>) in.readObject();
+                FileInputStream readData = new FileInputStream(PATH + "clientRegistry.ser");
+                ObjectInputStream readStream = new ObjectInputStream(readData);
+                clientRegistry = (ArrayList<Client>) readStream.readObject();
+                readStream.close();
             } catch (Exception e){
                 System.out.println("Não há clientes registados.");
             }
@@ -101,32 +120,36 @@ public void load(){
             new File(PATH).mkdirs();
         
         try {
-            FileOutputStream fos = new FileOutputStream(PATH + "carRegistry");
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(carRegistry);
-            oos.close();
+            FileOutputStream writeData = new FileOutputStream(PATH + "carRegistry.ser");
+            ObjectOutputStream writeStream = new ObjectOutputStream(writeData);
+
+            writeStream.writeObject(carRegistry);
+            writeStream.flush();
+            writeStream.close();
         } catch (Exception e) {
-            System.out.println("Erro a guardar registos dos carros!");
+            System.out.println(e);
+            System.out.println("Erro a guardar registo: " + carRegistry);
         }
         
         try {
-            FileOutputStream fos = new FileOutputStream(PATH + "carInfoRegistry");
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(carInfoRegistry);
-            oos.close();
+            carInfoRegistry.save();
         } catch (Exception e) {
-            System.out.println("Erro a guardar registos da informação dos carros!");
+            System.out.println(e);
+            System.out.println("Erro a guardar registo: " + carInfoRegistry);
         }
         
         try {
-            FileOutputStream fos = new FileOutputStream(PATH + "clientRegistry");
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(clientRegistry);
-            oos.close();
+            FileOutputStream writeData = new FileOutputStream(PATH + "clientRegistry.ser");
+            ObjectOutputStream writeStream = new ObjectOutputStream(writeData);
+
+            writeStream.writeObject(clientRegistry);
+            writeStream.flush();
+            writeStream.close();
         } catch (Exception e) {
-            System.out.println("Erro a guardar registos dos clientes!");
+            System.out.println(e);
+            System.out.println("Erro a guardar registo: " + clientRegistry);
         }
     }
     
-    public static long SerializableVersionId = 123;
+    private static final long serialVersionUID = 202210281537L;
 }

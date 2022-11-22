@@ -9,6 +9,7 @@ import CarsOnBlocks.Security.Asimetric;
 import CarsOnBlocks.Security.PBE;
 import CarsOnBlocks.utils.SecurityUtils;
 import java.io.File;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.Key;
@@ -18,14 +19,12 @@ import java.security.KeyPair;
  *
  * @author Rodrigo Maia & Rúben Poupado
  */
-public class Client {
+public class Client implements Serializable{
 
     static void Login(String user, String pass) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     private String name;
-    private String birthdate;
-    private String NIF;
     
     private String password;
     private Key privKey;
@@ -36,43 +35,14 @@ public class Client {
     
     public Client(){
         this.name = "Henrico Chivaldori";
-        this.birthdate = "16/02/1972";
-        this.NIF = "#adA#ouAWEU34auoSD";
     }
     
-    public Client(String name, String NIF){
+    public Client(String name){
         this.name = name;
-        this.NIF = NIF;
-    }
-    
-    public Client(String name, String NIF, String birthdate){
-        this.name = name;
-        this.NIF = NIF;
-        this.birthdate = birthdate;
     }
     
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getBirthdate() {
-        return birthdate;
-    }
-
-    public void setBirthdate(String birthdate) {
-        this.birthdate = birthdate;
-    }
-
-    public String getNIF() {
-        return NIF;
-    }
-
-    public void setNIF(String NIF) {
-        this.NIF = NIF;
     }
         
     public void register(String username, String password) throws Exception{
@@ -131,6 +101,8 @@ public class Client {
     }
     
     public String toString(){
-        return "Client = " + getName();
+        return getName();
     }
+    
+    private static final long serialVersionUID = 202210281537L;
 }

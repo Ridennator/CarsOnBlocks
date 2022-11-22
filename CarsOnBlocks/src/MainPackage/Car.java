@@ -7,6 +7,7 @@ package MainPackage;
 
 
 import java.io.File;
+import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -16,7 +17,7 @@ import java.util.Random;
  *
  * @author Rodrigo Maia & Rúben Poupado
  */
-public class Car {
+public class Car implements Serializable{
     public static String car_path = "cars/";
     //hash
     public int id;
@@ -60,10 +61,9 @@ public class Car {
         this.model = model;
     }
     
-    public void register(String manufacturer, String model){
-        new File(car_path).mkdirs();
-        Car c = new Car(id,manufacturer,model);
-        System.out.println(c);
-        //Files.write(Paths.get(car_path + id + ".txt"),c);
+    public String toString(){
+        return getModel() + " - " + getManufacturer();
     }
+    
+    private static final long serialVersionUID = 202210281537L;
 }

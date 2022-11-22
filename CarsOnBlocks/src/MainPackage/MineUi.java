@@ -6,8 +6,12 @@
 package MainPackage;
 
 import static java.lang.String.valueOf;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 
 
@@ -49,7 +53,6 @@ public class MineUi extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         UpdatesLoginPass = new javax.swing.JPasswordField();
         jPanel2 = new javax.swing.JPanel();
-        UpdatesCarTxt = new javax.swing.JTextField();
         UpdatesSpeedTxt = new javax.swing.JTextField();
         UpdatesLocationTxt = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
@@ -57,13 +60,19 @@ public class MineUi extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         UpdatesTypeTxt = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        UpdatesCarTxt = new javax.swing.JComboBox<>();
+        UpdatesClientTxt = new javax.swing.JComboBox<>();
         ClientsPanel = new javax.swing.JPanel();
         ClientsList = new javax.swing.JScrollPane();
+        ClientsListTxt = new javax.swing.JList<>();
         ClientTransactions = new javax.swing.JPanel();
         CarsPanel = new javax.swing.JPanel();
         CarsList = new javax.swing.JScrollPane();
         CarsListTxt = new javax.swing.JList<>();
         CarsDescription = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        CarInfoTxt = new javax.swing.JList<>();
         RegisterPanel = new javax.swing.JPanel();
         RegisterClientPanel = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -167,19 +176,15 @@ public class MineUi extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createCompoundBorder(null, javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0))));
 
-        UpdatesCarTxt.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                UpdatesCarTxtActionPerformed(evt);
-            }
-        });
-
         jLabel6.setText("Car");
 
         jLabel7.setText("Speed");
 
-        jLabel8.setText("Location");
+        jLabel8.setText("Coordinates");
 
-        jLabel9.setText("Type");
+        jLabel9.setText("Status");
+
+        jLabel12.setText("Client");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -189,15 +194,17 @@ public class MineUi extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(UpdatesSpeedTxt, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(UpdatesCarTxt, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(UpdatesLocationTxt)
                     .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(UpdatesTypeTxt)
+                    .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 120, Short.MAX_VALUE))
-                    .addComponent(UpdatesTypeTxt))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(UpdatesCarTxt, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(UpdatesClientTxt, javax.swing.GroupLayout.Alignment.TRAILING, 0, 188, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -205,9 +212,9 @@ public class MineUi extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel6)
-                .addGap(5, 5, 5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(UpdatesCarTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(17, 17, 17)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(UpdatesSpeedTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -219,7 +226,11 @@ public class MineUi extends javax.swing.JFrame {
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(UpdatesTypeTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(UpdatesClientTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(65, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout UpdatesPanelLayout = new javax.swing.GroupLayout(UpdatesPanel);
@@ -230,7 +241,7 @@ public class MineUi extends javax.swing.JFrame {
                 .addComponent(UpdatesLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
         UpdatesPanelLayout.setVerticalGroup(
             UpdatesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -242,6 +253,8 @@ public class MineUi extends javax.swing.JFrame {
         );
 
         Tabs.addTab("Updates", UpdatesPanel);
+
+        ClientsList.setViewportView(ClientsListTxt);
 
         ClientTransactions.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -280,24 +293,26 @@ public class MineUi extends javax.swing.JFrame {
 
         Tabs.addTab("Clients", ClientsPanel);
 
-        CarsListTxt.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+        CarsListTxt.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                CarsListTxtMouseClicked(evt);
+            }
         });
         CarsList.setViewportView(CarsListTxt);
 
         CarsDescription.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
+        jScrollPane1.setViewportView(CarInfoTxt);
+
         javax.swing.GroupLayout CarsDescriptionLayout = new javax.swing.GroupLayout(CarsDescription);
         CarsDescription.setLayout(CarsDescriptionLayout);
         CarsDescriptionLayout.setHorizontalGroup(
             CarsDescriptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 302, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 302, Short.MAX_VALUE)
         );
         CarsDescriptionLayout.setVerticalGroup(
             CarsDescriptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
         );
 
         javax.swing.GroupLayout CarsPanelLayout = new javax.swing.GroupLayout(CarsPanel);
@@ -319,7 +334,7 @@ public class MineUi extends javax.swing.JFrame {
                     .addComponent(CarsDescription, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(CarsPanelLayout.createSequentialGroup()
                         .addComponent(CarsList, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 123, Short.MAX_VALUE))))
+                        .addGap(0, 145, Short.MAX_VALUE))))
         );
 
         Tabs.addTab("Cars", CarsPanel);
@@ -480,14 +495,18 @@ public class MineUi extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void UpdatesConfirmBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdatesConfirmBtActionPerformed
-        String car = UpdatesCarTxt.getText();
-        String speed= UpdatesSpeedTxt.getText();
-        String type= UpdatesTypeTxt.getText();
-        String location= UpdatesLocationTxt.getText();
-        Long time = System.currentTimeMillis();
+        Car car = UpdatesCarTxt.getItemAt(UpdatesCarTxt.getSelectedIndex());
+        Client client = UpdatesClientTxt.getItemAt(UpdatesClientTxt.getSelectedIndex());
+        int speed= Integer.parseInt(UpdatesSpeedTxt.getText());
+        String status= UpdatesTypeTxt.getText();
+        String coordinates= UpdatesLocationTxt.getText();
+        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
+        Date timestamp = new Date(System.currentTimeMillis());
         //minar o proximo bloco com a informação prestada
         
-        
+        CarInfo carInfo = new CarInfo(car, client, timestamp, status, coordinates, speed);
+        carRegistry.addCarInfo(carInfo);
+        carRegistry.save();
     }//GEN-LAST:event_UpdatesConfirmBtActionPerformed
 
     private void UpdatesLoginbtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdatesLoginbtActionPerformed
@@ -511,10 +530,13 @@ public class MineUi extends javax.swing.JFrame {
 
     private void RegisterClientBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterClientBtActionPerformed
         String RegUser = RegisterClientUser.getText();
-        Client c = new Client();
-        if(RegisterClientPass.getPassword() == RegisterClientPassC.getPassword()){
+        if(RegisterClientPass.getText().equals(RegisterClientPassC.getText())){
             try {
+                Client c = new Client(RegUser);
+                System.out.println(c.toString());
                 c.register(RegUser, new String(RegisterClientPass.getPassword()));
+                carRegistry.addClient(c);
+                carRegistry.save();
             } catch (Exception ex) {
                 Logger.getLogger(MineUi.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -524,10 +546,6 @@ public class MineUi extends javax.swing.JFrame {
     private void RegisterClientPassCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterClientPassCActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_RegisterClientPassCActionPerformed
-
-    private void UpdatesCarTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdatesCarTxtActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_UpdatesCarTxtActionPerformed
 
     private void RegisterCarModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterCarModelActionPerformed
         // TODO add your handling code here:
@@ -551,7 +569,38 @@ public class MineUi extends javax.swing.JFrame {
             model.addAll(carRegistry.getCarsList());
             CarsListTxt.setModel(model);
         }
+        
+        if (Tabs.getSelectedComponent() == ClientsPanel) {
+            DefaultListModel model = new DefaultListModel();
+            model.addAll(carRegistry.getClientsList());
+            ClientsListTxt.setModel(model);
+        }
+        
+        if (Tabs.getSelectedComponent() == UpdatesPanel){
+            DefaultComboBoxModel<Car> carModel = new DefaultComboBoxModel();
+            try{
+            carModel.addAll(carRegistry.getCarsList());
+            } catch (Exception e){
+                System.out.println("Nenhum carro recolhido para a combobox.");
+            }
+            UpdatesCarTxt.setModel(carModel);
+            
+            DefaultComboBoxModel<Client> clientModel = new DefaultComboBoxModel();
+            try{
+            clientModel.addAll(carRegistry.getClientsList());
+            } catch (Exception e){
+                System.out.println("Nenhum cliente recolhido para a combobox.");
+            }
+            UpdatesClientTxt.setModel(clientModel);
+        }
     }//GEN-LAST:event_TabsStateChanged
+
+    private void CarsListTxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CarsListTxtMouseClicked
+        // TODO add your handling code here:
+        DefaultListModel model = new DefaultListModel();
+        model.addAll(carRegistry.getCarInfoList(CarsListTxt.getSelectedValue()));
+        CarInfoTxt.setModel(model);
+    }//GEN-LAST:event_CarsListTxtMouseClicked
 
     /**
      * @param args the command line arguments
@@ -589,12 +638,14 @@ public class MineUi extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JList<CarInfo> CarInfoTxt;
     private javax.swing.JPanel CarsDescription;
     private javax.swing.JScrollPane CarsList;
-    private javax.swing.JList<String> CarsListTxt;
+    private javax.swing.JList<Car> CarsListTxt;
     private javax.swing.JPanel CarsPanel;
     private javax.swing.JPanel ClientTransactions;
     private javax.swing.JScrollPane ClientsList;
+    private javax.swing.JList<Client> ClientsListTxt;
     private javax.swing.JPanel ClientsPanel;
     private javax.swing.JButton RegisterCarBt;
     private javax.swing.JTextField RegisterCarManu;
@@ -607,7 +658,8 @@ public class MineUi extends javax.swing.JFrame {
     private javax.swing.JTextField RegisterClientUser;
     private javax.swing.JPanel RegisterPanel;
     private javax.swing.JTabbedPane Tabs;
-    private javax.swing.JTextField UpdatesCarTxt;
+    private javax.swing.JComboBox<Car> UpdatesCarTxt;
+    private javax.swing.JComboBox<Client> UpdatesClientTxt;
     private javax.swing.JButton UpdatesConfirmBt;
     private javax.swing.JTextField UpdatesLocationTxt;
     private javax.swing.JPanel UpdatesLogin;
@@ -621,6 +673,7 @@ public class MineUi extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -631,5 +684,6 @@ public class MineUi extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

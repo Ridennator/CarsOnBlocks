@@ -79,14 +79,14 @@ public class BlockChain implements Serializable {
         return txt.toString();
     }
 
-    public void save(String fileName) throws Exception {
-        try ( ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName))) {
+    public void save() throws Exception {
+        try ( ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("data/carInfoRegistry"))) {
             out.writeObject(chain);
         }
     }
 
-    public void load(String fileName) throws Exception {
-        try ( ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName))) {
+    public void load() throws Exception {
+        try ( ObjectInputStream in = new ObjectInputStream(new FileInputStream("data/carInfoRegistry"))) {
             this.chain = (CopyOnWriteArrayList<Block>) in.readObject();
         }
     }
