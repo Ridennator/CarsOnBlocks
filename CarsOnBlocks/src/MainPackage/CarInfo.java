@@ -85,7 +85,7 @@ public class CarInfo implements Serializable{
     
     @Override
     public String toString() {
-        return "Timestamp=" + getTimestamp() + ", status=" + getStatus() + ", user=" + getUserName() + ", coords=" + getCoords() +  ", km/h=" + getSpeed();
+        return getTimestamp() + " - " + getStatus() + " - " + getUserName() + " - " + getCoords() +  " - " + getSpeed() + "km/h";
     }
     
     private static final long serialVersionUID = 202210281537L;

@@ -32,9 +32,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class BlockChain implements Serializable {
 
-    CopyOnWriteArrayList<Block> chain = new CopyOnWriteArrayList<>();
+    ArrayList<Block> chain = new ArrayList<>();
 
-    public CopyOnWriteArrayList<Block> getChain() {
+    public ArrayList<Block> getChain() {
         return chain;
     }
 
@@ -72,7 +72,7 @@ public class BlockChain implements Serializable {
 
     public String toString() {
         StringBuilder txt = new StringBuilder();
-        txt.append("Blochain size = " + chain.size() + "\n");
+        txt.append("Blockchain size = " + chain.size() + "\n");
         for (Block block : chain) {
             txt.append(block.toString() + "\n");
         }
@@ -80,15 +80,28 @@ public class BlockChain implements Serializable {
     }
 
     public void save() throws Exception {
-        try ( ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("data/carInfoRegistry"))) {
-            out.writeObject(chain);
+        try {
+            FileOutputStream writeData = new FileOutputStream("data/carInfoRegistry.ser");
+            ObjectOutputStream writeStream = new ObjectOutputStream(writeData);
+
+            writeStream.writeObject(chain);
+            writeStream.flush();
+            writeStream.close();
+        } catch (Exception e) {
+            System.out.println(e);
+            System.out.println("Erro a guardar registo: Blockchain");
         }
     }
 
     public void load() throws Exception {
-        try ( ObjectInputStream in = new ObjectInputStream(new FileInputStream("data/carInfoRegistry"))) {
-            this.chain = (CopyOnWriteArrayList<Block>) in.readObject();
-        }
+        try { 
+            FileInputStream readData = new FileInputStream("data/carInfoRegistry.ser");
+            ObjectInputStream readStream = new ObjectInputStream(readData);
+            chain = (ArrayList<Block>) readStream.readObject();
+            readStream.close();
+            } catch (Exception e){
+                System.out.println("Não há blockchain registada.");
+            }
     }
 
     public boolean isValid() throws Exception {

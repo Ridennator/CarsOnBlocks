@@ -73,7 +73,7 @@ public class CarRegistry implements Serializable{
     public List<CarInfo> getCarInfoList(Car car){
         List<CarInfo> carInfoList = new ArrayList<>();
         for (Block chain : carInfoRegistry.getChain()) {
-            if (chain.getCarInfo().getCar().equals(car))
+            if (chain.getCarInfo().getCar().getId() == car.getId())
                 carInfoList.add(chain.getCarInfo());
         }
         return carInfoList;

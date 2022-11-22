@@ -30,6 +30,7 @@ public class MineUi extends javax.swing.JFrame {
         UpdatesConfirmBt.setVisible(false);
         carRegistry = new CarRegistry();
         carRegistry.load();
+        System.out.println(carRegistry.carInfoRegistry.getChain());
     }
 
     /**
