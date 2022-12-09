@@ -46,6 +46,9 @@ public class MineUi extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jButton1 = new javax.swing.JButton();
         Tabs = new javax.swing.JTabbedPane();
         UpdatesPanel = new javax.swing.JPanel();
         UpdatesLogin = new javax.swing.JPanel();
@@ -94,16 +97,40 @@ public class MineUi extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         RegisterCarBt = new javax.swing.JButton();
         RegisterCarManu = new javax.swing.JTextField();
+        NetworkPanel = new javax.swing.JPanel();
+        NetworkServerPanel = new javax.swing.JPanel();
+        NetworkConnectBt = new javax.swing.JButton();
+        NetworkConnectTxt = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        NetworkNodeTxt = new javax.swing.JTextArea();
+        NetworkPortPanel = new javax.swing.JPanel();
+        NetworkPortBt = new javax.swing.JButton();
+        NetworkPortTxt = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane2.setViewportView(jTextArea1);
+
+        jButton1.setText("Close");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 641, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jButton1)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -493,6 +520,123 @@ public class MineUi extends javax.swing.JFrame {
 
         Tabs.addTab("Register", RegisterPanel);
 
+        NetworkConnectBt.setText("Connect to Server");
+        NetworkConnectBt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NetworkConnectBtActionPerformed(evt);
+            }
+        });
+
+        NetworkConnectTxt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NetworkConnectTxtActionPerformed(evt);
+            }
+        });
+
+        jLabel14.setText("Server Address");
+
+        javax.swing.GroupLayout NetworkServerPanelLayout = new javax.swing.GroupLayout(NetworkServerPanel);
+        NetworkServerPanel.setLayout(NetworkServerPanelLayout);
+        NetworkServerPanelLayout.setHorizontalGroup(
+            NetworkServerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(NetworkConnectTxt, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(NetworkServerPanelLayout.createSequentialGroup()
+                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(NetworkServerPanelLayout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(NetworkConnectBt)
+                .addContainerGap(40, Short.MAX_VALUE))
+        );
+        NetworkServerPanelLayout.setVerticalGroup(
+            NetworkServerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NetworkServerPanelLayout.createSequentialGroup()
+                .addContainerGap(58, Short.MAX_VALUE)
+                .addComponent(jLabel14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(NetworkConnectTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(NetworkConnectBt)
+                .addGap(14, 14, 14))
+        );
+
+        NetworkNodeTxt.setColumns(20);
+        NetworkNodeTxt.setRows(5);
+        jScrollPane1.setViewportView(NetworkNodeTxt);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1)
+        );
+
+        NetworkPortBt.setText("Create Server");
+
+        NetworkPortTxt.setText("10010");
+        NetworkPortTxt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NetworkPortTxtActionPerformed(evt);
+            }
+        });
+
+        jLabel13.setText("Port");
+
+        javax.swing.GroupLayout NetworkPortPanelLayout = new javax.swing.GroupLayout(NetworkPortPanel);
+        NetworkPortPanel.setLayout(NetworkPortPanelLayout);
+        NetworkPortPanelLayout.setHorizontalGroup(
+            NetworkPortPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(NetworkPortTxt)
+            .addGroup(NetworkPortPanelLayout.createSequentialGroup()
+                .addGroup(NetworkPortPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(NetworkPortPanelLayout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addComponent(NetworkPortBt)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        NetworkPortPanelLayout.setVerticalGroup(
+            NetworkPortPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(NetworkPortPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel13)
+                .addGap(1, 1, 1)
+                .addComponent(NetworkPortTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(NetworkPortBt)
+                .addContainerGap(94, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout NetworkPanelLayout = new javax.swing.GroupLayout(NetworkPanel);
+        NetworkPanel.setLayout(NetworkPanelLayout);
+        NetworkPanelLayout.setHorizontalGroup(
+            NetworkPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(NetworkPanelLayout.createSequentialGroup()
+                .addGroup(NetworkPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(NetworkServerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(NetworkPortPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        NetworkPanelLayout.setVerticalGroup(
+            NetworkPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NetworkPanelLayout.createSequentialGroup()
+                .addGroup(NetworkPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(NetworkPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(NetworkPortPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(NetworkServerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(45, 45, 45))
+        );
+
+        Tabs.addTab("Network", NetworkPanel);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -628,6 +772,18 @@ public class MineUi extends javax.swing.JFrame {
         ClientCarInfoList.setModel(model);
     }//GEN-LAST:event_ClientsListTxtMouseClicked
 
+    private void NetworkConnectBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NetworkConnectBtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_NetworkConnectBtActionPerformed
+
+    private void NetworkConnectTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NetworkConnectTxtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_NetworkConnectTxtActionPerformed
+
+    private void NetworkPortTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NetworkPortTxtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_NetworkPortTxtActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -676,6 +832,14 @@ public class MineUi extends javax.swing.JFrame {
     private javax.swing.JScrollPane ClientsList;
     private javax.swing.JList<Client> ClientsListTxt;
     private javax.swing.JPanel ClientsPanel;
+    private javax.swing.JButton NetworkConnectBt;
+    private javax.swing.JTextField NetworkConnectTxt;
+    private javax.swing.JTextArea NetworkNodeTxt;
+    private javax.swing.JPanel NetworkPanel;
+    private javax.swing.JButton NetworkPortBt;
+    private javax.swing.JPanel NetworkPortPanel;
+    private javax.swing.JTextField NetworkPortTxt;
+    private javax.swing.JPanel NetworkServerPanel;
     private javax.swing.JButton RegisterCarBt;
     private javax.swing.JTextField RegisterCarManu;
     private javax.swing.JTextField RegisterCarModel;
@@ -699,10 +863,13 @@ public class MineUi extends javax.swing.JFrame {
     private javax.swing.JPanel UpdatesPanel;
     private javax.swing.JTextField UpdatesSpeedTxt;
     private javax.swing.JTextField UpdatesTypeTxt;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -713,5 +880,9 @@ public class MineUi extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
 }
