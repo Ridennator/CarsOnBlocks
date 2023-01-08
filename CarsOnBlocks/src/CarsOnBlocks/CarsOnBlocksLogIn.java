@@ -446,7 +446,6 @@ public class CarsOnBlocksLogIn extends javax.swing.JFrame {
             ClientsListTxt.setModel(model);
         }
 
-        
     }//GEN-LAST:event_TabsStateChanged
 
     private void RegisterCarBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterCarBtActionPerformed
@@ -505,21 +504,21 @@ public class CarsOnBlocksLogIn extends javax.swing.JFrame {
         ClientCarInfoList.setModel(model);
     }//GEN-LAST:event_ClientsListTxtMouseClicked
 
+    private void UpdatesServerTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdatesServerTxtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_UpdatesServerTxtActionPerformed
+
     private void UpdatesLoginbtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdatesLoginbtActionPerformed
         try {
             User user = User.load(UpdatesLoginUser.getText(), new String(UpdatesLoginPass.getPassword()));
             InterfaceRemoteMiner miner= ( InterfaceRemoteMiner)
             RMI.getRemote(UpdatesServerTxt.getText());
             user.setMiner(miner);
-            
+
         } catch (Exception ex) {
             Logger.getLogger(CarsOnBlocksLogIn.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_UpdatesLoginbtActionPerformed
-
-    private void UpdatesServerTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdatesServerTxtActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_UpdatesServerTxtActionPerformed
 
     // Método de ação que cria e adiciona um novo bloco à blockchain
     // Método de ação que efetua o login de um cliente.
