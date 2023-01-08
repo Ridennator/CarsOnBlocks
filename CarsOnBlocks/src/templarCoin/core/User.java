@@ -222,11 +222,13 @@ public class User {
     public String getInfo() {
         StringBuilder txt = new StringBuilder();
         txt.append("Name : " + name);
+        txt.append("Access: " + getAccess());
         txt.append("\nSimetric Key Algorithm   : " + pubKey.getAlgorithm());
         txt.append("\nSimetric Key Size        : " + SIZE_RSA_KEY);
         txt.append("\nAssimetric Key Algorithm : " + key.getAlgorithm());
         txt.append("\nAssimetric Key Size      : " + SIZE_AES_KEY);
         txt.append("\n\nFiles :");
+        txt.append("\n" + USER_PATH + name + ".acc");
         txt.append("\n" + USER_PATH + name + ".pub");
         txt.append("\n" + USER_PATH + name + ".priv");
         txt.append("\n" + USER_PATH + name + ".sim");
