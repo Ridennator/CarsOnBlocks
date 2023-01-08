@@ -22,6 +22,7 @@ package templarCoin.core;
 
 import blockChain.p2p.miner.InterfaceRemoteMiner;
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.Key;
@@ -47,6 +48,8 @@ public class User {
     PrivateKey privKey;
     PublicKey pubKey;
     Key key;
+    String access;
+    
     private InterfaceRemoteMiner miner;
 
     /**
@@ -57,11 +60,17 @@ public class User {
         this.privKey = null;
         this.pubKey = null;
         this.key = null;
+        this.access = null;
     }
     
+    private User(String name, String access) {
+        this.name = name;
+        this.privKey = null;
+        this.pubKey = null;
+        this.key = null;
+        this.access = access;
+    }
     
-    
-
     public String getName() {
         return name;
     }
@@ -78,18 +87,27 @@ public class User {
         return key;
     }
 
+    public String getAccess(){
+        return access;
+    }
+    
+    public void setAccess(String access){
+        this.access = access;
+    }
+    
     /**
      * Registar um utilizador
      *
      * @param name nome do utilizador
      * @param password password para segurança das chaves
+     * @param access tipo de accesso do utilizador
      * @throws Exception
      */
-    public static User register(String name, String password) throws Exception {
+    public static User register(String name, String password, String access) throws Exception {
         //criar as pastas se necessário
         new File(USER_PATH).mkdirs();
         //criar um utilizador
-        User user = new User(name);
+        User user = new User(name, access);
         //gerar as chaves
         KeyPair kp = SecurityUtils.generateKeyPair(SIZE_RSA_KEY);
         user.privKey = kp.getPrivate();
@@ -98,6 +116,7 @@ public class User {
         //:::::::::::::::::::::::::::::::
         // guardar as chaves
         Files.write(Paths.get(USER_PATH + name + ".pub"), user.pubKey.getEncoded());
+        Files.write(Paths.get(USER_PATH + name + ".acc"), user.access.getBytes());
         //encriptar a chave privada com a password
         byte[] dataPriv = user.privKey.getEncoded();
         dataPriv = SecurityUtils.encrypt(dataPriv, password);
@@ -112,6 +131,7 @@ public class User {
      * Ler a chave pública de um utilizador
      *
      * @param name nome do utilizador
+     * @param access tipo de accesso do utilizador
      * @return Utilizador com a chave pública
      * @throws Exception
      */
@@ -121,6 +141,10 @@ public class User {
         byte[] pubData = Files.readAllBytes(Paths.get(USER_PATH + name + ".pub"));
         //chave publica
         user.pubKey = SecurityUtils.getPublicKey(pubData);
+        //ler o dado de acesso
+        byte[] accessData = Files.readAllBytes(Paths.get(USER_PATH + name + ".acc"));
+        //acesso
+        user.setAccess(new String(accessData, StandardCharsets.UTF_8));
         return user;
     }
 
@@ -129,6 +153,7 @@ public class User {
      *
      * @param name nome do utilizador
      * @param password passwords para desencriptar as chaves
+     * @param access tipo de accesso do utilizador
      * @return Utilizador com condenciais
      * @throws Exception
      */
@@ -139,6 +164,7 @@ public class User {
             byte[] pubData = Files.readAllBytes(Paths.get(USER_PATH + name + ".pub"));
             byte[] privData = Files.readAllBytes(Paths.get(USER_PATH + name + ".priv"));
             byte[] simData = Files.readAllBytes(Paths.get(USER_PATH + name + ".sim"));
+            byte[] accessData = Files.readAllBytes(Paths.get(USER_PATH + name + ".acc"));
             //Construir as chaves com os dados
             try {
                 //chave publica
@@ -149,6 +175,7 @@ public class User {
                 //desencriptar chave simetrica com a chave privada
                 simData = SecurityUtils.decrypt(simData, user.privKey);
                 user.key = SecurityUtils.getAESKey(simData);
+                user.setAccess(new String(accessData, StandardCharsets.UTF_8));
                 return user;
             } catch (Exception e) {
                 throw new Exception("Wrong password");
