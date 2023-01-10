@@ -10,7 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import myUtils.RMI;
+import CarsOnBlocks.utils.RMI;
 import templarCoin.core.User;
 
 
@@ -223,7 +223,7 @@ public class Autentication extends javax.swing.JFrame {
             if (!Arrays.equals(txtRegisterPass1.getPassword(), txtRegisterPass2.getPassword())) {
                 return;
             }
-            User.register(txtRegisterUser.getText(), new String(txtRegisterPass1.getPassword()));
+            User.register(txtRegisterUser.getText(), new String(txtRegisterPass1.getPassword()), "Client");
             JOptionPane.showMessageDialog(this, "User registado");
 
         } catch (Exception ex) {

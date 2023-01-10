@@ -415,22 +415,22 @@
                           <Group type="102" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="UpdatesSpeedTxt1" alignment="1" max="32767" attributes="0"/>
-                                  <Component id="UpdatesLocationTxt1" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="SimulatorSpeedTxt" alignment="1" max="32767" attributes="0"/>
+                                  <Component id="SimulatorLocationTxt" alignment="0" max="32767" attributes="0"/>
                                   <Component id="jLabel13" alignment="0" max="32767" attributes="0"/>
                                   <Component id="jLabel14" alignment="0" max="32767" attributes="0"/>
                                   <Component id="jLabel15" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="UpdatesTypeTxt1" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="SimulatorTypeTxt" alignment="0" max="32767" attributes="0"/>
                                   <Component id="jLabel16" alignment="0" max="32767" attributes="0"/>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="jLabel12" min="-2" pref="68" max="-2" attributes="0"/>
                                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                   </Group>
-                                  <Component id="UpdatesCarTxt1" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="UpdatesClientTxt" alignment="1" max="32767" attributes="0"/>
+                                  <Component id="SimulatorCarTxt" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="SimulatorClientTxt" alignment="1" max="32767" attributes="0"/>
                                   <Group type="102" alignment="1" attributes="0">
                                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                      <Component id="UpdatesConfirmBt" min="-2" pref="217" max="-2" attributes="0"/>
+                                      <Component id="SimulatorConfirmBt" min="-2" pref="217" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
@@ -443,34 +443,34 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="UpdatesCarTxt1" min="-2" max="-2" attributes="0"/>
+                              <Component id="SimulatorCarTxt" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
                               <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="UpdatesSpeedTxt1" min="-2" max="-2" attributes="0"/>
+                              <Component id="SimulatorSpeedTxt" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="jLabel14" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="UpdatesLocationTxt1" min="-2" max="-2" attributes="0"/>
+                              <Component id="SimulatorLocationTxt" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="UpdatesTypeTxt1" min="-2" max="-2" attributes="0"/>
+                              <Component id="SimulatorTypeTxt" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="jLabel16" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="UpdatesClientTxt" min="-2" max="-2" attributes="0"/>
+                              <Component id="SimulatorClientTxt" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
-                              <Component id="UpdatesConfirmBt" min="-2" pref="45" max="-2" attributes="0"/>
+                              <Component id="SimulatorConfirmBt" min="-2" pref="45" max="-2" attributes="0"/>
                               <EmptySpace pref="55" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
                   </Layout>
                   <SubComponents>
-                    <Component class="javax.swing.JTextField" name="UpdatesSpeedTxt1">
+                    <Component class="javax.swing.JTextField" name="SimulatorSpeedTxt">
                     </Component>
-                    <Component class="javax.swing.JTextField" name="UpdatesLocationTxt1">
+                    <Component class="javax.swing.JTextField" name="SimulatorLocationTxt">
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel12">
                       <Properties>
@@ -492,14 +492,14 @@
                         <Property name="text" type="java.lang.String" value="Status"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JTextField" name="UpdatesTypeTxt1">
+                    <Component class="javax.swing.JTextField" name="SimulatorTypeTxt">
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel16">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Client"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JComboBox" name="UpdatesCarTxt1">
+                    <Component class="javax.swing.JComboBox" name="SimulatorCarTxt">
                       <Properties>
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                           <StringArray count="0"/>
@@ -509,7 +509,7 @@
                         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Car&gt;"/>
                       </AuxValues>
                     </Component>
-                    <Component class="javax.swing.JComboBox" name="UpdatesClientTxt">
+                    <Component class="javax.swing.JComboBox" name="SimulatorClientTxt">
                       <Properties>
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                           <StringArray count="0"/>
@@ -519,7 +519,7 @@
                         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;User&gt;"/>
                       </AuxValues>
                     </Component>
-                    <Component class="javax.swing.JButton" name="UpdatesConfirmBt">
+                    <Component class="javax.swing.JButton" name="SimulatorConfirmBt">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Confirm Update"/>
                         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -530,7 +530,7 @@
                         </Property>
                       </Properties>
                       <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="UpdatesConfirmBtActionPerformed"/>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SimulatorConfirmBtActionPerformed"/>
                       </Events>
                     </Component>
                   </SubComponents>
@@ -725,7 +725,7 @@
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                       <SubComponents>
-                        <Component class="javax.swing.JList" name="CarInfoTxt1">
+                        <Component class="javax.swing.JList" name="ManageCarInfoTxt">
                           <Properties>
                             <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
                               <StringArray count="0"/>
@@ -812,7 +812,7 @@
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
-                              <Component id="RegisterClientBt1" min="-2" max="-2" attributes="0"/>
+                              <Component id="RegisterUserBt" min="-2" max="-2" attributes="0"/>
                               <EmptySpace pref="74" max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -838,7 +838,7 @@
                                   <Component id="RegisterUserAccess" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-                              <Component id="RegisterClientBt1" min="-2" max="-2" attributes="0"/>
+                              <Component id="RegisterUserBt" min="-2" max="-2" attributes="0"/>
                               <EmptySpace pref="171" max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -865,12 +865,12 @@
                         <Property name="text" type="java.lang.String" value="Password Confirm"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JButton" name="RegisterClientBt1">
+                    <Component class="javax.swing.JButton" name="RegisterUserBt">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Register"/>
                       </Properties>
                       <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="RegisterClientBt1ActionPerformed"/>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="RegisterUserBtActionPerformed"/>
                       </Events>
                     </Component>
                     <Component class="javax.swing.JPasswordField" name="RegisterUserPass1">
@@ -915,16 +915,16 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="RegisterCarModel1" alignment="0" pref="195" max="32767" attributes="0"/>
+                                  <Component id="RegisterCarModel" alignment="0" pref="195" max="32767" attributes="0"/>
                                   <Component id="jLabel20" alignment="0" max="32767" attributes="0"/>
                                   <Component id="jLabel21" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="RegisterCarManu1" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="RegisterCarManufacturer" alignment="0" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
-                              <Component id="RegisterCarBt1" min="-2" max="-2" attributes="0"/>
+                              <Component id="RegisterCarBt" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -935,13 +935,13 @@
                               <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                               <Component id="jLabel20" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="RegisterCarModel1" min="-2" max="-2" attributes="0"/>
+                              <Component id="RegisterCarModel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="jLabel21" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="RegisterCarManu1" min="-2" max="-2" attributes="0"/>
+                              <Component id="RegisterCarManufacturer" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="97" max="-2" attributes="0"/>
-                              <Component id="RegisterCarBt1" min="-2" max="-2" attributes="0"/>
+                              <Component id="RegisterCarBt" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -953,25 +953,25 @@
                         <Property name="text" type="java.lang.String" value="Model"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JTextField" name="RegisterCarModel1">
+                    <Component class="javax.swing.JTextField" name="RegisterCarModel">
                       <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="RegisterCarModel1ActionPerformed"/>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="RegisterCarModelActionPerformed"/>
                       </Events>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel21">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Manufactor"/>
+                        <Property name="text" type="java.lang.String" value="Manufacturer"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JButton" name="RegisterCarBt1">
+                    <Component class="javax.swing.JButton" name="RegisterCarBt">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Register"/>
                       </Properties>
                       <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="RegisterCarBt1ActionPerformed"/>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="RegisterCarBtActionPerformed"/>
                       </Events>
                     </Component>
-                    <Component class="javax.swing.JTextField" name="RegisterCarManu1">
+                    <Component class="javax.swing.JTextField" name="RegisterCarManufacturer">
                     </Component>
                   </SubComponents>
                 </Container>

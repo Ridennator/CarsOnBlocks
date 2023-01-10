@@ -32,7 +32,8 @@ import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
-import myUtils.SecurityUtils;
+import CarsOnBlocks.utils.SecurityUtils;
+import java.io.Serializable;
 
 
 /**
@@ -40,7 +41,7 @@ import myUtils.SecurityUtils;
  *
  * @author aulas - computer
  */
-public class User {
+public class User implements Serializable{
 
     public static String USER_PATH = "users/";
 

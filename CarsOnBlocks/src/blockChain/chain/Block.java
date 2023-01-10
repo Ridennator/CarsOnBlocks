@@ -21,8 +21,8 @@ import java.io.Serializable;
 import java.util.Base64;
 import java.util.List;
 import java.util.Objects;
-import myUtils.MerkleTree;
-import myUtils.Serializer;
+import CarsOnBlocks.utils.MerkleTree;
+import CarsOnBlocks.utils.Serializer;
 
 /**
  * Created on 22/08/2022, 09:23:49

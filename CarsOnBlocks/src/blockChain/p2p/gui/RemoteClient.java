@@ -18,8 +18,8 @@ package blockChain.p2p.gui;
 import blockChain.miner.Miner;
 
 import java.awt.Color;
-import myUtils.GuiUtils;
-import myUtils.RMI;
+import CarsOnBlocks.utils.GuiUtils;
+import CarsOnBlocks.utils.RMI;
 import javax.swing.SwingUtilities;
 import blockChain.p2p.miner.InterfaceRemoteMiner;
 

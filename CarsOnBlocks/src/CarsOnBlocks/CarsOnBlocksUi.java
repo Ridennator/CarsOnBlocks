@@ -5,8 +5,10 @@
 package CarsOnBlocks;
 
 import blockChain.chain.Block;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -97,17 +99,17 @@ public class CarsOnBlocksUi extends javax.swing.JFrame {
         TabManagement = new javax.swing.JTabbedPane();
         SimulatorPanel = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        UpdatesSpeedTxt1 = new javax.swing.JTextField();
-        UpdatesLocationTxt1 = new javax.swing.JTextField();
+        SimulatorSpeedTxt = new javax.swing.JTextField();
+        SimulatorLocationTxt = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        UpdatesTypeTxt1 = new javax.swing.JTextField();
+        SimulatorTypeTxt = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
-        UpdatesCarTxt1 = new javax.swing.JComboBox<>();
-        UpdatesClientTxt = new javax.swing.JComboBox<>();
-        UpdatesConfirmBt = new javax.swing.JButton();
+        SimulatorCarTxt = new javax.swing.JComboBox<>();
+        SimulatorClientTxt = new javax.swing.JComboBox<>();
+        SimulatorConfirmBt = new javax.swing.JButton();
         ClientsPanel = new javax.swing.JPanel();
         ClientsList1 = new javax.swing.JScrollPane();
         ManageClientsListTxt = new javax.swing.JList<>();
@@ -119,24 +121,24 @@ public class CarsOnBlocksUi extends javax.swing.JFrame {
         ManageCarsListTxt = new javax.swing.JList<>();
         CarsDescription1 = new javax.swing.JPanel();
         jScrollPane9 = new javax.swing.JScrollPane();
-        CarInfoTxt1 = new javax.swing.JList<>();
+        ManageCarInfoTxt = new javax.swing.JList<>();
         RegisterPanel = new javax.swing.JPanel();
         RegisterUserPanel = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
         RegisterUsername = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
-        RegisterClientBt1 = new javax.swing.JButton();
+        RegisterUserBt = new javax.swing.JButton();
         RegisterUserPass1 = new javax.swing.JPasswordField();
         RegisterUserPass2 = new javax.swing.JPasswordField();
         jLabel22 = new javax.swing.JLabel();
         RegisterUserAccess = new javax.swing.JComboBox<>();
         RegisterCarPanel = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
-        RegisterCarModel1 = new javax.swing.JTextField();
+        RegisterCarModel = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
-        RegisterCarBt1 = new javax.swing.JButton();
-        RegisterCarManu1 = new javax.swing.JTextField();
+        RegisterCarBt = new javax.swing.JButton();
+        RegisterCarManufacturer = new javax.swing.JTextField();
         tpBlockchain = new javax.swing.JTabbedPane();
         pnBlockChain = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -308,12 +310,12 @@ public class CarsOnBlocksUi extends javax.swing.JFrame {
 
         jLabel16.setText("Client");
 
-        UpdatesConfirmBt.setText("Confirm Update");
-        UpdatesConfirmBt.setMaximumSize(new java.awt.Dimension(103, 103));
-        UpdatesConfirmBt.setMinimumSize(new java.awt.Dimension(100, 100));
-        UpdatesConfirmBt.addActionListener(new java.awt.event.ActionListener() {
+        SimulatorConfirmBt.setText("Confirm Update");
+        SimulatorConfirmBt.setMaximumSize(new java.awt.Dimension(103, 103));
+        SimulatorConfirmBt.setMinimumSize(new java.awt.Dimension(100, 100));
+        SimulatorConfirmBt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                UpdatesConfirmBtActionPerformed(evt);
+                SimulatorConfirmBtActionPerformed(evt);
             }
         });
 
@@ -324,21 +326,21 @@ public class CarsOnBlocksUi extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(UpdatesSpeedTxt1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(UpdatesLocationTxt1)
+                    .addComponent(SimulatorSpeedTxt, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(SimulatorLocationTxt)
                     .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(UpdatesTypeTxt1)
+                    .addComponent(SimulatorTypeTxt)
                     .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(UpdatesCarTxt1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(UpdatesClientTxt, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(SimulatorCarTxt, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(SimulatorClientTxt, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(UpdatesConfirmBt, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(SimulatorConfirmBt, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -347,25 +349,25 @@ public class CarsOnBlocksUi extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel12)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(UpdatesCarTxt1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(SimulatorCarTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(17, 17, 17)
                 .addComponent(jLabel13)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(UpdatesSpeedTxt1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(SimulatorSpeedTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel14)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(UpdatesLocationTxt1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(SimulatorLocationTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel15)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(UpdatesTypeTxt1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(SimulatorTypeTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel16)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(UpdatesClientTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(SimulatorClientTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(46, 46, 46)
-                .addComponent(UpdatesConfirmBt, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(SimulatorConfirmBt, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(55, Short.MAX_VALUE))
         );
 
@@ -444,7 +446,7 @@ public class CarsOnBlocksUi extends javax.swing.JFrame {
 
         CarsDescription1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jScrollPane9.setViewportView(CarInfoTxt1);
+        jScrollPane9.setViewportView(ManageCarInfoTxt);
 
         javax.swing.GroupLayout CarsDescription1Layout = new javax.swing.GroupLayout(CarsDescription1);
         CarsDescription1.setLayout(CarsDescription1Layout);
@@ -497,10 +499,10 @@ public class CarsOnBlocksUi extends javax.swing.JFrame {
 
         jLabel19.setText("Password Confirm");
 
-        RegisterClientBt1.setText("Register");
-        RegisterClientBt1.addActionListener(new java.awt.event.ActionListener() {
+        RegisterUserBt.setText("Register");
+        RegisterUserBt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RegisterClientBt1ActionPerformed(evt);
+                RegisterUserBtActionPerformed(evt);
             }
         });
 
@@ -535,7 +537,7 @@ public class CarsOnBlocksUi extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(RegisterUserPanelLayout.createSequentialGroup()
                 .addGap(60, 60, 60)
-                .addComponent(RegisterClientBt1)
+                .addComponent(RegisterUserBt)
                 .addContainerGap(74, Short.MAX_VALUE))
         );
         RegisterUserPanelLayout.setVerticalGroup(
@@ -558,7 +560,7 @@ public class CarsOnBlocksUi extends javax.swing.JFrame {
                     .addComponent(jLabel22)
                     .addComponent(RegisterUserAccess, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
-                .addComponent(RegisterClientBt1)
+                .addComponent(RegisterUserBt)
                 .addContainerGap(171, Short.MAX_VALUE))
         );
 
@@ -566,18 +568,18 @@ public class CarsOnBlocksUi extends javax.swing.JFrame {
 
         jLabel20.setText("Model");
 
-        RegisterCarModel1.addActionListener(new java.awt.event.ActionListener() {
+        RegisterCarModel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RegisterCarModel1ActionPerformed(evt);
+                RegisterCarModelActionPerformed(evt);
             }
         });
 
-        jLabel21.setText("Manufactor");
+        jLabel21.setText("Manufacturer");
 
-        RegisterCarBt1.setText("Register");
-        RegisterCarBt1.addActionListener(new java.awt.event.ActionListener() {
+        RegisterCarBt.setText("Register");
+        RegisterCarBt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RegisterCarBt1ActionPerformed(evt);
+                RegisterCarBtActionPerformed(evt);
             }
         });
 
@@ -588,14 +590,14 @@ public class CarsOnBlocksUi extends javax.swing.JFrame {
             .addGroup(RegisterCarPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(RegisterCarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(RegisterCarModel1, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+                    .addComponent(RegisterCarModel, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
                     .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(RegisterCarManu1))
+                    .addComponent(RegisterCarManufacturer))
                 .addContainerGap())
             .addGroup(RegisterCarPanelLayout.createSequentialGroup()
                 .addGap(64, 64, 64)
-                .addComponent(RegisterCarBt1)
+                .addComponent(RegisterCarBt)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         RegisterCarPanelLayout.setVerticalGroup(
@@ -604,13 +606,13 @@ public class CarsOnBlocksUi extends javax.swing.JFrame {
                 .addGap(14, 14, 14)
                 .addComponent(jLabel20)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(RegisterCarModel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(RegisterCarModel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel21)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(RegisterCarManu1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(RegisterCarManufacturer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(97, 97, 97)
-                .addComponent(RegisterCarBt1)
+                .addComponent(RegisterCarBt)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -709,26 +711,14 @@ public class CarsOnBlocksUi extends javax.swing.JFrame {
 
     private void TabManagementStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_TabManagementStateChanged
         // TODO add your handling code here:
-        if (TabManagement.getSelectedComponent() == CarsPanel) {
-            DefaultListModel model = new DefaultListModel();
-            model.addAll(carRegistry.getCarsList());
-            ManageCarsListTxt.setModel(model);
-        }
-
-        if (TabManagement.getSelectedComponent() == ClientsPanel) {
-            DefaultListModel model = new DefaultListModel();
-            model.addAll(carRegistry.getClientsList());
-            ManageClientsListTxt.setModel(model);
-        }
-
-        if (TabManagement.getSelectedComponent() == UpdatesPanel){
+        if (TabManagement.getSelectedComponent() == SimulatorPanel){
             DefaultComboBoxModel<Car> carModel = new DefaultComboBoxModel();
             try{
                 carModel.addAll(carRegistry.getCarsList());
             } catch (Exception e){
                 System.out.println("Nenhum carro recolhido para a combobox.");
             }
-            UpdatesCarTxt.setModel(carModel);
+            SimulatorCarTxt.setModel(carModel);
 
             DefaultComboBoxModel<User> clientModel = new DefaultComboBoxModel();
             try{
@@ -736,32 +726,46 @@ public class CarsOnBlocksUi extends javax.swing.JFrame {
             } catch (Exception e){
                 System.out.println("Nenhum cliente recolhido para a combobox.");
             }
-            UpdatesClientTxt.setModel(clientModel);
+            SimulatorClientTxt.setModel(clientModel);
         }
+        
+        if (TabManagement.getSelectedComponent() == ClientsPanel) {
+            DefaultListModel model = new DefaultListModel();
+            model.addAll(carRegistry.getClientsList());
+            ManageClientsListTxt.setModel(model);
+        }
+        
+        if (TabManagement.getSelectedComponent() == CarsPanel) {
+            DefaultListModel model = new DefaultListModel();
+            model.addAll(carRegistry.getCarsList());
+            ManageCarsListTxt.setModel(model);
+        }
+
+        
     }//GEN-LAST:event_TabManagementStateChanged
 
-    private void RegisterCarBt1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterCarBt1ActionPerformed
+    private void RegisterCarBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterCarBtActionPerformed
         String model = RegisterCarModel.getText();
-        String man = RegisterCarManu.getText();
+        String man = RegisterCarManufacturer.getText();
         Car c = new Car();
         c.setManufacturer(man);
         c.setModel(model);
         c.setId(carRegistry.getCarRegistrySize()+1);
         carRegistry.addCar(c);
         carRegistry.save();
-    }//GEN-LAST:event_RegisterCarBt1ActionPerformed
+    }//GEN-LAST:event_RegisterCarBtActionPerformed
 
-    private void RegisterCarModel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterCarModel1ActionPerformed
+    private void RegisterCarModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterCarModelActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_RegisterCarModel1ActionPerformed
+    }//GEN-LAST:event_RegisterCarModelActionPerformed
 
     private void RegisterUserPass2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterUserPass2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_RegisterUserPass2ActionPerformed
 
-    private void RegisterClientBt1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterClientBt1ActionPerformed
+    private void RegisterUserBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterUserBtActionPerformed
         try {
-            User u = User.load(RegisterUsername.getText());
+            User user = User.load(RegisterUsername.getText());
             JOptionPane.showMessageDialog(this, "As passwords não combinam");
             return;
         } catch (Exception e) {
@@ -770,13 +774,14 @@ public class CarsOnBlocksUi extends javax.swing.JFrame {
             if (!Arrays.equals(RegisterUserPass1.getPassword(), RegisterUserPass2.getPassword())) {
                 return;
             }
-            User.register(RegisterUsername.getText(), new String(RegisterUserPass1.getPassword()));
+            User.register(RegisterUsername.getText(), new String(RegisterUserPass1.getPassword()), RegisterUserAccess.getSelectedItem().toString());
+            carRegistry.addUser(User.load(RegisterUsername.getText()));
             JOptionPane.showMessageDialog(this, "User registado");
 
         } catch (Exception ex) {
             Logger.getLogger(Autentication.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_RegisterClientBt1ActionPerformed
+    }//GEN-LAST:event_RegisterUserBtActionPerformed
 
     private void RegisterUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterUsernameActionPerformed
 
@@ -785,31 +790,30 @@ public class CarsOnBlocksUi extends javax.swing.JFrame {
     private void ManageCarsListTxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ManageCarsListTxtMouseClicked
         // TODO add your handling code here:
         DefaultListModel model = new DefaultListModel();
-        model.addAll(carRegistry.getCarInfoList(CarsListTxt.getSelectedValue()));
-        CarInfoTxt.setModel(model);
+        model.addAll(carRegistry.getCarInfoList(ManageCarsListTxt.getSelectedValue()));
+        ManageCarInfoTxt.setModel(model);
     }//GEN-LAST:event_ManageCarsListTxtMouseClicked
 
     private void ManageClientsListTxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ManageClientsListTxtMouseClicked
         // TODO add your handling code here:
         DefaultListModel model = new DefaultListModel();
-        model.addAll(carRegistry.getCarInfoList(ClientsListTxt.getSelectedValue()));
+        model.addAll(carRegistry.getCarInfoList(ManageClientsListTxt.getSelectedValue()));
         ClientCarInfoList.setModel(model);
     }//GEN-LAST:event_ManageClientsListTxtMouseClicked
 
-    private void UpdatesConfirmBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdatesConfirmBtActionPerformed
-        Car car = UpdatesCarTxt.getItemAt(UpdatesCarTxt.getSelectedIndex());
-        User user = UpdatesClientTxt.getItemAt(UpdatesClientTxt.getSelectedIndex());
-        int speed= Integer.parseInt(UpdatesSpeedTxt.getText());
-        String status= UpdatesTypeTxt.getText();
-        String coordinates= UpdatesLocationTxt.getText();
-        SimpleDateFormat formatter= new SimpleDateFormat("dd/MM/yyy 'às' HH:mm:ss z");
+    private void SimulatorConfirmBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SimulatorConfirmBtActionPerformed
+        Car car = SimulatorCarTxt.getItemAt(SimulatorCarTxt.getSelectedIndex());
+        User user = SimulatorClientTxt.getItemAt(SimulatorClientTxt.getSelectedIndex());
+        int speed = Integer.parseInt(SimulatorSpeedTxt.getText());
+        String status = SimulatorTypeTxt.getText();
+        String coordinates = SimulatorLocationTxt.getText();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyy 'às' HH:mm:ss z");
         Date timestamp = new Date();
         //minar o proximo bloco com a informação prestada
-
         CarInfo carInfo = new CarInfo(car, user, formatter.format(timestamp), status, coordinates, speed);
         carRegistry.addCarInfo(carInfo);
         carRegistry.save();
-    }//GEN-LAST:event_UpdatesConfirmBtActionPerformed
+    }//GEN-LAST:event_SimulatorConfirmBtActionPerformed
 
     private void CarsListTxt2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CarsListTxt2MouseClicked
         // TODO add your handling code here:
@@ -850,7 +854,6 @@ public class CarsOnBlocksUi extends javax.swing.JFrame {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel AvailableCarsPanel;
-    private javax.swing.JList<CarInfo> CarInfoTxt1;
     private javax.swing.JList<CarInfo> CarInfoTxt2;
     private javax.swing.JPanel CarsDescription1;
     private javax.swing.JPanel CarsDescription2;
@@ -867,29 +870,30 @@ public class CarsOnBlocksUi extends javax.swing.JFrame {
     private javax.swing.JPanel ClientsPanel;
     private javax.swing.JPanel InfoPanel;
     private javax.swing.JTabbedPane MainPane;
+    private javax.swing.JList<CarInfo> ManageCarInfoTxt;
     private javax.swing.JList<Car> ManageCarsListTxt;
     private javax.swing.JList<User> ManageClientsListTxt;
-    private javax.swing.JButton RegisterCarBt1;
-    private javax.swing.JTextField RegisterCarManu1;
-    private javax.swing.JTextField RegisterCarModel1;
+    private javax.swing.JButton RegisterCarBt;
+    private javax.swing.JTextField RegisterCarManufacturer;
+    private javax.swing.JTextField RegisterCarModel;
     private javax.swing.JPanel RegisterCarPanel;
-    private javax.swing.JButton RegisterClientBt1;
     private javax.swing.JPanel RegisterPanel;
     private javax.swing.JComboBox<String> RegisterUserAccess;
+    private javax.swing.JButton RegisterUserBt;
     private javax.swing.JPanel RegisterUserPanel;
     private javax.swing.JPasswordField RegisterUserPass1;
     private javax.swing.JPasswordField RegisterUserPass2;
     private javax.swing.JTextField RegisterUsername;
+    private javax.swing.JComboBox<Car> SimulatorCarTxt;
+    private javax.swing.JComboBox<User> SimulatorClientTxt;
+    private javax.swing.JButton SimulatorConfirmBt;
+    private javax.swing.JTextField SimulatorLocationTxt;
     private javax.swing.JPanel SimulatorPanel;
+    private javax.swing.JTextField SimulatorSpeedTxt;
+    private javax.swing.JTextField SimulatorTypeTxt;
     private javax.swing.JTabbedPane TabManagement;
     private javax.swing.JTabbedPane TabUsers;
-    private javax.swing.JComboBox<Car> UpdatesCarTxt1;
-    private javax.swing.JComboBox<User> UpdatesClientTxt;
-    private javax.swing.JButton UpdatesConfirmBt;
-    private javax.swing.JTextField UpdatesLocationTxt1;
     private javax.swing.JPanel UpdatesPanel;
-    private javax.swing.JTextField UpdatesSpeedTxt1;
-    private javax.swing.JTextField UpdatesTypeTxt1;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;

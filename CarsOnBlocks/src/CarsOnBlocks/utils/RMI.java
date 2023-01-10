@@ -12,7 +12,7 @@
 //::                                                               (c)2018   ::
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //////////////////////////////////////////////////////////////////////////////
-package myUtils;
+package CarsOnBlocks.utils;
 
 import java.net.InetAddress;
 import java.net.MalformedURLException;

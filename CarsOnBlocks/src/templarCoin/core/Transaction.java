@@ -22,8 +22,8 @@ import java.security.PublicKey;
 import java.util.Base64;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import myUtils.SecurityUtils;
-import myUtils.Serializer;
+import CarsOnBlocks.utils.SecurityUtils;
+import CarsOnBlocks.utils.Serializer;
 
 
 /**

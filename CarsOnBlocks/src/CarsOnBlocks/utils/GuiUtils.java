@@ -15,7 +15,7 @@
 ///****                                                                    ****/
 ///****************************************************************************/
 ///****************************************************************************/
-package myUtils;
+package CarsOnBlocks.utils;
 
 import java.awt.Color;
 import java.text.SimpleDateFormat;

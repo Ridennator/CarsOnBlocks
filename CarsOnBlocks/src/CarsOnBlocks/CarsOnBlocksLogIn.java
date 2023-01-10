@@ -16,7 +16,7 @@ import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import myUtils.RMI;
+import CarsOnBlocks.utils.RMI;
 import templarCoin.core.User;
 
 
@@ -33,9 +33,13 @@ public class CarsOnBlocksLogIn extends javax.swing.JFrame {
      */
     
     // Construtor que inicializa as interfaces e a classe 'base de dados' do sistema, também como o seu carregamento.
-    public CarsOnBlocksLogIn() {
+    public CarsOnBlocksLogIn() throws Exception {
         initComponents();
-
+        try{
+        User admin = User.register("Admin", "Admin", "Admin");
+        } catch (Exception ex) {
+            Logger.getLogger(CarsOnBlocksUi.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -234,7 +238,11 @@ public class CarsOnBlocksLogIn extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CarsOnBlocksLogIn().setVisible(true);
+                try {
+                    new CarsOnBlocksLogIn().setVisible(true);
+                } catch (Exception ex) {
+                    Logger.getLogger(CarsOnBlocksLogIn.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

@@ -5,6 +5,7 @@
  */
 package CarsOnBlocks;
 
+import blockChain.chain.Block;
 import blockChain.chain.BlockChain;
 import java.io.File;
 import java.io.FileInputStream;
@@ -28,7 +29,6 @@ public class CarRegistry implements Serializable{
     public String PATH = "data/";
     
     public ArrayList<Car> carRegistry;
-    // Mudar este dado para Blockchain
     public BlockChain carInfoRegistry;
     public ArrayList<User> userRegistry;
     
@@ -44,8 +44,8 @@ public class CarRegistry implements Serializable{
         //addCarInfo(new CarInfo(carRegistry.get(0), clientRegistry.get(0), "28/10/2022 16:34:16", "Reserved", "Latitude: 39.578983 / N 39° 34' 44.341'' Longitude: -8.382781 / W 8° 22' 58.011''", 62));   
     }
     
-    public void addClient(User client){
-        userRegistry.add(client);
+    public void addUser(User user){
+        userRegistry.add(user);
     }
     
     public void addCar(Car car){
@@ -70,31 +70,40 @@ public class CarRegistry implements Serializable{
         return carList;
     }
     
-    
-    // Temporarily retired
-    /*
     public List<CarInfo> getCarInfoList(Car car){
         List<CarInfo> carInfoList = new ArrayList<>();
+        
+        for (Block chain : carInfoRegistry.getChain()) {
+            System.out.println("Chain data: " + chain.getData());
+        }
+        /*
         for (Block chain : carInfoRegistry.getChain()) {
             if (chain.getCarInfo().getCar().getId() == car.getId())
                 carInfoList.add(chain.getCarInfo());
         }
+        */
         return carInfoList;
     }
-    */
     
-    // Temporarily retired
-    /*
+
     public List<CarInfo> getCarInfoList(User client){
         List<CarInfo> carInfoList = new ArrayList<>();
+        
+        for (Block chain : carInfoRegistry.getChain()) {
+            System.out.println("Chain data: " + chain.getData());
+        }
+        
+        /*
         for (Block chain : carInfoRegistry.getChain()) {
             System.out.println(chain);
             if (chain.getCarInfo().getUser().getPubKey().equals(client.getPubKey()))
                 carInfoList.add(chain.getCarInfo());
         }
+        */
+        
         return carInfoList;
     }
-    */
+
     
     public List<User> getClientsList(){
         List<User> clientList = new ArrayList<>();
