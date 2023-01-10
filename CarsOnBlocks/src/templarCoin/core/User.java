@@ -183,7 +183,7 @@ public class User implements Serializable{
             }
 
         } catch (Exception e) {
-            throw new Exception("user name not registred :" + e.getMessage());
+            throw new Exception("Username not registered :" + e.getMessage());
         }
     }
 

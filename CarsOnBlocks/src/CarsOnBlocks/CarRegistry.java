@@ -52,9 +52,9 @@ public class CarRegistry implements Serializable{
         carRegistry.add(car);
     }
     
-    public void addCarInfo(CarInfo carInfo){
+    public void addCarInfo(CarInfo carInfo, int difficulty){
         try {
-            carInfoRegistry.add(carInfo.toString(), 4);
+            carInfoRegistry.add(carInfo.toString(), difficulty);
         } catch (Exception ex) {
             Logger.getLogger(CarRegistry.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -75,18 +75,22 @@ public class CarRegistry implements Serializable{
         // Itera pelos carros
         for (Car car : carRegistry){
             boolean carFound = false;
+            System.out.println("Checking car: " + car.toString());
             // Itera pela blockchain
-            for (Block chain : carInfoRegistry.getChain()){
+            for (int i=carInfoRegistry.getChain().size()-1; i>=0; i--){
+                System.out.println("Comparing to: " + carInfoRegistry.get(i).getData());
                 // Verifica se o update mais recente do carro na blockchain tem o user como dono, se não tiver, o carro não é dele; próximo carro.
-                if (chain.getData().contains(car.toString())){
+                if (carInfoRegistry.get(i).getData().contains(car.toString())){
                     carFound = true;
-                    if (chain.getData().contains(user.toString())){
+                    System.out.println("Found first car register in blockchain: " + carInfoRegistry.get(i).getData());
+                    if (carInfoRegistry.get(i).getData().contains(user.getName())){
+                        System.out.println("This car belongs to the user " + user.getName());
                         carList.add(car);
                         break;
                     }
                 }
+                if (carFound) break;
             }
-            if (carFound) break;
         }
         return carList;
     }
@@ -96,12 +100,15 @@ public class CarRegistry implements Serializable{
         for (Car car : carRegistry){
             System.out.println("Checking car: " + car.toString());
             boolean isAvailable = true;
-            for (Block chain : carInfoRegistry.getChain()){
-                System.out.println("Comparing to: " + chain.getData());
-                if (chain.getData().contains(car.toString()))
-                    if (chain.getData().contains("Reserved")){
+            for (int i=carInfoRegistry.getChain().size()-1; i>=0; i--){
+                System.out.println("Comparing to: " + carInfoRegistry.get(i).getData());
+                if (carInfoRegistry.get(i).getData().contains(car.toString()))
+                    if (carInfoRegistry.get(i).getData().contains("Reserved")){
                         System.out.println("Car is Reserved! Discarding!");
                         isAvailable = false;
+                        break;
+                    } else {
+                        System.out.println("Car is available!");
                         break;
                     }
             }
@@ -116,9 +123,9 @@ public class CarRegistry implements Serializable{
     public List<String> getCarInfoList(Car car){
         List<String> carInfoList = new ArrayList<>();
         
-        for (Block chain : carInfoRegistry.getChain()) {
-            if (chain.getData().contains(car.toString()))
-                carInfoList.add(chain.getData());
+        for (int i=carInfoRegistry.getChain().size()-1; i>=0; i--) {
+            if (carInfoRegistry.get(i).getData().contains(car.toString()))
+                carInfoList.add(carInfoRegistry.get(i).getData());
         }
         
         return carInfoList;
@@ -128,9 +135,9 @@ public class CarRegistry implements Serializable{
     public List<String> getCarInfoList(User user){
         List<String> carInfoList = new ArrayList<>();
         
-        for (Block chain : carInfoRegistry.getChain()) {
-            if (chain.getData().contains(user.toString())){
-                carInfoList.add(chain.getData());
+        for (int i=carInfoRegistry.getChain().size()-1; i>=0; i--) {
+            if (carInfoRegistry.get(i).getData().contains(user.toString())){
+                carInfoList.add(carInfoRegistry.get(i).getData());
             }         
         }
         

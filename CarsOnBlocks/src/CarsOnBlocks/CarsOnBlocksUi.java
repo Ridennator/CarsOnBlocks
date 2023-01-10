@@ -66,8 +66,6 @@ public class CarsOnBlocksUi extends javax.swing.JFrame implements ListenerRemote
             Logger.getLogger(Autentication.class.getName()).log(Level.SEVERE, null, ex);
         }
         carRegistry.save();
-        
-        SimulatorMineBt.setEnabled(false);
     }
     
         public static void main(String args[]) {
@@ -220,8 +218,6 @@ public class CarsOnBlocksUi extends javax.swing.JFrame implements ListenerRemote
         lstBlockchain = new javax.swing.JList<>();
         jScrollPane4 = new javax.swing.JScrollPane();
         txtBlock = new javax.swing.JTextArea();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtLeger = new javax.swing.JTextArea();
 
         jRadioButton1.setText("jRadioButton1");
 
@@ -605,6 +601,7 @@ public class CarsOnBlocksUi extends javax.swing.JFrame implements ListenerRemote
         });
 
         SimulatorMineBt.setText("Start");
+        SimulatorMineBt.setEnabled(false);
         SimulatorMineBt.setMaximumSize(new java.awt.Dimension(103, 103));
         SimulatorMineBt.setMinimumSize(new java.awt.Dimension(100, 100));
         SimulatorMineBt.addActionListener(new java.awt.event.ActionListener() {
@@ -1047,13 +1044,6 @@ public class CarsOnBlocksUi extends javax.swing.JFrame implements ListenerRemote
 
         tpBlockchain.addTab("BlockChainExplorer", pnBlockChain);
 
-        txtLeger.setColumns(20);
-        txtLeger.setFont(new java.awt.Font("Courier New", 0, 14)); // NOI18N
-        txtLeger.setRows(5);
-        jScrollPane1.setViewportView(txtLeger);
-
-        tpBlockchain.addTab("Ledger", jScrollPane1);
-
         getContentPane().add(tpBlockchain, java.awt.BorderLayout.CENTER);
 
         pack();
@@ -1171,7 +1161,7 @@ public class CarsOnBlocksUi extends javax.swing.JFrame implements ListenerRemote
         User user = SimulatorClientTxt.getItemAt(SimulatorClientTxt.getSelectedIndex());
         int speed = Integer.parseInt(SimulatorSpeedTxt.getText());
         String status;
-        if (user.getName().compareTo("No Client")==0)
+        if (user.getName().compareTo("System")==0)
             status = "Available";
         else
             status = "Reserved";
@@ -1196,6 +1186,7 @@ public class CarsOnBlocksUi extends javax.swing.JFrame implements ListenerRemote
                                 HashTxt.setText("");
                                 SimulatorMineBt.setText("Stop");
                             });
+                            carRegistry.addCarInfo(carInfo, (int) ZerosTxt.getValue());
                             MessageTxt.setText(carInfo.toString());
                             int nonce = serverMiner.mine(carInfo.toString(), (int) ZerosTxt.getValue());
                             SwingUtilities.invokeLater(() -> {
@@ -1226,6 +1217,7 @@ public class CarsOnBlocksUi extends javax.swing.JFrame implements ListenerRemote
                                 HashTxt.setText("");
                                 SimulatorMineBt.setText("Stop");
                             });
+                            carRegistry.addCarInfo(carInfo, (int) ZerosTxt.getValue());
                             MessageTxt.setText(carInfo.toString());
                             int nonce = clientMiner.mine(carInfo.toString(), (int) ZerosTxt.getValue());
                             SwingUtilities.invokeLater(() -> {
@@ -1242,7 +1234,6 @@ public class CarsOnBlocksUi extends javax.swing.JFrame implements ListenerRemote
                 onException("Mining", ex);
             }
         }
-        carRegistry.addCarInfo(carInfo);
         carRegistry.save();
     }//GEN-LAST:event_SimulatorMineBtActionPerformed
 
@@ -1264,16 +1255,14 @@ public class CarsOnBlocksUi extends javax.swing.JFrame implements ListenerRemote
             model.addAll(carRegistry.getAvailableCarsList());
             AvailableCarsTxt.setModel(model);
         }
-        
-        if (MainPane.getSelectedComponent() == ReservedCarsPanel) {
+    }//GEN-LAST:event_MainPaneStateChanged
+
+    private void TabUsersStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_TabUsersStateChanged
+        if (TabUsers.getSelectedComponent() == ReservedCarsPanel) {
             DefaultListModel model = new DefaultListModel();
             model.addAll(carRegistry.getCarsList(loggedUser));
             ReservedCarsTxt.setModel(model);
         }
-    }//GEN-LAST:event_MainPaneStateChanged
-
-    private void TabUsersStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_TabUsersStateChanged
-        // Don't do anything here, only the RentedCars are left and we'll do it in the constructor method as pre-loading.
     }//GEN-LAST:event_TabUsersStateChanged
 
     private void StartServerBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartServerBtActionPerformed
@@ -1285,7 +1274,7 @@ public class CarsOnBlocksUi extends javax.swing.JFrame implements ListenerRemote
             StartServerAddressTxt.setText(serverMiner.getAdress());
             AddNodesPanel.setEnabled(true);
             this.setTitle(serverMiner.getAdress());
-            SimulatorMineBt.setEnabled(true);
+            //SimulatorMineBt.setEnabled(true);
         } catch (Exception ex) {
             onException("Start Server", ex);
         }
@@ -1444,7 +1433,6 @@ public class CarsOnBlocksUi extends javax.swing.JFrame implements ListenerRemote
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane12;
     private javax.swing.JScrollPane jScrollPane13;
@@ -1462,7 +1450,6 @@ public class CarsOnBlocksUi extends javax.swing.JFrame implements ListenerRemote
     private javax.swing.JTabbedPane tpBlockchain;
     private javax.swing.JTextArea txtBlock;
     private javax.swing.JTextArea txtInfo;
-    private javax.swing.JTextArea txtLeger;
     private javax.swing.JTextArea txtPrivateKey;
     private javax.swing.JTextArea txtPublicKey;
     private javax.swing.JTextArea txtSecretKey;
@@ -1576,7 +1563,10 @@ public class CarsOnBlocksUi extends javax.swing.JFrame implements ListenerRemote
     private void updateBlockchain() {
         try {
             DefaultListModel model = new DefaultListModel();
-            model.addAll(serverMiner.getBlockChain().getChain());
+            if (serverMiner != null)
+                model.addAll(serverMiner.getBlockChain().getChain());
+            else if (clientMiner != null)
+                model.addAll(clientMiner.getBlockChain().getChain());
             lstBlockchain.setModel(model);
         } catch (RemoteException ex) {
             onException("Update List of Blocks", ex);
