@@ -6,9 +6,13 @@
 package CarsOnBlocks;
 
 
+import CarsOnBlocks.utils.GuiUtils;
+import CarsOnBlocks.utils.RMI;
+import blockChain.p2p.gui.Remote_MinerBlockChain;
+import blockChain.p2p.miner.InterfaceRemoteMiner;
+import java.awt.Color;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import templarCoin.core.User;
 
 
 /**
@@ -16,9 +20,8 @@ import templarCoin.core.User;
  * @author Rodrigo Maia & Rúben Poupado
  */
 public class CarsOnBlocksLogIn extends javax.swing.JFrame {
-    
-    // Variável que servirá como a "base de dados" do sistema.
-    public CarRegistry carRegistry;
+
+    InterfaceRemoteMiner miner;
     
     // Construtor que inicializa as interfaces e a classe 'base de dados' do sistema, também como o seu carregamento.
     public CarsOnBlocksLogIn() throws Exception {
@@ -52,8 +55,6 @@ public class CarsOnBlocksLogIn extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         ServerAddresstxt = new javax.swing.JTextField();
         UpdatesLoginbt = new javax.swing.JButton();
-        jLabel16 = new javax.swing.JLabel();
-        ServerPorttxt = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
 
         jTextArea1.setColumns(20);
@@ -88,7 +89,7 @@ public class CarsOnBlocksLogIn extends javax.swing.JFrame {
 
         jLabel15.setText("Server Address");
 
-        ServerAddresstxt.setText("192.168.1.92");
+        ServerAddresstxt.setText("//192.168.1.92:22333/miner");
         ServerAddresstxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ServerAddresstxtActionPerformed(evt);
@@ -102,10 +103,6 @@ public class CarsOnBlocksLogIn extends javax.swing.JFrame {
             }
         });
 
-        jLabel16.setText("Port");
-
-        ServerPorttxt.setText("22333");
-
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel3.setText("Cars on Blocks");
 
@@ -114,29 +111,24 @@ public class CarsOnBlocksLogIn extends javax.swing.JFrame {
         LoginScreenLayout.setHorizontalGroup(
             LoginScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(LoginScreenLayout.createSequentialGroup()
-                .addComponent(jLabel15)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel16)
-                .addGap(112, 112, 112))
+                .addGroup(LoginScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel15)
+                    .addGroup(LoginScreenLayout.createSequentialGroup()
+                        .addGap(146, 146, 146)
+                        .addComponent(jLabel3)))
+                .addGap(112, 146, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LoginScreenLayout.createSequentialGroup()
-                .addGroup(LoginScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(LoginPasstxt, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(LoginUsernametxt, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(UpdatesLoginbt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, LoginScreenLayout.createSequentialGroup()
+                .addGroup(LoginScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(LoginPasstxt)
+                    .addComponent(LoginUsernametxt)
+                    .addComponent(UpdatesLoginbt, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(LoginScreenLayout.createSequentialGroup()
                         .addGroup(LoginScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, LoginScreenLayout.createSequentialGroup()
-                        .addComponent(ServerAddresstxt, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ServerPorttxt, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)))
+                    .addComponent(ServerAddresstxt))
                 .addContainerGap())
-            .addGroup(LoginScreenLayout.createSequentialGroup()
-                .addGap(146, 146, 146)
-                .addComponent(jLabel3)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         LoginScreenLayout.setVerticalGroup(
             LoginScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -152,13 +144,9 @@ public class CarsOnBlocksLogIn extends javax.swing.JFrame {
                 .addGap(3, 3, 3)
                 .addComponent(LoginPasstxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(LoginScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel15)
-                    .addComponent(jLabel16))
+                .addComponent(jLabel15)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(LoginScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ServerAddresstxt, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ServerPorttxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(ServerAddresstxt, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(UpdatesLoginbt)
                 .addContainerGap(119, Short.MAX_VALUE))
@@ -192,8 +180,12 @@ public class CarsOnBlocksLogIn extends javax.swing.JFrame {
         try {
             // Carrega os dados do utilizador que possui o nome e a palavra-passe dada
             User user = User.load(LoginUsernametxt.getText(), new String(LoginPasstxt.getPassword()));
-            new CarsOnBlocksUi(user).setVisible(true);
-            
+            try {
+                miner = (InterfaceRemoteMiner) RMI.getRemote(ServerAddresstxt.getText());
+                new CarsOnBlocksUi(user, miner).setVisible(true);
+            } catch (Exception ex) {
+                System.out.println("Erro a conectar ao servidor.");
+            }
             // Fecha esta GUI
             this.dispose();    
         } catch (Exception ex) {
@@ -251,12 +243,10 @@ public class CarsOnBlocksLogIn extends javax.swing.JFrame {
     private javax.swing.JPanel LoginScreen;
     private javax.swing.JTextField LoginUsernametxt;
     private javax.swing.JTextField ServerAddresstxt;
-    private javax.swing.JTextField ServerPorttxt;
     private javax.swing.JButton UpdatesLoginbt;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;

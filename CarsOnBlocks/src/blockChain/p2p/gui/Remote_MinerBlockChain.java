@@ -15,6 +15,8 @@
 //////////////////////////////////////////////////////////////////////////////
 package blockChain.p2p.gui;
 
+import CarsOnBlocks.CarRegistry;
+import CarsOnBlocks.CarsOnBlocksLogIn;
 import blockChain.chain.Block;
 import blockChain.miner.Miner;
 import java.awt.Color;
@@ -28,6 +30,7 @@ import java.util.logging.Logger;
 import blockChain.p2p.miner.InterfaceRemoteMiner;
 import blockChain.p2p.miner.ListenerRemoteMiner;
 import javax.swing.DefaultListModel;
+import CarsOnBlocks.User;
 
 /**
  *
@@ -36,6 +39,7 @@ import javax.swing.DefaultListModel;
 public class Remote_MinerBlockChain extends javax.swing.JFrame implements ListenerRemoteMiner {
 
     ObjectRemoteMiner miner = null;
+    CarRegistry carRegistry;
 
     /**
      * Creates new form Test03_GUI_miner
@@ -43,6 +47,23 @@ public class Remote_MinerBlockChain extends javax.swing.JFrame implements Listen
     public Remote_MinerBlockChain() {
         initComponents();
         setLocationRelativeTo(null);
+        
+        carRegistry = new CarRegistry();
+        carRegistry.load();
+        try {
+            User u = User.load("System");
+            return;
+        } catch (Exception e) {
+        }
+        try {
+            User.register("System", "System", "Admin");
+            carRegistry.addUser(User.load("System"));
+
+        } catch (Exception ex) {
+            Logger.getLogger(CarsOnBlocksLogIn.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        carRegistry.save();
+        
     }
 
     /**

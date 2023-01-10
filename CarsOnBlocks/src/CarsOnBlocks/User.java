@@ -18,7 +18,7 @@
 //::                                                               (c)2022   ::
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //////////////////////////////////////////////////////////////////////////////
-package templarCoin.core;
+package CarsOnBlocks;
 
 import blockChain.p2p.miner.InterfaceRemoteMiner;
 import java.io.File;

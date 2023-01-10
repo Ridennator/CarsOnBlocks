@@ -9,7 +9,6 @@ package CarsOnBlocks;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import templarCoin.core.User;
 
 /**
  *
