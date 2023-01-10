@@ -4,7 +4,15 @@
  */
 package CarsOnBlocks;
 
+import CarsOnBlocks.utils.GuiUtils;
+import CarsOnBlocks.utils.RMI;
 import blockChain.chain.Block;
+import blockChain.miner.Miner;
+import blockChain.p2p.miner.InterfaceRemoteMiner;
+import blockChain.p2p.miner.ListenerRemoteMiner;
+import blockChain.p2p.miner.ObjectRemoteMiner;
+import java.awt.Color;
+import java.rmi.RemoteException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Base64;
@@ -15,6 +23,7 @@ import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import templarCoin.core.User;
 import templarCoin.gui.Autentication;
 
@@ -22,22 +31,55 @@ import templarCoin.gui.Autentication;
  *
  * @author Rodrigo Maia & Rúben Poupado
  */
-public class CarsOnBlocksUi extends javax.swing.JFrame {
+public class CarsOnBlocksUi extends javax.swing.JFrame implements ListenerRemoteMiner{
 
     // Variável que servirá como a "base de dados" do sistema.
     public CarRegistry carRegistry;
-    public User loggedUser;
+    public static User loggedUser;
+    ObjectRemoteMiner serverMiner = null;
+    InterfaceRemoteMiner clientMiner = null;
     
     public CarsOnBlocksUi(User user) {
         loggedUser = user;
         initComponents();
+        setLocationRelativeTo(null);
+        welcomeLabel.setText("Welcome " + user.getName());
         carRegistry = new CarRegistry();
+
         carRegistry.load();
+        
         if (user.getAccess().compareTo("Client")==0)
-            TabManagement.setVisible(false);
+            MainPane.remove(TabManagement);
+        
+        displayUser();
+        
+        try {
+            User u = User.load("System");
+            return;
+        } catch (Exception e) {
+        }
+        try {
+            User.register("System", "System", "Admin");
+            carRegistry.addUser(User.load("System"));
+
+        } catch (Exception ex) {
+            Logger.getLogger(Autentication.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        carRegistry.save();
+        
+        SimulatorMineBt.setEnabled(false);
     }
     
         public static void main(String args[]) {
+            java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    new CarsOnBlocksUi(loggedUser).setVisible(true);
+                } catch (Exception ex) {
+                    Logger.getLogger(CarsOnBlocksLogIn.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -77,6 +119,8 @@ public class CarsOnBlocksUi extends javax.swing.JFrame {
         jRadioButton1 = new javax.swing.JRadioButton();
         MainPane = new javax.swing.JTabbedPane();
         UpdatesPanel = new javax.swing.JPanel();
+        HomeLogoutBt = new javax.swing.JButton();
+        welcomeLabel = new javax.swing.JLabel();
         InfoPanel = new javax.swing.JPanel();
         TabUsers = new javax.swing.JTabbedPane();
         jScrollPane5 = new javax.swing.JScrollPane();
@@ -87,32 +131,63 @@ public class CarsOnBlocksUi extends javax.swing.JFrame {
         txtPrivateKey = new javax.swing.JTextArea();
         jScrollPane8 = new javax.swing.JScrollPane();
         txtSecretKey = new javax.swing.JTextArea();
-        CarsPanel2 = new javax.swing.JPanel();
+        ReservedCarsPanel = new javax.swing.JPanel();
         CarsList2 = new javax.swing.JScrollPane();
-        CarsListTxt2 = new javax.swing.JList<>();
+        ReservedCarsTxt = new javax.swing.JList<>();
         CarsDescription2 = new javax.swing.JPanel();
-        jScrollPane10 = new javax.swing.JScrollPane();
-        CarInfoTxt2 = new javax.swing.JList<>();
+        ReservedCarInfoScrl = new javax.swing.JScrollPane();
+        ReservedCarInfoTxt = new javax.swing.JList<>();
         AvailableCarsPanel = new javax.swing.JPanel();
         CarsList5 = new javax.swing.JScrollPane();
-        CarsListTxt5 = new javax.swing.JList<>();
+        AvailableCarsTxt = new javax.swing.JList<>();
         TabManagement = new javax.swing.JTabbedPane();
+        ServerPanel = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        ConnectServerBt = new javax.swing.JButton();
+        ConnectServerAddressTxt = new javax.swing.JTextField();
+        jLabel24 = new javax.swing.JLabel();
+        ConnectServerPortTxt = new javax.swing.JTextField();
+        jLabel23 = new javax.swing.JLabel();
+        jScrollPane11 = new javax.swing.JScrollPane();
+        ServerLogTxt = new javax.swing.JTextPane();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        StartServerPanel = new javax.swing.JPanel();
+        StartServerBt = new javax.swing.JButton();
+        StartServerAddressTxt = new javax.swing.JTextField();
+        jLabel25 = new javax.swing.JLabel();
+        StartServerPortTxt = new javax.swing.JTextField();
+        jLabel26 = new javax.swing.JLabel();
+        AddNodesPanel = new javax.swing.JPanel();
+        AddServerNodeBt = new javax.swing.JButton();
+        NodeAddressTxt = new javax.swing.JTextField();
+        jLabel27 = new javax.swing.JLabel();
+        jScrollPane12 = new javax.swing.JScrollPane();
+        NetworkTxt = new javax.swing.JTextArea();
         SimulatorPanel = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
         SimulatorSpeedTxt = new javax.swing.JTextField();
         SimulatorLocationTxt = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
-        SimulatorTypeTxt = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
         SimulatorCarTxt = new javax.swing.JComboBox<>();
         SimulatorClientTxt = new javax.swing.JComboBox<>();
-        SimulatorConfirmBt = new javax.swing.JButton();
-        ClientsPanel = new javax.swing.JPanel();
+        SimulatorMineBt = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        ZerosTxt = new javax.swing.JSpinner();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        NonceTxt = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        HashTxt = new javax.swing.JTextField();
+        jScrollPane13 = new javax.swing.JScrollPane();
+        MessageTxt = new javax.swing.JTextArea();
+        jLabel5 = new javax.swing.JLabel();
+        UsersPanel = new javax.swing.JPanel();
         ClientsList1 = new javax.swing.JScrollPane();
-        ManageClientsListTxt = new javax.swing.JList<>();
+        ManageUsersListTxt = new javax.swing.JList<>();
         ClientTransactions = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         ClientCarInfoList = new javax.swing.JList<>();
@@ -159,18 +234,42 @@ public class CarsOnBlocksUi extends javax.swing.JFrame {
             }
         });
 
+        HomeLogoutBt.setBackground(new java.awt.Color(102, 0, 0));
+        HomeLogoutBt.setText("Logout");
+        HomeLogoutBt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                HomeLogoutBtActionPerformed(evt);
+            }
+        });
+
+        welcomeLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        welcomeLabel.setText("Welcome XXXXX");
+
         javax.swing.GroupLayout UpdatesPanelLayout = new javax.swing.GroupLayout(UpdatesPanel);
         UpdatesPanel.setLayout(UpdatesPanelLayout);
         UpdatesPanelLayout.setHorizontalGroup(
             UpdatesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 846, Short.MAX_VALUE)
+            .addGroup(UpdatesPanelLayout.createSequentialGroup()
+                .addContainerGap(455, Short.MAX_VALUE)
+                .addGroup(UpdatesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, UpdatesPanelLayout.createSequentialGroup()
+                        .addComponent(HomeLogoutBt)
+                        .addGap(481, 481, 481))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, UpdatesPanelLayout.createSequentialGroup()
+                        .addComponent(welcomeLabel)
+                        .addGap(452, 452, 452))))
         );
         UpdatesPanelLayout.setVerticalGroup(
             UpdatesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 494, Short.MAX_VALUE)
+            .addGroup(UpdatesPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(HomeLogoutBt)
+                .addGap(18, 18, 18)
+                .addComponent(welcomeLabel)
+                .addContainerGap(530, Short.MAX_VALUE))
         );
 
-        MainPane.addTab("Updates", UpdatesPanel);
+        MainPane.addTab("Home", UpdatesPanel);
 
         InfoPanel.setLayout(new java.awt.BorderLayout());
 
@@ -216,62 +315,62 @@ public class CarsOnBlocksUi extends javax.swing.JFrame {
 
         TabUsers.addTab("Secret Key", jScrollPane8);
 
-        CarsListTxt2.addMouseListener(new java.awt.event.MouseAdapter() {
+        ReservedCarsTxt.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                CarsListTxt2MouseClicked(evt);
+                ReservedCarsTxtMouseClicked(evt);
             }
         });
-        CarsList2.setViewportView(CarsListTxt2);
+        CarsList2.setViewportView(ReservedCarsTxt);
 
         CarsDescription2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jScrollPane10.setViewportView(CarInfoTxt2);
+        ReservedCarInfoScrl.setViewportView(ReservedCarInfoTxt);
 
         javax.swing.GroupLayout CarsDescription2Layout = new javax.swing.GroupLayout(CarsDescription2);
         CarsDescription2.setLayout(CarsDescription2Layout);
         CarsDescription2Layout.setHorizontalGroup(
             CarsDescription2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 696, Short.MAX_VALUE)
+            .addComponent(ReservedCarInfoScrl, javax.swing.GroupLayout.DEFAULT_SIZE, 891, Short.MAX_VALUE)
         );
         CarsDescription2Layout.setVerticalGroup(
             CarsDescription2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane10)
+            .addComponent(ReservedCarInfoScrl)
         );
 
-        javax.swing.GroupLayout CarsPanel2Layout = new javax.swing.GroupLayout(CarsPanel2);
-        CarsPanel2.setLayout(CarsPanel2Layout);
-        CarsPanel2Layout.setHorizontalGroup(
-            CarsPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(CarsPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout ReservedCarsPanelLayout = new javax.swing.GroupLayout(ReservedCarsPanel);
+        ReservedCarsPanel.setLayout(ReservedCarsPanelLayout);
+        ReservedCarsPanelLayout.setHorizontalGroup(
+            ReservedCarsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ReservedCarsPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(CarsList2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(CarsDescription2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        CarsPanel2Layout.setVerticalGroup(
-            CarsPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(CarsPanel2Layout.createSequentialGroup()
+        ReservedCarsPanelLayout.setVerticalGroup(
+            ReservedCarsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ReservedCarsPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(CarsPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(ReservedCarsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(CarsDescription2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(CarsPanel2Layout.createSequentialGroup()
+                    .addGroup(ReservedCarsPanelLayout.createSequentialGroup()
                         .addComponent(CarsList2, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 238, Short.MAX_VALUE))))
+                        .addGap(0, 346, Short.MAX_VALUE))))
         );
 
-        TabUsers.addTab("Rented Cars", CarsPanel2);
+        TabUsers.addTab("My Rented Cars", ReservedCarsPanel);
 
         InfoPanel.add(TabUsers, java.awt.BorderLayout.CENTER);
 
         MainPane.addTab("User", InfoPanel);
 
-        CarsListTxt5.addMouseListener(new java.awt.event.MouseAdapter() {
+        AvailableCarsTxt.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                CarsListTxt5MouseClicked(evt);
+                AvailableCarsTxtMouseClicked(evt);
             }
         });
-        CarsList5.setViewportView(CarsListTxt5);
+        CarsList5.setViewportView(AvailableCarsTxt);
 
         javax.swing.GroupLayout AvailableCarsPanelLayout = new javax.swing.GroupLayout(AvailableCarsPanel);
         AvailableCarsPanel.setLayout(AvailableCarsPanelLayout);
@@ -279,14 +378,14 @@ public class CarsOnBlocksUi extends javax.swing.JFrame {
             AvailableCarsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(AvailableCarsPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(CarsList5, javax.swing.GroupLayout.DEFAULT_SIZE, 834, Short.MAX_VALUE)
+                .addComponent(CarsList5, javax.swing.GroupLayout.DEFAULT_SIZE, 1029, Short.MAX_VALUE)
                 .addContainerGap())
         );
         AvailableCarsPanelLayout.setVerticalGroup(
             AvailableCarsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AvailableCarsPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(CarsList5, javax.swing.GroupLayout.DEFAULT_SIZE, 482, Short.MAX_VALUE)
+                .addComponent(CarsList5, javax.swing.GroupLayout.DEFAULT_SIZE, 590, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -298,7 +397,198 @@ public class CarsOnBlocksUi extends javax.swing.JFrame {
             }
         });
 
+        ConnectServerBt.setText("Connect to Server");
+        ConnectServerBt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ConnectServerBtActionPerformed(evt);
+            }
+        });
+
+        ConnectServerAddressTxt.setText("192.168.1.92");
+
+        jLabel24.setText("Server Address");
+
+        ConnectServerPortTxt.setText("22333");
+
+        jLabel23.setText("Port");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ConnectServerBt, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ConnectServerAddressTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel24))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel23)
+                            .addComponent(ConnectServerPortTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 82, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel24)
+                    .addComponent(jLabel23))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ConnectServerAddressTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ConnectServerPortTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(ConnectServerBt)
+                .addGap(64, 64, 64))
+        );
+
+        jScrollPane11.setPreferredSize(new java.awt.Dimension(64, 400));
+
+        ServerLogTxt.setBackground(new java.awt.Color(0, 0, 0));
+        ServerLogTxt.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Log", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(255, 255, 255))); // NOI18N
+        ServerLogTxt.setFont(new java.awt.Font("Courier New", 0, 14)); // NOI18N
+        jScrollPane11.setViewportView(ServerLogTxt);
+
+        StartServerBt.setText("Start Server");
+        StartServerBt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                StartServerBtActionPerformed(evt);
+            }
+        });
+
+        StartServerAddressTxt.setEditable(false);
+
+        jLabel25.setText("Server Address");
+
+        StartServerPortTxt.setText("22333");
+
+        jLabel26.setText("Port");
+
+        javax.swing.GroupLayout StartServerPanelLayout = new javax.swing.GroupLayout(StartServerPanel);
+        StartServerPanel.setLayout(StartServerPanelLayout);
+        StartServerPanelLayout.setHorizontalGroup(
+            StartServerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(StartServerPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(StartServerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(StartServerBt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(StartServerPanelLayout.createSequentialGroup()
+                        .addGroup(StartServerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(StartServerAddressTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel25))
+                        .addGap(18, 18, 18)
+                        .addGroup(StartServerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel26)
+                            .addComponent(StartServerPortTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(120, 120, 120))
+        );
+        StartServerPanelLayout.setVerticalGroup(
+            StartServerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, StartServerPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(StartServerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel25)
+                    .addComponent(jLabel26))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(StartServerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(StartServerAddressTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(StartServerPortTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(StartServerBt)
+                .addGap(94, 94, 94))
+        );
+
+        jTabbedPane1.addTab("Start Server", StartServerPanel);
+
+        AddNodesPanel.setEnabled(false);
+
+        AddServerNodeBt.setText("Add Node");
+        AddServerNodeBt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AddServerNodeBtActionPerformed(evt);
+            }
+        });
+
+        NodeAddressTxt.setText("//10.10.209.111:22333/miner");
+
+        jLabel27.setText("Node Address");
+
+        javax.swing.GroupLayout AddNodesPanelLayout = new javax.swing.GroupLayout(AddNodesPanel);
+        AddNodesPanel.setLayout(AddNodesPanelLayout);
+        AddNodesPanelLayout.setHorizontalGroup(
+            AddNodesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(AddNodesPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(AddNodesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(AddServerNodeBt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(AddNodesPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel27)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(NodeAddressTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        AddNodesPanelLayout.setVerticalGroup(
+            AddNodesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AddNodesPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel27)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(NodeAddressTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(AddServerNodeBt)
+                .addContainerGap(8, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Add Nodes", AddNodesPanel);
+
+        NetworkTxt.setColumns(20);
+        NetworkTxt.setFont(new java.awt.Font("Courier New", 1, 12)); // NOI18N
+        NetworkTxt.setRows(5);
+        jScrollPane12.setViewportView(NetworkTxt);
+
+        javax.swing.GroupLayout ServerPanelLayout = new javax.swing.GroupLayout(ServerPanel);
+        ServerPanel.setLayout(ServerPanelLayout);
+        ServerPanelLayout.setHorizontalGroup(
+            ServerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ServerPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(ServerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane12)
+                    .addGroup(ServerPanelLayout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(41, 41, 41)
+                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(366, Short.MAX_VALUE))
+        );
+        ServerPanelLayout.setVerticalGroup(
+            ServerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ServerPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(ServerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(ServerPanelLayout.createSequentialGroup()
+                        .addGap(0, 36, Short.MAX_VALUE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        TabManagement.addTab("Server", ServerPanel);
+
         jPanel2.setBorder(javax.swing.BorderFactory.createCompoundBorder(null, javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0))));
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("Simulate Information");
 
         jLabel12.setText("Car");
 
@@ -306,16 +596,20 @@ public class CarsOnBlocksUi extends javax.swing.JFrame {
 
         jLabel14.setText("Coordinates");
 
-        jLabel15.setText("Status");
-
         jLabel16.setText("Client");
 
-        SimulatorConfirmBt.setText("Confirm Update");
-        SimulatorConfirmBt.setMaximumSize(new java.awt.Dimension(103, 103));
-        SimulatorConfirmBt.setMinimumSize(new java.awt.Dimension(100, 100));
-        SimulatorConfirmBt.addActionListener(new java.awt.event.ActionListener() {
+        SimulatorClientTxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SimulatorConfirmBtActionPerformed(evt);
+                SimulatorClientTxtActionPerformed(evt);
+            }
+        });
+
+        SimulatorMineBt.setText("Start");
+        SimulatorMineBt.setMaximumSize(new java.awt.Dimension(103, 103));
+        SimulatorMineBt.setMinimumSize(new java.awt.Dimension(100, 100));
+        SimulatorMineBt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SimulatorMineBtActionPerformed(evt);
             }
         });
 
@@ -323,52 +617,119 @@ public class CarsOnBlocksUi extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(SimulatorSpeedTxt, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(SimulatorLocationTxt)
-                    .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(SimulatorTypeTxt)
-                    .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
+                    .addComponent(SimulatorSpeedTxt)
+                    .addComponent(SimulatorLocationTxt, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(SimulatorCarTxt, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(SimulatorClientTxt, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(SimulatorConfirmBt, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(SimulatorCarTxt, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(SimulatorClientTxt, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(SimulatorMineBt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
                 .addComponent(jLabel12)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(SimulatorCarTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(17, 17, 17)
-                .addComponent(jLabel13)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(SimulatorSpeedTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel14)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(SimulatorLocationTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel15)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(SimulatorTypeTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addComponent(jLabel16)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(SimulatorClientTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(46, 46, 46)
-                .addComponent(SimulatorConfirmBt, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel13)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(SimulatorSpeedTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(SimulatorLocationTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(111, 111, 111)
+                .addComponent(SimulatorMineBt, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(113, Short.MAX_VALUE))
+        );
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createCompoundBorder(null, javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0))));
+
+        ZerosTxt.setModel(new javax.swing.SpinnerNumberModel(3, 2, 8, 1));
+
+        jLabel1.setText("Zeros");
+
+        jLabel2.setText("Nonce");
+
+        NonceTxt.setEditable(false);
+        NonceTxt.setText("0");
+
+        jLabel3.setText("Hash");
+
+        HashTxt.setEditable(false);
+
+        MessageTxt.setColumns(20);
+        MessageTxt.setRows(5);
+        jScrollPane13.setViewportView(MessageTxt);
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setText("Miner");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(NonceTxt)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ZerosTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1)))
+                    .addComponent(HashTxt, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ZerosTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(NonceTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(HashTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout SimulatorPanelLayout = new javax.swing.GroupLayout(SimulatorPanel);
@@ -378,24 +739,28 @@ public class CarsOnBlocksUi extends javax.swing.JFrame {
             .addGroup(SimulatorPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(609, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(536, Short.MAX_VALUE))
         );
         SimulatorPanelLayout.setVerticalGroup(
             SimulatorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(SimulatorPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(SimulatorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
         TabManagement.addTab("Simulator", SimulatorPanel);
 
-        ManageClientsListTxt.addMouseListener(new java.awt.event.MouseAdapter() {
+        ManageUsersListTxt.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ManageClientsListTxtMouseClicked(evt);
+                ManageUsersListTxtMouseClicked(evt);
             }
         });
-        ClientsList1.setViewportView(ManageClientsListTxt);
+        ClientsList1.setViewportView(ManageUsersListTxt);
 
         ClientTransactions.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -414,28 +779,28 @@ public class CarsOnBlocksUi extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout ClientsPanelLayout = new javax.swing.GroupLayout(ClientsPanel);
-        ClientsPanel.setLayout(ClientsPanelLayout);
-        ClientsPanelLayout.setHorizontalGroup(
-            ClientsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ClientsPanelLayout.createSequentialGroup()
+        javax.swing.GroupLayout UsersPanelLayout = new javax.swing.GroupLayout(UsersPanel);
+        UsersPanel.setLayout(UsersPanelLayout);
+        UsersPanelLayout.setHorizontalGroup(
+            UsersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(UsersPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(ClientsList1, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ClientTransactions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(230, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        ClientsPanelLayout.setVerticalGroup(
-            ClientsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ClientsPanelLayout.createSequentialGroup()
+        UsersPanelLayout.setVerticalGroup(
+            UsersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(UsersPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(ClientsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(UsersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(ClientsList1)
                     .addComponent(ClientTransactions, javax.swing.GroupLayout.PREFERRED_SIZE, 350, Short.MAX_VALUE))
-                .addContainerGap(107, Short.MAX_VALUE))
+                .addContainerGap(215, Short.MAX_VALUE))
         );
 
-        TabManagement.addTab("Clients", ClientsPanel);
+        TabManagement.addTab("Users", UsersPanel);
 
         ManageCarsListTxt.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -469,8 +834,8 @@ public class CarsOnBlocksUi extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(CarsList1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(CarsDescription1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(CarsDescription1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(427, Short.MAX_VALUE))
         );
         CarsPanelLayout.setVerticalGroup(
             CarsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -479,7 +844,7 @@ public class CarsOnBlocksUi extends javax.swing.JFrame {
                 .addGroup(CarsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(CarsDescription1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, Short.MAX_VALUE)
                     .addComponent(CarsList1))
-                .addGap(0, 107, Short.MAX_VALUE))
+                .addGap(0, 215, Short.MAX_VALUE))
         );
 
         TabManagement.addTab("Cars", CarsPanel);
@@ -561,7 +926,7 @@ public class CarsOnBlocksUi extends javax.swing.JFrame {
                     .addComponent(RegisterUserAccess, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addComponent(RegisterUserBt)
-                .addContainerGap(171, Short.MAX_VALUE))
+                .addContainerGap(279, Short.MAX_VALUE))
         );
 
         RegisterCarPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Car"));
@@ -609,9 +974,9 @@ public class CarsOnBlocksUi extends javax.swing.JFrame {
                 .addComponent(RegisterCarModel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel21)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(RegisterCarManufacturer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(97, 97, 97)
+                .addGap(121, 121, 121)
                 .addComponent(RegisterCarBt)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -625,7 +990,7 @@ public class CarsOnBlocksUi extends javax.swing.JFrame {
                 .addComponent(RegisterUserPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(RegisterCarPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(401, Short.MAX_VALUE))
+                .addContainerGap(596, Short.MAX_VALUE))
         );
         RegisterPanelLayout.setVerticalGroup(
             RegisterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -719,20 +1084,24 @@ public class CarsOnBlocksUi extends javax.swing.JFrame {
                 System.out.println("Nenhum carro recolhido para a combobox.");
             }
             SimulatorCarTxt.setModel(carModel);
+            if (carModel.getSize() > 0)
+                SimulatorCarTxt.setSelectedIndex(0);
 
             DefaultComboBoxModel<User> clientModel = new DefaultComboBoxModel();
             try{
-                clientModel.addAll(carRegistry.getClientsList());
+                clientModel.addAll(carRegistry.getUsersList());
             } catch (Exception e){
                 System.out.println("Nenhum cliente recolhido para a combobox.");
             }
             SimulatorClientTxt.setModel(clientModel);
+            SimulatorClientTxt.setSelectedIndex(0);
+            System.out.println(carRegistry.getUsersList());
         }
         
-        if (TabManagement.getSelectedComponent() == ClientsPanel) {
+        if (TabManagement.getSelectedComponent() == UsersPanel) {
             DefaultListModel model = new DefaultListModel();
-            model.addAll(carRegistry.getClientsList());
-            ManageClientsListTxt.setModel(model);
+            model.addAll(carRegistry.getUsersList());
+            ManageUsersListTxt.setModel(model);
         }
         
         if (TabManagement.getSelectedComponent() == CarsPanel) {
@@ -753,6 +1122,7 @@ public class CarsOnBlocksUi extends javax.swing.JFrame {
         c.setId(carRegistry.getCarRegistrySize()+1);
         carRegistry.addCar(c);
         carRegistry.save();
+        JOptionPane.showMessageDialog(this, "Carro registado");
     }//GEN-LAST:event_RegisterCarBtActionPerformed
 
     private void RegisterCarModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterCarModelActionPerformed
@@ -764,7 +1134,7 @@ public class CarsOnBlocksUi extends javax.swing.JFrame {
     }//GEN-LAST:event_RegisterUserPass2ActionPerformed
 
     private void RegisterUserBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterUserBtActionPerformed
-        try {
+      try {
             User user = User.load(RegisterUsername.getText());
             JOptionPane.showMessageDialog(this, "As passwords não combinam");
             return;
@@ -781,6 +1151,7 @@ public class CarsOnBlocksUi extends javax.swing.JFrame {
         } catch (Exception ex) {
             Logger.getLogger(Autentication.class.getName()).log(Level.SEVERE, null, ex);
         }
+        carRegistry.save();
     }//GEN-LAST:event_RegisterUserBtActionPerformed
 
     private void RegisterUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterUsernameActionPerformed
@@ -790,52 +1161,189 @@ public class CarsOnBlocksUi extends javax.swing.JFrame {
     private void ManageCarsListTxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ManageCarsListTxtMouseClicked
         // TODO add your handling code here:
         DefaultListModel model = new DefaultListModel();
+        System.out.println(carRegistry.getCarInfoList(ManageCarsListTxt.getSelectedValue()));
         model.addAll(carRegistry.getCarInfoList(ManageCarsListTxt.getSelectedValue()));
         ManageCarInfoTxt.setModel(model);
     }//GEN-LAST:event_ManageCarsListTxtMouseClicked
 
-    private void ManageClientsListTxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ManageClientsListTxtMouseClicked
-        // TODO add your handling code here:
-        DefaultListModel model = new DefaultListModel();
-        model.addAll(carRegistry.getCarInfoList(ManageClientsListTxt.getSelectedValue()));
-        ClientCarInfoList.setModel(model);
-    }//GEN-LAST:event_ManageClientsListTxtMouseClicked
-
-    private void SimulatorConfirmBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SimulatorConfirmBtActionPerformed
+    private void SimulatorMineBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SimulatorMineBtActionPerformed
         Car car = SimulatorCarTxt.getItemAt(SimulatorCarTxt.getSelectedIndex());
         User user = SimulatorClientTxt.getItemAt(SimulatorClientTxt.getSelectedIndex());
         int speed = Integer.parseInt(SimulatorSpeedTxt.getText());
-        String status = SimulatorTypeTxt.getText();
+        String status;
+        if (user.getName().compareTo("No Client")==0)
+            status = "Available";
+        else
+            status = "Reserved";
         String coordinates = SimulatorLocationTxt.getText();
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyy 'às' HH:mm:ss z");
         Date timestamp = new Date();
         //minar o proximo bloco com a informação prestada
         CarInfo carInfo = new CarInfo(car, user, formatter.format(timestamp), status, coordinates, speed);
+        
+        if (serverMiner != null) {
+            try {   
+                if (serverMiner.isMining()) {
+                    serverMiner.stopMining(9999);
+                    GuiUtils.insertText(ServerLogTxt, "Stop Mining", serverMiner.getAdress());
+                } else {
+                    new Thread(() -> {
+                        try {
+                            GuiUtils.insertText(ServerLogTxt, "Start Mining", serverMiner.getAdress(), Color.GREEN, Color.WHITE);
+
+                            SwingUtilities.invokeLater(() -> {
+                                NonceTxt.setText("");
+                                HashTxt.setText("");
+                                SimulatorMineBt.setText("Stop");
+                            });
+                            MessageTxt.setText(carInfo.toString());
+                            int nonce = serverMiner.mine(carInfo.toString(), (int) ZerosTxt.getValue());
+                            SwingUtilities.invokeLater(() -> {
+                                NonceTxt.setText(nonce + "");
+                                HashTxt.setText(Miner.getHash(carInfo.toString(), nonce));
+                                SimulatorMineBt.setText("Start");
+                            });
+                        } catch (Exception ex) {
+                            onException("Mining", ex);
+                        }
+                    }).start();
+                }
+            } catch (Exception ex) {
+                onException("Mining", ex);
+            }
+        } else if (clientMiner != null) {
+            try {   
+                if (clientMiner.isMining()) {
+                    clientMiner.stopMining(9999);
+                    GuiUtils.insertText(ServerLogTxt, "Stop Mining", clientMiner.getAdress());
+                } else {
+                    new Thread(() -> {
+                        try {
+                            GuiUtils.insertText(ServerLogTxt, "Start Mining", clientMiner.getAdress(), Color.GREEN, Color.WHITE);
+
+                            SwingUtilities.invokeLater(() -> {
+                                NonceTxt.setText("");
+                                HashTxt.setText("");
+                                SimulatorMineBt.setText("Stop");
+                            });
+                            MessageTxt.setText(carInfo.toString());
+                            int nonce = clientMiner.mine(carInfo.toString(), (int) ZerosTxt.getValue());
+                            SwingUtilities.invokeLater(() -> {
+                                NonceTxt.setText(nonce + "");
+                                HashTxt.setText(Miner.getHash(carInfo.toString(), nonce));
+                                SimulatorMineBt.setText("Start");
+                            });
+                        } catch (Exception ex) {
+                            onException("Mining", ex);
+                        }
+                    }).start();
+                }
+            } catch (Exception ex) {
+                onException("Mining", ex);
+            }
+        }
         carRegistry.addCarInfo(carInfo);
         carRegistry.save();
-    }//GEN-LAST:event_SimulatorConfirmBtActionPerformed
+    }//GEN-LAST:event_SimulatorMineBtActionPerformed
 
-    private void CarsListTxt2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CarsListTxt2MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_CarsListTxt2MouseClicked
+    private void ReservedCarsTxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ReservedCarsTxtMouseClicked
+        DefaultListModel model = new DefaultListModel();
+        model.addAll(carRegistry.getCarInfoList(ReservedCarsTxt.getSelectedValue()));
+        ReservedCarInfoTxt.setModel(model);
+    }//GEN-LAST:event_ReservedCarsTxtMouseClicked
 
-    private void CarsListTxt5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CarsListTxt5MouseClicked
+    private void AvailableCarsTxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AvailableCarsTxtMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_CarsListTxt5MouseClicked
+        
+    }//GEN-LAST:event_AvailableCarsTxtMouseClicked
 
     private void MainPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_MainPaneStateChanged
         // TODO add your handling code here:
         if (MainPane.getSelectedComponent() == AvailableCarsPanel) {
             DefaultListModel model = new DefaultListModel();
-            model.addAll(carRegistry.getCarsList());
-            // !!! Arranjar forma de obter carros não reservados
-            ManageCarsListTxt.setModel(model);
+            model.addAll(carRegistry.getAvailableCarsList());
+            AvailableCarsTxt.setModel(model);
+        }
+        
+        if (MainPane.getSelectedComponent() == ReservedCarsPanel) {
+            DefaultListModel model = new DefaultListModel();
+            model.addAll(carRegistry.getCarsList(loggedUser));
+            ReservedCarsTxt.setModel(model);
         }
     }//GEN-LAST:event_MainPaneStateChanged
 
     private void TabUsersStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_TabUsersStateChanged
         // Don't do anything here, only the RentedCars are left and we'll do it in the constructor method as pre-loading.
     }//GEN-LAST:event_TabUsersStateChanged
+
+    private void StartServerBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartServerBtActionPerformed
+        // TODO add your handling code here:
+        try {
+            int port = Integer.parseInt(StartServerPortTxt.getText());
+            serverMiner = new ObjectRemoteMiner(port, this);
+            RMI.startRemoteObject(serverMiner, port, InterfaceRemoteMiner.NAME);
+            StartServerAddressTxt.setText(serverMiner.getAdress());
+            AddNodesPanel.setEnabled(true);
+            this.setTitle(serverMiner.getAdress());
+            SimulatorMineBt.setEnabled(true);
+        } catch (Exception ex) {
+            onException("Start Server", ex);
+        }
+    }//GEN-LAST:event_StartServerBtActionPerformed
+
+    private void AddServerNodeBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddServerNodeBtActionPerformed
+        // TODO add your handling code here:
+        try {
+            serverMiner.addNode((InterfaceRemoteMiner) RMI.getRemote(NodeAddressTxt.getText()));
+        } catch (Exception ex) {
+            onException("Add Server", ex);
+        }
+    }//GEN-LAST:event_AddServerNodeBtActionPerformed
+
+    private void ConnectServerBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConnectServerBtActionPerformed
+        // TODO add your handling code here:
+        try {
+            clientMiner = (InterfaceRemoteMiner) RMI.getRemote(ConnectServerAddressTxt.getText());
+            GuiUtils.insertText(ServerLogTxt, "Connected ", clientMiner.getAdress(), Color.GREEN, Color.MAGENTA);
+            SimulatorMineBt.setEnabled(true);
+        } catch (Exception ex) {
+            onException("Start Remote", ex);
+        }
+    }//GEN-LAST:event_ConnectServerBtActionPerformed
+
+    private void ManageUsersListTxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ManageUsersListTxtMouseClicked
+        // TODO add your handling code here:
+        DefaultListModel model = new DefaultListModel();
+        model.addAll(carRegistry.getCarInfoList(ManageUsersListTxt.getSelectedValue()));
+        System.out.println(ManageUsersListTxt.getSelectedValue());
+        ClientCarInfoList.setModel(model);
+    }//GEN-LAST:event_ManageUsersListTxtMouseClicked
+
+    private void SimulatorClientTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SimulatorClientTxtActionPerformed
+        // TODO add your handling code here:
+        if (SimulatorClientTxt.getSelectedItem().toString().compareTo("System")==0){
+            SimulatorSpeedTxt.setEnabled(false);
+            SimulatorSpeedTxt.setText("0");
+            SimulatorLocationTxt.setEnabled(false);
+            SimulatorLocationTxt.setText("0");
+        } else {
+            SimulatorSpeedTxt.setEnabled(true);
+            SimulatorSpeedTxt.setText("");
+            SimulatorLocationTxt.setEnabled(true);
+            SimulatorLocationTxt.setText("");
+        }
+            
+    }//GEN-LAST:event_SimulatorClientTxtActionPerformed
+
+    private void HomeLogoutBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HomeLogoutBtActionPerformed
+        // TODO add your handling code here:
+        try{
+            new CarsOnBlocksLogIn().setVisible(true);
+            this.dispose();
+        } catch (Exception ex) {
+            Logger.getLogger(CarsOnBlocksLogIn.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_HomeLogoutBtActionPerformed
 
     /**
      * @param args the command line arguments
@@ -853,26 +1361,33 @@ public class CarsOnBlocksUi extends javax.swing.JFrame {
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel AddNodesPanel;
+    private javax.swing.JButton AddServerNodeBt;
     private javax.swing.JPanel AvailableCarsPanel;
-    private javax.swing.JList<CarInfo> CarInfoTxt2;
+    private javax.swing.JList<Car> AvailableCarsTxt;
     private javax.swing.JPanel CarsDescription1;
     private javax.swing.JPanel CarsDescription2;
     private javax.swing.JScrollPane CarsList1;
     private javax.swing.JScrollPane CarsList2;
     private javax.swing.JScrollPane CarsList5;
-    private javax.swing.JList<Car> CarsListTxt2;
-    private javax.swing.JList<Car> CarsListTxt5;
     private javax.swing.JPanel CarsPanel;
-    private javax.swing.JPanel CarsPanel2;
     private javax.swing.JList<CarInfo> ClientCarInfoList;
     private javax.swing.JPanel ClientTransactions;
     private javax.swing.JScrollPane ClientsList1;
-    private javax.swing.JPanel ClientsPanel;
+    private javax.swing.JTextField ConnectServerAddressTxt;
+    private javax.swing.JButton ConnectServerBt;
+    private javax.swing.JTextField ConnectServerPortTxt;
+    private javax.swing.JTextField HashTxt;
+    private javax.swing.JButton HomeLogoutBt;
     private javax.swing.JPanel InfoPanel;
     private javax.swing.JTabbedPane MainPane;
     private javax.swing.JList<CarInfo> ManageCarInfoTxt;
     private javax.swing.JList<Car> ManageCarsListTxt;
-    private javax.swing.JList<User> ManageClientsListTxt;
+    private javax.swing.JList<User> ManageUsersListTxt;
+    private javax.swing.JTextArea MessageTxt;
+    private javax.swing.JTextArea NetworkTxt;
+    private javax.swing.JTextField NodeAddressTxt;
+    private javax.swing.JTextField NonceTxt;
     private javax.swing.JButton RegisterCarBt;
     private javax.swing.JTextField RegisterCarManufacturer;
     private javax.swing.JTextField RegisterCarModel;
@@ -884,31 +1399,55 @@ public class CarsOnBlocksUi extends javax.swing.JFrame {
     private javax.swing.JPasswordField RegisterUserPass1;
     private javax.swing.JPasswordField RegisterUserPass2;
     private javax.swing.JTextField RegisterUsername;
+    private javax.swing.JScrollPane ReservedCarInfoScrl;
+    private javax.swing.JList<CarInfo> ReservedCarInfoTxt;
+    private javax.swing.JPanel ReservedCarsPanel;
+    private javax.swing.JList<Car> ReservedCarsTxt;
+    private javax.swing.JTextPane ServerLogTxt;
+    private javax.swing.JPanel ServerPanel;
     private javax.swing.JComboBox<Car> SimulatorCarTxt;
     private javax.swing.JComboBox<User> SimulatorClientTxt;
-    private javax.swing.JButton SimulatorConfirmBt;
     private javax.swing.JTextField SimulatorLocationTxt;
+    private javax.swing.JButton SimulatorMineBt;
     private javax.swing.JPanel SimulatorPanel;
     private javax.swing.JTextField SimulatorSpeedTxt;
-    private javax.swing.JTextField SimulatorTypeTxt;
+    private javax.swing.JTextField StartServerAddressTxt;
+    private javax.swing.JButton StartServerBt;
+    private javax.swing.JPanel StartServerPanel;
+    private javax.swing.JTextField StartServerPortTxt;
     private javax.swing.JTabbedPane TabManagement;
     private javax.swing.JTabbedPane TabUsers;
     private javax.swing.JPanel UpdatesPanel;
+    private javax.swing.JPanel UsersPanel;
+    private javax.swing.JSpinner ZerosTxt;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane10;
+    private javax.swing.JScrollPane jScrollPane11;
+    private javax.swing.JScrollPane jScrollPane12;
+    private javax.swing.JScrollPane jScrollPane13;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -917,6 +1456,7 @@ public class CarsOnBlocksUi extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JList<String> lstBlockchain;
     private javax.swing.JPanel pnBlockChain;
     private javax.swing.JTabbedPane tpBlockchain;
@@ -926,5 +1466,122 @@ public class CarsOnBlocksUi extends javax.swing.JFrame {
     private javax.swing.JTextArea txtPrivateKey;
     private javax.swing.JTextArea txtPublicKey;
     private javax.swing.JTextArea txtSecretKey;
+    private javax.swing.JLabel welcomeLabel;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void onStart(ObjectRemoteMiner rm) {
+        SwingUtilities.invokeLater(() -> {
+            GuiUtils.insertText(ServerLogTxt, "Server Start ", rm.getAdress(), Color.GREEN, Color.WHITE);
+            StartServerBt.setEnabled(false);
+            ConnectServerBt.setEnabled(false);
+        });
+    }
+
+    @Override
+    public void onAddNode(InterfaceRemoteMiner rm) {
+        try {
+            StringBuilder txt = new StringBuilder();
+            for (InterfaceRemoteMiner m : serverMiner.getNetwork()) {
+                txt.append(m.getAdress() + "\n");
+            }
+            NetworkTxt.setText(txt.toString().trim());
+        } catch (RemoteException ex) {
+            onException("AddNode", ex);
+        }
+    }
+
+    @Override
+    public void onException(String title, Exception ex) {
+        GuiUtils.insertText(ServerLogTxt, title, ex.getMessage(), Color.RED, Color.MAGENTA);
+    }
+
+    @Override
+    public void onMessage(String title, String message) {
+        GuiUtils.insertText(ServerLogTxt, title, message, Color.GREEN, Color.lightGray);
+    }
+
+    @Override
+    public void onSynchronizeChain(String title, String message) {
+        SwingUtilities.invokeLater(() -> {
+            GuiUtils.insertText(ServerLogTxt, title, message);
+            updateBlockchain();
+        });
+    }
+
+    @Override
+    public void onAddNewBlock(String title, Block b) {
+        SwingUtilities.invokeLater(() -> {
+            GuiUtils.insertText(ServerLogTxt, title, b.getFullInfo());
+            updateBlockchain();
+        });
+    }
+
+    @Override
+    public void onStartMining(String message, int zeros) {
+        SwingUtilities.invokeLater(() -> {
+            try {
+
+                GuiUtils.insertText(ServerLogTxt, "Start Mining",
+                        " " + message + "[" + zeros + "]", Color.GREEN, Color.WHITE);
+                if (serverMiner != null)
+                    MessageTxt.setText(serverMiner.getMessage());
+                else if (clientMiner != null)
+                    MessageTxt.setText(clientMiner.getMessage());
+                HashTxt.setText("");
+                ZerosTxt.setValue(zeros);
+                NonceTxt.setBackground(Color.lightGray);
+                HashTxt.setBackground(Color.lightGray);
+            } catch (RemoteException ex) {
+                onException("Start Mining", ex);
+            }
+        });
+    }
+
+    @Override
+    public void onStopMining(int nonce) {
+        SwingUtilities.invokeLater(() -> {
+            GuiUtils.insertText(ServerLogTxt, "Stop Mining", Thread.currentThread().getName());
+        });
+    }
+
+    @Override
+    public void onMining(int number) {
+        SwingUtilities.invokeLater(() -> {
+            NonceTxt.setText(number + "");
+        });
+    }
+
+    @Override
+    public void onNounceFound(int nonce) {
+        //parar a rede de minar
+        try {
+            serverMiner.stopMining(nonce);
+            serverMiner.addNewNode(nonce);
+
+        } catch (RemoteException ex) {
+            onException("Nounce Found", ex);
+        }
+
+        //atualizar a GUI
+        SwingUtilities.invokeLater(() -> {
+            GuiUtils.insertText(ServerLogTxt, "WINNER ", "\tFound nonce [ " + nonce + " ]", Color.GREEN, Color.MAGENTA);
+            NonceTxt.setText(nonce + "");
+            HashTxt.setText(Miner.getHash(MessageTxt.getText(), nonce));
+            NonceTxt.setBackground(Color.GREEN);
+            HashTxt.setBackground(Color.GREEN);
+        });
+    }
+    
+    private void updateBlockchain() {
+        try {
+            DefaultListModel model = new DefaultListModel();
+            model.addAll(serverMiner.getBlockChain().getChain());
+            lstBlockchain.setModel(model);
+        } catch (RemoteException ex) {
+            onException("Update List of Blocks", ex);
+        }
+
+    }
+   
 }

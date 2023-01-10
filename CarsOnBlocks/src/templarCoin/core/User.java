@@ -223,7 +223,7 @@ public class User implements Serializable{
     public String getInfo() {
         StringBuilder txt = new StringBuilder();
         txt.append("Name : " + name);
-        txt.append("Access: " + getAccess());
+        txt.append("\nAccess: " + getAccess());
         txt.append("\nSimetric Key Algorithm   : " + pubKey.getAlgorithm());
         txt.append("\nSimetric Key Size        : " + SIZE_RSA_KEY);
         txt.append("\nAssimetric Key Algorithm : " + key.getAlgorithm());

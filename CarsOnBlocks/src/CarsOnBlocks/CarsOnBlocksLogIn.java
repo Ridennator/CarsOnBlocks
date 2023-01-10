@@ -5,18 +5,9 @@
  */
 package CarsOnBlocks;
 
-import blockChain.p2p.miner.InterfaceRemoteMiner;
-import static java.lang.String.valueOf;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ComboBoxModel;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
-import javax.swing.JOptionPane;
-import CarsOnBlocks.utils.RMI;
 import templarCoin.core.User;
 
 
@@ -28,13 +19,11 @@ public class CarsOnBlocksLogIn extends javax.swing.JFrame {
     
     // Variável que servirá como a "base de dados" do sistema.
     public CarRegistry carRegistry;
-    /**
-     * Creates new form MineUi
-     */
     
     // Construtor que inicializa as interfaces e a classe 'base de dados' do sistema, também como o seu carregamento.
     public CarsOnBlocksLogIn() throws Exception {
         initComponents();
+        setLocationRelativeTo(null);
         try{
         User admin = User.register("Admin", "Admin", "Admin");
         } catch (Exception ex) {

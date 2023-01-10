@@ -70,45 +70,78 @@ public class CarRegistry implements Serializable{
         return carList;
     }
     
-    public List<CarInfo> getCarInfoList(Car car){
-        List<CarInfo> carInfoList = new ArrayList<>();
+    public List<Car> getCarsList(User user){
+        List<Car> carList = new ArrayList<>();
+        // Itera pelos carros
+        for (Car car : carRegistry){
+            boolean carFound = false;
+            // Itera pela blockchain
+            for (Block chain : carInfoRegistry.getChain()){
+                // Verifica se o update mais recente do carro na blockchain tem o user como dono, se não tiver, o carro não é dele; próximo carro.
+                if (chain.getData().contains(car.toString())){
+                    carFound = true;
+                    if (chain.getData().contains(user.toString())){
+                        carList.add(car);
+                        break;
+                    }
+                }
+            }
+            if (carFound) break;
+        }
+        return carList;
+    }
+    
+    public List<String> getAvailableCarsList(){
+        List<String> carList = new ArrayList<>();
+        for (Car car : carRegistry){
+            System.out.println("Checking car: " + car.toString());
+            boolean isAvailable = true;
+            for (Block chain : carInfoRegistry.getChain()){
+                System.out.println("Comparing to: " + chain.getData());
+                if (chain.getData().contains(car.toString()))
+                    if (chain.getData().contains("Reserved")){
+                        System.out.println("Car is Reserved! Discarding!");
+                        isAvailable = false;
+                        break;
+                    }
+            }
+            if (isAvailable){
+                carList.add(car.toString());
+                System.out.println("Car added!");
+            }
+        }
+        return carList;
+    }
+    
+    public List<String> getCarInfoList(Car car){
+        List<String> carInfoList = new ArrayList<>();
         
         for (Block chain : carInfoRegistry.getChain()) {
-            System.out.println("Chain data: " + chain.getData());
+            if (chain.getData().contains(car.toString()))
+                carInfoList.add(chain.getData());
         }
-        /*
-        for (Block chain : carInfoRegistry.getChain()) {
-            if (chain.getCarInfo().getCar().getId() == car.getId())
-                carInfoList.add(chain.getCarInfo());
-        }
-        */
+        
         return carInfoList;
     }
     
 
-    public List<CarInfo> getCarInfoList(User client){
-        List<CarInfo> carInfoList = new ArrayList<>();
+    public List<String> getCarInfoList(User user){
+        List<String> carInfoList = new ArrayList<>();
         
         for (Block chain : carInfoRegistry.getChain()) {
-            System.out.println("Chain data: " + chain.getData());
+            if (chain.getData().contains(user.toString())){
+                carInfoList.add(chain.getData());
+            }         
         }
-        
-        /*
-        for (Block chain : carInfoRegistry.getChain()) {
-            System.out.println(chain);
-            if (chain.getCarInfo().getUser().getPubKey().equals(client.getPubKey()))
-                carInfoList.add(chain.getCarInfo());
-        }
-        */
         
         return carInfoList;
     }
 
     
-    public List<User> getClientsList(){
-        List<User> clientList = new ArrayList<>();
-        clientList.addAll(userRegistry);
-        return clientList;
+    public List<User> getUsersList(){
+        List<User> userList = new ArrayList<>();
+        userList.addAll(userRegistry);
+        return userList;
     }
 
     public void load(){
@@ -131,7 +164,7 @@ public class CarRegistry implements Serializable{
             }
             
             try { 
-                FileInputStream readData = new FileInputStream(PATH + "clientRegistry.ser");
+                FileInputStream readData = new FileInputStream(PATH + "userRegistry.ser");
                 ObjectInputStream readStream = new ObjectInputStream(readData);
                 userRegistry = (ArrayList<User>) readStream.readObject();
                 readStream.close();

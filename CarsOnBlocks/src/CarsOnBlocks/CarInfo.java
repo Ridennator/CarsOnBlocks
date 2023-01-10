@@ -7,6 +7,8 @@
 package CarsOnBlocks;
 
 import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import templarCoin.core.User;
 
 /**
@@ -22,6 +24,19 @@ public class CarInfo implements Serializable{
     
     private User user;
     private int speed;
+    
+    public CarInfo(Car car, String timestamp){
+        this.car = car;
+        try {
+            this.user = User.load("System");
+        } catch (Exception ex) {
+            Logger.getLogger(CarInfo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.timestamp = timestamp;
+        this.status = "Available";
+        this.coords = "Not tracking.";
+        this.speed = 0;
+    }
     
     public CarInfo(Car car, User user, String timestamp, String status, String coords, int speed){
         this.car = car;
@@ -71,7 +86,10 @@ public class CarInfo implements Serializable{
     }
     
     public String getUserName() {
-        return user.getName();
+        if (user != null)
+            return user.getName();
+        else
+            return "System";
     }
 
     public void setUser(User user) {
