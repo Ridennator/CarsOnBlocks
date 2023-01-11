@@ -27,10 +27,14 @@ import java.util.logging.Logger;
 public class CarRegistry implements Serializable{
     public String PATH = "data/";
     
+    // Lista de Carros
     public ArrayList<Car> carRegistry;
+    // Blockchain da informação dos Carros durante períodos de tempo
     public BlockChain carInfoRegistry;
+    // Lista de Utilizadores
     public ArrayList<User> userRegistry;
     
+    // Construtor
     public CarRegistry(){
         carRegistry = new ArrayList<>();
         carInfoRegistry = new BlockChain();
@@ -43,14 +47,17 @@ public class CarRegistry implements Serializable{
         //addCarInfo(new CarInfo(carRegistry.get(0), clientRegistry.get(0), "28/10/2022 16:34:16", "Reserved", "Latitude: 39.578983 / N 39° 34' 44.341'' Longitude: -8.382781 / W 8° 22' 58.011''", 62));   
     }
     
+    // Adiciona um utilizador à lista, dado um utilizador
     public void addUser(User user){
         userRegistry.add(user);
     }
     
+    // Adiciona um carro à lista, dado um carro
     public void addCar(Car car){
         carRegistry.add(car);
     }
     
+    // Adiciona informação de um carro à blockchain, dado a informação e a sua dificuldade
     public void addCarInfo(CarInfo carInfo, int difficulty){
         try {
             carInfoRegistry.add(carInfo.toString(), difficulty);
@@ -59,16 +66,19 @@ public class CarRegistry implements Serializable{
         }
     }
     
+    // Retorna o tamanho da lista de carros
     public int getCarRegistrySize(){
         return carRegistry.size();
     }
     
+    // Retorna a lista de carros
     public List<Car> getCarsList(){
         List<Car> carList = new ArrayList<>();
         carList.addAll(carRegistry);
         return carList;
     }
     
+    // Retorna a lista de carros de um utilizador
     public List<Car> getCarsList(User user){
         List<Car> carList = new ArrayList<>();
         // Itera pelos carros
@@ -94,6 +104,7 @@ public class CarRegistry implements Serializable{
         return carList;
     }
     
+    // Retorna uma lista de carros disponíveis
     public List<String> getAvailableCarsList(){
         List<String> carList = new ArrayList<>();
         for (Car car : carRegistry){
@@ -119,6 +130,7 @@ public class CarRegistry implements Serializable{
         return carList;
     }
     
+    // Retorna uma lista de informações, dado um carro
     public List<String> getCarInfoList(Car car){
         List<String> carInfoList = new ArrayList<>();
         
@@ -130,7 +142,7 @@ public class CarRegistry implements Serializable{
         return carInfoList;
     }
     
-
+    // Retorna lista de informações de carros, dado um utilizador
     public List<String> getCarInfoList(User user){
         List<String> carInfoList = new ArrayList<>();
         
@@ -143,13 +155,14 @@ public class CarRegistry implements Serializable{
         return carInfoList;
     }
 
-    
+    // Retorna a lista de utilizadores
     public List<User> getUsersList(){
         List<User> userList = new ArrayList<>();
         userList.addAll(userRegistry);
         return userList;
     }
 
+    // Carrega os dados guardados das listas e da blockchain
     public void load(){
         if(!Files.exists(Paths.get(PATH))){
             System.out.println("Não há dados registados.");
@@ -180,6 +193,7 @@ public class CarRegistry implements Serializable{
         }
     }
     
+    // Guarda os dados das listas e da blockchain
     public void save(){
         if (!Files.exists(Paths.get(PATH)))
             new File(PATH).mkdirs();
@@ -220,6 +234,7 @@ public class CarRegistry implements Serializable{
         return carInfoRegistry.toString();
     }
     
+    // Converte uma string de um instante da informação de um carro para o respetivo objeto
     public CarInfo ConvertToObject(String string){
         CarInfo carinfo = new CarInfo();
         String[] variables = string.split(" - ");

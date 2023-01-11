@@ -64,6 +64,7 @@ public class User implements Serializable{
         this.access = null;
     }
     
+    // Construtor adicional com parametro de acesso do utilizador do qual irá determinar a sua disponibilidade à tab Management
     private User(String name, String access) {
         this.name = name;
         this.privKey = null;
@@ -72,26 +73,32 @@ public class User implements Serializable{
         this.access = access;
     }
     
+    // Retorna o nome do utilizador
     public String getName() {
         return name;
     }
 
+    // Retorna a chave privada do utilizador
     public PrivateKey getPrivKey() {
         return privKey;
     }
 
+    // Retorna a chave pública do utilizador
     public PublicKey getPubKey() {
         return pubKey;
     }
 
+    // Retorna a chave do utilizador
     public Key getKey() {
         return key;
     }
 
+    // Retorna o acesso dado ao utilizador
     public String getAccess(){
         return access;
     }
     
+    // Muda o acesso do utilizador para o parametro recebido
     public void setAccess(String access){
         this.access = access;
     }
@@ -220,6 +227,7 @@ public class User implements Serializable{
         return name;
     }
 
+    // Retorna uma string da informação detalhada de um utilizador com parágrafos
     public String getInfo() {
         StringBuilder txt = new StringBuilder();
         txt.append("Name : " + name);
@@ -244,10 +252,12 @@ public class User implements Serializable{
         return SecurityUtils.verifySign(data, sign, pubKey);
     }
     
+    // Retorna em String a chave pública em Base64
     public String getBase64PublicKey(){
         return Base64.getEncoder().encodeToString(pubKey.getEncoded());
     }
     
+    // Retorna o utilizador de acordo à chave pública de parametro
     public static User getFromPublicKey(String publicKey) throws Exception{
         List<User> lst = getUserList();
         PublicKey pk = SecurityUtils.getPublicKey(

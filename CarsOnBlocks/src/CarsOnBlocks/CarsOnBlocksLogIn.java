@@ -28,7 +28,8 @@ public class CarsOnBlocksLogIn extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         try{
-        User admin = User.register("Admin", "Admin", "Admin");
+            // Utilizador Admin pré-definido, garante acesso total ao sistema
+            User admin = User.register("Admin", "Admin", "Admin");
         } catch (Exception ex) {
             Logger.getLogger(CarsOnBlocksUi.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -181,6 +182,7 @@ public class CarsOnBlocksLogIn extends javax.swing.JFrame {
             // Carrega os dados do utilizador que possui o nome e a palavra-passe dada
             User user = User.load(LoginUsernametxt.getText(), new String(LoginPasstxt.getPassword()));
             try {
+                // Inicializa a classe mineira e envia-a para a classe gráfica principal do programa
                 miner = (InterfaceRemoteMiner) RMI.getRemote(ServerAddresstxt.getText());
                 new CarsOnBlocksUi(user, miner).setVisible(true);
             } catch (Exception ex) {

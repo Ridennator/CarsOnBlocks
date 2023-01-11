@@ -29,19 +29,25 @@ public class CarsOnBlocksUi extends javax.swing.JFrame{
 
     // Variável que servirá como a "base de dados" do sistema.
     public CarRegistry carRegistry;
+    // Variável que indica o utilizador logado.
     public static User loggedUser;
+    // Variável da Classe Miner da Clientside do programa.
     InterfaceRemoteMiner clientMiner = null;
     
     public CarsOnBlocksUi(User user, InterfaceRemoteMiner miner) {
+        // Utilizador atualmente logado
         loggedUser = user;
+        // Mineiro definido no inicio da sua sessão
         clientMiner = miner;
         initComponents();
         setLocationRelativeTo(null);
+        // Bem-vindo utilizador :)
         welcomeLabel.setText("Welcome " + user.getName());
+        // Instancia a classe "mãe" dos dados do programa e carrega os dados
         carRegistry = new CarRegistry();
-
         carRegistry.load();
         
+        // Se o utilizador não tiver acesso administrador, esconde a tab de Management
         if (user.getAccess().compareTo("Client")==0)
             MainPane.remove(TabManagement);
         
@@ -858,42 +864,53 @@ public class CarsOnBlocksUi extends javax.swing.JFrame{
     private void tpBlockchainStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tpBlockchainStateChanged
         if (tpBlockchain.getSelectedComponent() == pnBlockChain) {
             DefaultListModel model = new DefaultListModel();
-            //model.addAll(coin.getBlockChain().getChain());
             lstBlockchain.setModel(model);
         }
     }//GEN-LAST:event_tpBlockchainStateChanged
 
     private void TabManagementStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_TabManagementStateChanged
-        // TODO add your handling code here:
+        // Quando uma tab por selecionada, fará o seguinte para a tab selecionada:
+        
+        // TAB MANAGEMENT >> SIMULATOR
         if (TabManagement.getSelectedComponent() == SimulatorPanel){
+            // Classe que suporta o dropdown gráfico em que a lista de carros será inserida
             DefaultComboBoxModel<Car> carModel = new DefaultComboBoxModel();
+            // Adiciona os carros à classe de suporte
             try{
                 carModel.addAll(carRegistry.getCarsList());
             } catch (Exception e){
                 System.out.println("Nenhum carro recolhido para a combobox.");
             }
+            // Adiciona os carros ao dropdown gráfico
             SimulatorCarTxt.setModel(carModel);
             if (carModel.getSize() > 0)
                 SimulatorCarTxt.setSelectedIndex(0);
-
+            
+            // Classe que suporta o dropdown gráfico em que a lista de utilizadores será inserida
             DefaultComboBoxModel<User> clientModel = new DefaultComboBoxModel();
+            // Adiciona os utilizadores à classe de suporte
             try{
                 clientModel.addAll(carRegistry.getUsersList());
             } catch (Exception e){
                 System.out.println("Nenhum cliente recolhido para a combobox.");
             }
+            // Adiciona os utilizadores ao dropdown gráfico
             SimulatorClientTxt.setModel(clientModel);
             SimulatorClientTxt.setSelectedIndex(0);
             System.out.println(carRegistry.getUsersList());
         }
         
+        // TAB MANAGEMENT >> USERS
         if (TabManagement.getSelectedComponent() == UsersPanel) {
+            // Classe que suporta a lista gráfica em que a lista de utilizadores será inserida
             DefaultListModel model = new DefaultListModel();
             model.addAll(carRegistry.getUsersList());
             ManageUsersListTxt.setModel(model);
         }
         
+        // TAB MANAGEMENT >> CARS
         if (TabManagement.getSelectedComponent() == CarsPanel) {
+            // Classe que suporta a lista gráfica em que a lista de utilizadores será inserida
             DefaultListModel model = new DefaultListModel();
             model.addAll(carRegistry.getCarsList());
             ManageCarsListTxt.setModel(model);
@@ -903,12 +920,16 @@ public class CarsOnBlocksUi extends javax.swing.JFrame{
     }//GEN-LAST:event_TabManagementStateChanged
 
     private void RegisterCarBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterCarBtActionPerformed
+        // Variáveis String recebem os valores introduzidos quanto ao carro a ser registado
         String model = RegisterCarModel.getText();
         String man = RegisterCarManufacturer.getText();
+        // Classe Car é instanciada
         Car c = new Car();
+        // Colocação dos respetivos valores à nova classe
         c.setManufacturer(man);
         c.setModel(model);
         c.setId(carRegistry.getCarRegistrySize()+1);
+        // Adição do carro à classe "mãe"
         carRegistry.addCar(c);
         carRegistry.save();
         JOptionPane.showMessageDialog(this, "Carro registado");
@@ -924,16 +945,20 @@ public class CarsOnBlocksUi extends javax.swing.JFrame{
 
     private void RegisterUserBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterUserBtActionPerformed
       try {
+            // Caso a conta exista, retorna
             User user = User.load(RegisterUsername.getText());
-            JOptionPane.showMessageDialog(this, "As passwords não combinam");
+            JOptionPane.showMessageDialog(this, "Este nome já existe.");
             return;
         } catch (Exception e) {
         }
         try {
+            // Caso as passwords sejam diferentes, falhou-se a verificação do mesmo
             if (!Arrays.equals(RegisterUserPass1.getPassword(), RegisterUserPass2.getPassword())) {
                 return;
             }
+            // Regista o novo utilizador
             User.register(RegisterUsername.getText(), new String(RegisterUserPass1.getPassword()), RegisterUserAccess.getSelectedItem().toString());
+            // Adiciona o novo utilizador à classe "mãe"
             carRegistry.addUser(User.load(RegisterUsername.getText()));
             JOptionPane.showMessageDialog(this, "User registado");
 
@@ -948,7 +973,7 @@ public class CarsOnBlocksUi extends javax.swing.JFrame{
     }//GEN-LAST:event_RegisterUsernameActionPerformed
 
     private void ManageCarsListTxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ManageCarsListTxtMouseClicked
-        // TODO add your handling code here:
+        // Quando um carro é selecionado da lista MANAGE>CARS, este colocará a informação do mesmo obtida da blockchain na lista direita
         DefaultListModel model = new DefaultListModel();
         System.out.println(carRegistry.getCarInfoList(ManageCarsListTxt.getSelectedValue()));
         model.addAll(carRegistry.getCarInfoList(ManageCarsListTxt.getSelectedValue()));
@@ -956,26 +981,31 @@ public class CarsOnBlocksUi extends javax.swing.JFrame{
     }//GEN-LAST:event_ManageCarsListTxtMouseClicked
 
     private void SimulatorMineBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SimulatorMineBtActionPerformed
+        // Recolhe os dados a inserir no novo bloco
         Car car = SimulatorCarTxt.getItemAt(SimulatorCarTxt.getSelectedIndex());
         User user = SimulatorClientTxt.getItemAt(SimulatorClientTxt.getSelectedIndex());
         int speed = Integer.parseInt(SimulatorSpeedTxt.getText());
         String status;
+        // Caso o cliente seja System, coloca o estado do carro como Available, pois não é de ninguém
         if (user.getName().compareTo("System")==0)
             status = "Available";
         else
             status = "Reserved";
         String coordinates = SimulatorLocationTxt.getText();
+        // Cria a timestamp do tempo atual
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyy 'às' HH:mm:ss z");
         Date timestamp = new Date();
-        //minar o proximo bloco com a informação prestada
+        // Insere a informação na classe carInfo
         CarInfo carInfo = new CarInfo(car, user, formatter.format(timestamp), status, coordinates, speed);
         
+        // Minar o proximo bloco com a informação prestada
         if (clientMiner != null) {
             try {   
                 if (clientMiner.isMining()) {
                     clientMiner.stopMining(9999);
                     GuiUtils.insertText(ServerLogTxt, "Stop Mining", clientMiner.getAdress());
                 } else {
+                    // Nova Thread onde irá mudar os textos para o modo de trabalho em progresso e fazer a mineração respetiva
                     new Thread(() -> {
                         try {
                             GuiUtils.insertText(ServerLogTxt, "Start Mining", clientMiner.getAdress(), Color.GREEN, Color.WHITE);
@@ -985,9 +1015,12 @@ public class CarsOnBlocksUi extends javax.swing.JFrame{
                                 HashTxt.setText("");
                                 SimulatorMineBt.setText("Stop");
                             });
+                            // Adiciona o bloco à blockchain da informação respetiva com os zeros
                             carRegistry.addCarInfo(carInfo, (int) ZerosTxt.getValue());
                             MessageTxt.setText(carInfo.toString());
+                            // Calcula o nonce da informação atribuída com os zeros pedidos
                             int nonce = clientMiner.mine(carInfo.toString(), (int) ZerosTxt.getValue());
+                            // Após o seu termino, os textos voltam ao seu estado normal de trabalho finalizado
                             SwingUtilities.invokeLater(() -> {
                                 NonceTxt.setText(nonce + "");
                                 HashTxt.setText(Miner.getHash(carInfo.toString(), nonce));
@@ -1006,6 +1039,7 @@ public class CarsOnBlocksUi extends javax.swing.JFrame{
     }//GEN-LAST:event_SimulatorMineBtActionPerformed
 
     private void ReservedCarsTxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ReservedCarsTxtMouseClicked
+        // Quando um carro é selecionado da lista USER>MY-RENTED-CARS, este colocará a informação do mesmo obtida da blockchain na lista direita
         DefaultListModel model = new DefaultListModel();
         model.addAll(carRegistry.getCarInfoList(ReservedCarsTxt.getSelectedValue()));
         ReservedCarInfoTxt.setModel(model);
@@ -1017,7 +1051,7 @@ public class CarsOnBlocksUi extends javax.swing.JFrame{
     }//GEN-LAST:event_AvailableCarsTxtMouseClicked
 
     private void MainPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_MainPaneStateChanged
-        // TODO add your handling code here:
+        // Quando a tab "Available Cars" é selecionada, este colocará a informação do mesmo obtida da blockchain na lista
         if (MainPane.getSelectedComponent() == AvailableCarsPanel) {
             DefaultListModel model = new DefaultListModel();
             model.addAll(carRegistry.getAvailableCarsList());
@@ -1026,6 +1060,7 @@ public class CarsOnBlocksUi extends javax.swing.JFrame{
     }//GEN-LAST:event_MainPaneStateChanged
 
     private void TabUsersStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_TabUsersStateChanged
+        // Quando a tab "My Rented Cars" é selecionada na tab User, este colocará a informação do mesmo obtida da blockchain na lista
         if (TabUsers.getSelectedComponent() == ReservedCarsPanel) {
             DefaultListModel model = new DefaultListModel();
             model.addAll(carRegistry.getCarsList(loggedUser));
@@ -1034,7 +1069,7 @@ public class CarsOnBlocksUi extends javax.swing.JFrame{
     }//GEN-LAST:event_TabUsersStateChanged
 
     private void ManageUsersListTxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ManageUsersListTxtMouseClicked
-        // TODO add your handling code here:
+        // Quando um utilizador é selecionado da lista MANAGE>CARS, este colocará a informação do mesmo obtida da blockchain na lista direita quanto aos carros que teve ou já teve
         DefaultListModel model = new DefaultListModel();
         model.addAll(carRegistry.getCarInfoList(ManageUsersListTxt.getSelectedValue()));
         System.out.println(ManageUsersListTxt.getSelectedValue());
@@ -1042,7 +1077,7 @@ public class CarsOnBlocksUi extends javax.swing.JFrame{
     }//GEN-LAST:event_ManageUsersListTxtMouseClicked
 
     private void SimulatorClientTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SimulatorClientTxtActionPerformed
-        // TODO add your handling code here:
+        // Quando a dropdown Cliente da tab MANAGE>SIMULATOR, este esconderá valores irredundantes quando selecionado o "cliente" System
         if (SimulatorClientTxt.getSelectedItem().toString().compareTo("System")==0){
             SimulatorSpeedTxt.setEnabled(false);
             SimulatorSpeedTxt.setText("0");
@@ -1058,7 +1093,7 @@ public class CarsOnBlocksUi extends javax.swing.JFrame{
     }//GEN-LAST:event_SimulatorClientTxtActionPerformed
 
     private void HomeLogoutBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HomeLogoutBtActionPerformed
-        // TODO add your handling code here:
+        // Logout, de volta para o menu de login.
         try{
             new CarsOnBlocksLogIn().setVisible(true);
             this.dispose();
@@ -1071,6 +1106,7 @@ public class CarsOnBlocksUi extends javax.swing.JFrame{
      * @param args the command line arguments
      */
     public void displayUser() {
+        // Inseres os textos correspondentes à informação do utilizador atualmente em sessão nas tabs respetivas
         String pubB64 = Base64.getEncoder().encodeToString(
                 loggedUser.getPubKey().getEncoded());
         txtInfo.setText(loggedUser.getInfo());
